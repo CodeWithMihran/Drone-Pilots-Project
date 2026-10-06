@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -23,7 +23,7 @@ import { StatusBadge } from "@/components/shared/StatusBadge";
 import { StarRating } from "@/components/shared/StarRating";
 import { EmptyState } from "@/components/shared/EmptyState";
 
-export default function CompanyApplicationsPage() {
+function CompanyApplicationsContent() {
   const searchParams = useSearchParams();
   const initialJobId = searchParams.get("jobId") || "";
 
@@ -292,5 +292,13 @@ export default function CompanyApplicationsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function CompanyApplicationsPage() {
+  return (
+    <Suspense fallback={<div className="p-6 text-slate-400 text-xs">Loading applications...</div>}>
+      <CompanyApplicationsContent />
+    </Suspense>
   );
 }

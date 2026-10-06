@@ -9,8 +9,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "var(--bg)",
+        foreground: "var(--text)",
+        surface: {
+          DEFAULT: "var(--surface)",
+          2: "var(--surface-2)",
+        },
+        border: {
+          DEFAULT: "var(--border)",
+          strong: "var(--border-strong)",
+        },
+        muted: {
+          DEFAULT: "var(--surface-2)",
+          foreground: "var(--text-muted)",
+        },
+        subtle: "var(--text-subtle)",
+        primary: {
+          DEFAULT: "rgb(var(--primary-rgb) / <alpha-value>)",
+          hover: "var(--primary-hover)",
+          foreground: "var(--primary-fg)",
+        },
+        success: "rgb(var(--success-rgb) / <alpha-value>)",
+        warning: "rgb(var(--warning-rgb) / <alpha-value>)",
+        destructive: "rgb(var(--danger-rgb) / <alpha-value>)",
+        info: "rgb(var(--info-rgb) / <alpha-value>)",
+        ring: "var(--primary)",
         navy: {
           950: "#070c18",
           900: "#0b132b",
@@ -32,6 +55,19 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],
+      },
+      fontSize: {
+        display: ["2.25rem", { lineHeight: "1.15", fontWeight: "600" }],
+        "heading-1": ["1.75rem", { lineHeight: "1.2", fontWeight: "600" }],
+        "heading-2": ["1.375rem", { lineHeight: "1.3", fontWeight: "600" }],
+        "heading-3": ["1.125rem", { lineHeight: "1.35", fontWeight: "600" }],
+        body: ["0.9375rem", { lineHeight: "1.55", fontWeight: "400" }],
+        label: ["0.875rem", { lineHeight: "1.4", fontWeight: "500" }],
+        caption: ["0.8125rem", { lineHeight: "1.4", fontWeight: "400" }],
+      },
+      borderRadius: {
+        control: "var(--radius-sm)",
+        panel: "var(--radius-md)",
       },
       animation: {
         "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",

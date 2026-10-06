@@ -3,52 +3,90 @@
 @import "tailwindcss/utilities";
 
 :root {
-  --background: #060b18;
-  --foreground: #f1f5f9;
-  --card: #0b132b;
-  --card-foreground: #f8fafc;
-  --popover: #0e1738;
-  --popover-foreground: #f8fafc;
-  --primary: #06b6d4;
-  --primary-foreground: #02121e;
-  --secondary: #1c2541;
-  --secondary-foreground: #f1f5f9;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #22d3ee;
-  --accent-foreground: #082f49;
-  --destructive: #ef4444;
+  --bg: #0b1018;
+  --surface: #121826;
+  --surface-2: #0e141f;
+  
+  /* Adjusted for 3:1 accessibility contrast minimum on inputs */
+  --border: #5a6a8f;
+  --border-strong: #7081a0;
+  
+  --text: #e8eef6;
+  --text-muted: #9aa8bc;
+  
+  /* Adjusted for 4.5:1 accessibility contrast minimum on hint text */
+  --text-subtle: #8b9bb4;
+  
+  --primary: #1fa8b8;
+  --primary-hover: #178a97;
+  --primary-fg: #062226;
+  --success: #3d9a6a;
+  --warning: #c9922a;
+  --danger: #d45d5d;
+  --info: #5b8fd4;
+  --ring: rgba(31, 168, 184, 0.4);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* RGB triplets for Tailwind opacity modifiers (e.g. bg-primary/10) */
+  --primary-rgb: 31 168 184;
+  --success-rgb: 61 154 106;
+  --warning-rgb: 201 146 42;
+  --danger-rgb: 212 93 93;
+  --info-rgb: 91 143 212;
+
+  /* Legacy aliases — existing pages still compile against these names */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary-foreground: var(--primary-fg);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--primary);
+  --accent-foreground: var(--primary-fg);
+  --destructive: var(--danger);
   --destructive-foreground: #ffffff;
-  --border: #1e293b;
-  --input: #1c2541;
-  --ring: #06b6d4;
-  --radius: 0.75rem;
+  --input: var(--surface-2);
+  --radius: var(--radius-md);
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: hidden;
 }
 
-/* Custom scrollbar for modern sleek aesthetic */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-::-webkit-scrollbar-track {
-  background: #070d1e;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+::selection {
+  background: rgba(31, 168, 184, 0.28);
+  color: var(--text);
 }
 
-/* Glassmorphism and glow utilities */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* Kept so existing (not-yet-restyled) pages do not break */
 .glass-card {
   background: rgba(11, 19, 43, 0.75);
   backdrop-filter: blur(12px);
@@ -61,6 +99,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.25s ease;
 }
+
 .glass-card-hover:hover {
   border-color: rgba(6, 182, 212, 0.4);
   transform: translateY(-2px);

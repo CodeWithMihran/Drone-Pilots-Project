@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/shared/Providers";
-import { Navbar } from "@/components/layout/Navbar";
+import { AppFrame } from "@/components/layout/AppFrame";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Certified Commercial Drone Pilots for Industry | Flight Operations Marketplace",
@@ -24,11 +31,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-[#060b18] text-slate-100 min-h-screen flex flex-col antialiased">
+    <html lang="en" className={`dark ${inter.variable}`}>
+      <body className={`${inter.className} bg-background text-foreground min-h-screen flex flex-col antialiased`}>
         <Providers>
-          <Navbar />
-          <main className="flex-1 flex flex-col">{children}</main>
+          <AppFrame>{children}</AppFrame>
         </Providers>
       </body>
     </html>
