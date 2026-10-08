@@ -11,17 +11,16 @@ import {
   Star,
   ShieldCheck,
   AlertTriangle,
-  ArrowRight,
-  Send,
   Zap,
-  Award,
   ChevronRight,
+  ArrowRight,
 } from "lucide-react";
 import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { StatCard } from "@/components/shared/StatCard";
 import { MatchScoreBadge } from "@/components/shared/MatchScoreBadge";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
 
 export default function PilotDashboardPage() {
   const [stats, setStats] = useState({
@@ -114,45 +113,47 @@ export default function PilotDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner & Verification Alert */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#0e1838] via-[#0c142b] to-[#070e22] border border-cyan-500/30 shadow-2xl relative overflow-hidden">
+      <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border shadow-sm relative overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+        
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
+            <span className="text-xs font-bold uppercase tracking-widest text-primary">
               Pilot Operations Center
             </span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground">
               Commercial Flight Dashboard
             </h1>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+            <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
               Track your matched projects, aviation certification status, live flight proposals, and escrow payouts.
             </p>
           </div>
 
-          <div className="flex flex-col gap-2 shrink-0">
+          <div className="flex flex-col gap-3 shrink-0">
             {stats.isVerified ? (
-              <div className="px-4 py-2.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/10">
-                <ShieldCheck className="w-5 h-5 text-emerald-400" />
-                <span>✓ VERIFIED PILOT (Part 107)</span>
+              <div className="px-4 py-2.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center gap-2 shadow-sm">
+                <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                <span>Verified Pilot (Part 107)</span>
               </div>
             ) : (
-              <Link
-                href="/pilot/certification"
-                className="px-4 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 transition"
-              >
-                <AlertTriangle className="w-4 h-4" />
-                <span>Upload Certificate (Pending)</span>
-              </Link>
+              <Button asChild variant="danger" className="rounded-2xl shadow-sm">
+                <Link href="/pilot/certification">
+                  <AlertTriangle className="w-4 h-4 mr-1.5" />
+                  Upload Certificate (Pending)
+                </Link>
+              </Button>
             )}
 
             {/* Profile Completion Bar */}
-            <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1.5">
-              <div className="flex justify-between text-[11px]">
-                <span className="text-slate-400">Profile Completion:</span>
-                <span className="text-cyan-400 font-bold">{stats.profileCompletion}%</span>
+            <div className="p-3.5 rounded-2xl bg-surface-2 border border-border space-y-2">
+              <div className="flex justify-between text-xs font-medium">
+                <span className="text-muted-foreground">Profile Completion:</span>
+                <span className="text-primary font-bold">{stats.profileCompletion}%</span>
               </div>
-              <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+              <div className="w-full h-2 rounded-full bg-secondary overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-teal-400 rounded-full transition-all duration-500"
+                  className="h-full bg-primary transition-all duration-500"
                   style={{ width: `${stats.profileCompletion}%` }}
                 />
               </div>
@@ -163,90 +164,53 @@ export default function PilotDashboardPage() {
 
       {/* 6 Real Database KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <StatCard
-          title="Available Jobs"
-          value={stats.availableJobs}
-          subtitle="Open for proposals"
-          icon={Briefcase}
-          color="cyan"
-        />
-        <StatCard
-          title="Applications"
-          value={stats.applicationsCount}
-          subtitle="Submitted bids"
-          icon={FileCheck2}
-          color="blue"
-        />
-        <StatCard
-          title="Active Jobs"
-          value={stats.activeJobsCount}
-          subtitle="In flight operations"
-          icon={Clock}
-          color="amber"
-        />
-        <StatCard
-          title="Completed"
-          value={stats.completedJobsCount}
-          subtitle="Missions finished"
-          icon={CheckCircle2}
-          color="emerald"
-        />
-        <StatCard
-          title="Earnings"
-          value={formatCurrency(stats.totalEarnings)}
-          subtitle="Total payouts"
-          icon={DollarSign}
-          color="emerald"
-        />
-        <StatCard
-          title="Rating"
-          value={`${stats.rating.toFixed(1)} ★`}
-          subtitle={`${stats.totalReviews} reviews`}
-          icon={Star}
-          color="purple"
-        />
+        <StatCard title="Available Jobs" value={stats.availableJobs} subtitle="Open for proposals" icon={Briefcase} color="cyan" />
+        <StatCard title="Applications" value={stats.applicationsCount} subtitle="Submitted bids" icon={FileCheck2} color="blue" />
+        <StatCard title="Active Jobs" value={stats.activeJobsCount} subtitle="In flight operations" icon={Clock} color="amber" />
+        <StatCard title="Completed" value={stats.completedJobsCount} subtitle="Missions finished" icon={CheckCircle2} color="emerald" />
+        <StatCard title="Earnings" value={formatCurrency(stats.totalEarnings)} subtitle="Total payouts" icon={DollarSign} color="emerald" />
+        <StatCard title="Rating" value={`${stats.rating.toFixed(1)} ★`} subtitle={`${stats.totalReviews} reviews`} icon={Star} color="purple" />
       </div>
 
       {/* Active Jobs in Progress Section */}
       {activeProjects.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Clock className="w-4 h-4 text-amber-400" />
+            <h3 className="text-base font-bold text-foreground flex items-center gap-2">
+              <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />
               Active Assigned Missions
             </h3>
-            <Link href="/pilot/active-jobs" className="text-xs text-cyan-400 hover:underline">
-              View All Active Projects →
-            </Link>
+            <Button asChild variant="link" size="sm">
+              <Link href="/pilot/active-jobs">
+                View All Active Projects <ArrowRight className="w-3.5 h-3.5 ml-1" />
+              </Link>
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {activeProjects.map((proj) => (
               <div
                 key={proj._id}
-                className="p-5 rounded-2xl bg-[#0c142b] border border-amber-500/30 shadow-lg flex flex-col justify-between"
+                className="p-5 rounded-2xl bg-card border border-border shadow-sm flex flex-col justify-between hover:border-border-strong transition-colors"
               >
                 <div>
                   <div className="flex justify-between items-start gap-2 mb-2">
-                    <span className="text-[11px] font-bold text-cyan-300 px-2 py-0.5 rounded-full bg-cyan-500/10">
+                    <span className="text-[11px] font-bold text-primary px-2 py-0.5 rounded-full bg-primary/10">
                       {formatServiceType(proj.serviceType)}
                     </span>
                     <StatusBadge status={proj.status} type="job" />
                   </div>
-                  <h4 className="text-sm font-bold text-white">{proj.title}</h4>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <h4 className="text-base font-bold text-foreground">{proj.title}</h4>
+                  <p className="text-xs font-medium text-muted-foreground mt-1.5">
                     Client: {proj.companyId?.name} • Location: {proj.location?.city}, {proj.location?.state}
                   </p>
                 </div>
 
-                <div className="pt-4 mt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-                  <span className="font-bold text-emerald-400">{formatCurrency(proj.budget)}</span>
-                  <Link
-                    href={`/jobs/${proj._id}`}
-                    className="px-3 py-1.5 rounded-xl bg-cyan-500 text-slate-950 font-bold text-xs"
-                  >
-                    Manage Mission
-                  </Link>
+                <div className="pt-4 mt-4 border-t border-border flex items-center justify-between">
+                  <span className="text-sm font-extrabold text-foreground">{formatCurrency(proj.budget)}</span>
+                  <Button asChild size="sm">
+                    <Link href={`/jobs/${proj._id}`}>Manage Mission</Link>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -258,17 +222,19 @@ export default function PilotDashboardPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Zap className="w-4 h-4 text-cyan-400" />
-              AI Algorithm Recommended Projects
+            <h3 className="text-base font-bold text-foreground flex items-center gap-2">
+              <Zap className="w-4 h-4 text-primary" />
+              AI Recommended Projects
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-muted-foreground mt-1">
               Ranked automatically according to your Part 107 credentials, drone payload fleet, and location.
             </p>
           </div>
-          <Link href="/pilot/jobs" className="text-xs text-cyan-400 hover:underline">
-            Explore All Jobs →
-          </Link>
+          <Button asChild variant="link" size="sm" className="hidden sm:inline-flex">
+            <Link href="/pilot/jobs">
+              Explore All Jobs <ArrowRight className="w-3.5 h-3.5 ml-1" />
+            </Link>
+          </Button>
         </div>
 
         {recommendedJobs.length === 0 ? (
@@ -282,11 +248,11 @@ export default function PilotDashboardPage() {
             {recommendedJobs.map((job) => (
               <div
                 key={job._id}
-                className="p-5 rounded-2xl bg-[#0c142b] border border-slate-800/80 shadow-lg hover:border-cyan-500/40 transition group flex flex-col justify-between"
+                className="p-5 rounded-2xl bg-card border border-border shadow-sm hover:border-primary/40 transition-colors group flex flex-col justify-between"
               >
-                <div className="space-y-2.5">
+                <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-semibold text-cyan-300 px-2 py-0.5 rounded-lg bg-cyan-500/10">
+                    <span className="text-[11px] font-semibold text-primary px-2 py-0.5 rounded-lg bg-primary/10">
                       {formatServiceType(job.serviceType)}
                     </span>
                     {job.matchScore !== undefined && (
@@ -295,33 +261,31 @@ export default function PilotDashboardPage() {
                   </div>
 
                   <Link href={`/jobs/${job._id}`}>
-                    <h4 className="text-sm font-bold text-white group-hover:text-cyan-300 transition line-clamp-1">
+                    <h4 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1">
                       {job.title}
                     </h4>
                   </Link>
 
-                  <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                  <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
                     {job.description}
                   </p>
                 </div>
 
-                <div className="pt-4 mt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                <div className="pt-4 mt-4 border-t border-border flex items-center justify-between">
                   <div>
-                    <span className="text-sm font-extrabold text-white">
+                    <span className="text-sm font-extrabold text-foreground block">
                       {formatCurrency(job.budget)}
                     </span>
-                    <span className="text-[10px] text-slate-500 block">
+                    <span className="text-[11px] font-medium text-muted-foreground">
                       {job.location?.city}, {job.location?.state}
                     </span>
                   </div>
 
-                  <Link
-                    href={`/jobs/${job._id}`}
-                    className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition flex items-center gap-1"
-                  >
-                    <span>View & Apply</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </Link>
+                  <Button asChild variant="secondary" size="sm">
+                    <Link href={`/jobs/${job._id}`}>
+                      View & Apply <ChevronRight className="w-3.5 h-3.5 ml-1" />
+                    </Link>
+                  </Button>
                 </div>
               </div>
             ))}

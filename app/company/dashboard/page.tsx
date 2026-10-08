@@ -10,9 +10,8 @@ import {
   CheckCircle2,
   DollarSign,
   PlusCircle,
-  Users,
-  ArrowRight,
   TrendingUp,
+  ArrowRight,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -31,6 +30,7 @@ import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { StatCard } from "@/components/shared/StatCard";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
 
 export default function CompanyDashboardPage() {
   const [stats, setStats] = useState({
@@ -45,7 +45,6 @@ export default function CompanyDashboardPage() {
   const [myJobs, setMyJobs] = useState<any[]>([]);
   const [statusChartData, setStatusChartData] = useState<any[]>([]);
   const [spendingChartData, setSpendingChartData] = useState<any[]>([]);
-  const [appsPerJobData, setAppsPerJobData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -81,7 +80,7 @@ export default function CompanyDashboardPage() {
             Cancelled: jobs.filter((j: any) => j.status === "CANCELLED").length,
           };
 
-          const COLORS = ["#06b6d4", "#3b82f6", "#10b981", "#ef4444"];
+          const COLORS = ["#0ea5e9", "#3b82f6", "#10b981", "#f43f5e"];
           const pieData = Object.entries(statusCounts).map(([name, value], i) => ({
             name,
             value: Math.max(0, value),
@@ -98,12 +97,6 @@ export default function CompanyDashboardPage() {
             { month: "Jun", spending: Math.max(14000, paymentsData.totalSpending || 14000) },
           ];
 
-          // Applications per job data
-          const appsChart = jobs.slice(0, 5).map((j: any) => ({
-            name: j.title.length > 15 ? j.title.substring(0, 15) + "..." : j.title,
-            applications: Math.floor(Math.random() * 6) + 1,
-          }));
-
           setStats({
             totalJobs: jobs.length,
             openJobs: open,
@@ -115,7 +108,6 @@ export default function CompanyDashboardPage() {
 
           setStatusChartData(pieData);
           setSpendingChartData(monthly);
-          setAppsPerJobData(appsChart);
         }
       } catch (err) {
         console.error("Company dashboard fetch error:", err);
@@ -130,79 +122,45 @@ export default function CompanyDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#0e1838] via-[#0c142b] to-[#070e22] border border-cyan-500/30 shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-        <div className="space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
+      <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative overflow-hidden">
+        {/* Optional subtle background gradient decoration */}
+        <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="space-y-2 relative z-10">
+          <span className="text-xs font-bold uppercase tracking-widest text-primary">
             Enterprise Flight Operations
           </span>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground">
             Company Projects Command Center
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+          <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
             Manage your industrial drone tenders, compare verified Part 107 candidates, and track milestone disbursements.
           </p>
         </div>
 
-        <Link
-          href="/company/post-job"
-          className="px-5 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-400 hover:opacity-95 text-slate-950 font-bold text-xs shadow-xl shadow-cyan-500/25 transition flex items-center justify-center gap-2 shrink-0"
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span>Post New Drone Project</span>
-        </Link>
+        <Button asChild size="lg" className="shrink-0 relative z-10">
+          <Link href="/company/post-job">
+            <PlusCircle className="w-4 h-4 mr-1" />
+            Post New Drone Project
+          </Link>
+        </Button>
       </div>
 
       {/* 6 Real Database KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <StatCard
-          title="Total Projects"
-          value={stats.totalJobs}
-          subtitle="All time postings"
-          icon={Briefcase}
-          color="cyan"
-        />
-        <StatCard
-          title="Open Tenders"
-          value={stats.openJobs}
-          subtitle="Accepting bids"
-          icon={Layers}
-          color="blue"
-        />
-        <StatCard
-          title="Applications"
-          value={stats.applicationsCount}
-          subtitle="Received proposals"
-          icon={FileCheck2}
-          color="purple"
-        />
-        <StatCard
-          title="Active Missions"
-          value={stats.activeJobsCount}
-          subtitle="In flight"
-          icon={Clock}
-          color="amber"
-        />
-        <StatCard
-          title="Completed"
-          value={stats.completedJobsCount}
-          subtitle="Finished flights"
-          icon={CheckCircle2}
-          color="emerald"
-        />
-        <StatCard
-          title="Total Spending"
-          value={formatCurrency(stats.totalSpending)}
-          subtitle="Disbursed escrow"
-          icon={DollarSign}
-          color="emerald"
-        />
+        <StatCard title="Total Projects" value={stats.totalJobs} subtitle="All time postings" icon={Briefcase} color="cyan" />
+        <StatCard title="Open Tenders" value={stats.openJobs} subtitle="Accepting bids" icon={Layers} color="blue" />
+        <StatCard title="Applications" value={stats.applicationsCount} subtitle="Received proposals" icon={FileCheck2} color="purple" />
+        <StatCard title="Active Missions" value={stats.activeJobsCount} subtitle="In flight" icon={Clock} color="amber" />
+        <StatCard title="Completed" value={stats.completedJobsCount} subtitle="Finished flights" icon={CheckCircle2} color="emerald" />
+        <StatCard title="Total Spending" value={formatCurrency(stats.totalSpending)} subtitle="Disbursed escrow" icon={DollarSign} color="emerald" />
       </div>
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Jobs by Status Donut Chart */}
-        <div className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-white">
+        <div className="p-6 rounded-3xl bg-card border border-border shadow-sm space-y-4">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
             Projects by Status
           </h3>
           <div className="h-56 w-full">
@@ -223,33 +181,33 @@ export default function CompanyDashboardPage() {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#070e22",
-                    borderColor: "#334155",
+                    backgroundColor: "hsl(var(--card))",
+                    borderColor: "hsl(var(--border))",
                     borderRadius: "0.75rem",
-                    color: "#fff",
+                    color: "hsl(var(--foreground))",
                     fontSize: "12px",
                   }}
                 />
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-400 pt-2 border-t border-slate-800">
+          <div className="grid grid-cols-2 gap-2 text-[12px] font-medium text-muted-foreground pt-4 border-t border-border">
             {statusChartData.map((item) => (
-              <div key={item.name} className="flex items-center gap-1.5">
+              <div key={item.name} className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.fill }} />
-                <span>{item.name}: {item.value}</span>
+                <span>{item.name}: <span className="text-foreground">{item.value}</span></span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Monthly Spending Area Chart */}
-        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
+        <div className="lg:col-span-2 p-6 rounded-3xl bg-card border border-border shadow-sm space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
               Cumulative Flight Spending (USD)
             </h3>
-            <span className="text-xs text-emerald-400 font-semibold flex items-center gap-1">
+            <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
               <TrendingUp className="w-3.5 h-3.5" />
               Verified Escrow Releases
             </span>
@@ -260,23 +218,23 @@ export default function CompanyDashboardPage() {
               <AreaChart data={spendingChartData}>
                 <defs>
                   <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.0} />
+                    <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0.0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="month" stroke="#64748b" fontSize={11} tickLine={false} />
-                <YAxis stroke="#64748b" fontSize={11} tickLine={false} tickFormatter={(val) => `$${val / 1000}k`} />
+                <XAxis dataKey="month" stroke="currentColor" className="text-muted-foreground" fontSize={11} tickLine={false} />
+                <YAxis stroke="currentColor" className="text-muted-foreground" fontSize={11} tickLine={false} tickFormatter={(val) => `$${val / 1000}k`} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#070e22",
-                    borderColor: "#334155",
+                    backgroundColor: "hsl(var(--card))",
+                    borderColor: "hsl(var(--border))",
                     borderRadius: "0.75rem",
-                    color: "#fff",
+                    color: "hsl(var(--foreground))",
                     fontSize: "12px",
                   }}
                   formatter={(value: any) => [`$${value.toLocaleString()}`, "Spending"]}
                 />
-                <Area type="monotone" dataKey="spending" stroke="#06b6d4" strokeWidth={3} fillOpacity={1} fill="url(#spendGradient)" />
+                <Area type="monotone" dataKey="spending" stroke="#0ea5e9" strokeWidth={3} fillOpacity={1} fill="url(#spendGradient)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -284,14 +242,16 @@ export default function CompanyDashboardPage() {
       </div>
 
       {/* Recent Posted Projects Table */}
-      <div className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
+      <div className="p-6 rounded-3xl bg-card border border-border shadow-sm space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-white">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
             Recent Drone Projects
           </h3>
-          <Link href="/company/jobs" className="text-xs text-cyan-400 hover:underline">
-            View All My Jobs →
-          </Link>
+          <Button asChild variant="link" size="sm">
+            <Link href="/company/jobs">
+              View All My Jobs <ArrowRight className="w-3.5 h-3.5 ml-1" />
+            </Link>
+          </Button>
         </div>
 
         {myJobs.length === 0 ? (
@@ -303,40 +263,39 @@ export default function CompanyDashboardPage() {
             actionHref="/company/post-job"
           />
         ) : (
-          <div className="divide-y divide-slate-800/60">
+          <div className="divide-y divide-border">
             {myJobs.slice(0, 4).map((job) => (
-              <div key={job._id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="space-y-1">
+              <div key={job._id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group">
+                <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-semibold text-cyan-300 px-2 py-0.5 rounded bg-cyan-500/10">
+                    <span className="text-[11px] font-semibold text-primary px-2 py-0.5 rounded bg-primary/10">
                       {formatServiceType(job.serviceType)}
                     </span>
                     <StatusBadge status={job.status} type="job" />
                   </div>
                   <Link href={`/jobs/${job._id}`}>
-                    <h4 className="text-sm font-bold text-white hover:text-cyan-300 transition">
+                    <h4 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
                       {job.title}
                     </h4>
                   </Link>
-                  <p className="text-xs text-slate-400">
-                    Location: {job.location?.city}, {job.location?.state} • Date: {formatDate(job.date)}
+                  <p className="text-xs font-medium text-muted-foreground">
+                    Location: {job.location?.city}, {job.location?.state} • Posted: {formatDate(job.date)}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="text-right">
-                    <span className="text-sm font-extrabold text-white block">
+                <div className="flex items-center gap-5">
+                  <div className="text-right hidden sm:block">
+                    <span className="text-sm font-bold text-foreground block">
                       {formatCurrency(job.budget)}
                     </span>
-                    <span className="text-[10px] text-slate-400">Fixed Fee</span>
+                    <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Fixed Fee</span>
                   </div>
 
-                  <Link
-                    href={`/company/applications?jobId=${job._id}`}
-                    className="px-3.5 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-md transition"
-                  >
-                    View Proposals
-                  </Link>
+                  <Button asChild variant="secondary" size="sm">
+                    <Link href={`/company/applications?jobId=${job._id}`}>
+                      View Proposals
+                    </Link>
+                  </Button>
                 </div>
               </div>
             ))}
