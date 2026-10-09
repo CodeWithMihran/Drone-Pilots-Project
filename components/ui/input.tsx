@@ -1,25 +1,28 @@
-import React from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
+  error?: string | boolean;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, error, type = "text", ...props }, ref) => {
+  ({ className, error, type, ...props }, ref) => {
     return (
       <input
-        ref={ref}
         type={type}
         className={cn(
-          "h-11 w-full rounded-control border bg-surface-2 px-3.5 text-body text-foreground placeholder:text-subtle",
-          "transition-colors duration-150",
-          "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40",
-          error ? "border-destructive" : "border-border",
+          "peer flex h-11 w-full rounded-control border bg-background px-3.5 py-2 text-[15px] text-foreground shadow-sm transition-colors duration-150",
+          "file:border-0 file:bg-transparent file:text-[15px] file:font-semibold file:text-foreground file:cursor-pointer",
+          "placeholder:text-muted-foreground",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:border-primary focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           "disabled:cursor-not-allowed disabled:opacity-50",
+          error 
+            ? "border-destructive focus-visible:ring-destructive/40 focus-visible:border-destructive" 
+            : "border-border hover:border-border-strong",
           className
         )}
-        aria-invalid={error ? true : undefined}
+        ref={ref}
+        aria-invalid={!!error}
         {...props}
       />
     );
