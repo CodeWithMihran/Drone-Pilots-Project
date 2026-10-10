@@ -17,6 +17,9 @@ import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { MatchScoreBadge } from "@/components/shared/MatchScoreBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function PilotApplicationsPage() {
   const [applications, setApplications] = useState<any[]>([]);
@@ -56,26 +59,28 @@ export default function PilotApplicationsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">My Flight Applications</h1>
-        <p className="text-xs text-slate-400 mt-1">
-          Review the status of your submitted flight proposals and bids.
+    <div className="space-y-6 max-w-5xl">
+      <div className="pb-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+          My Mission Proposals
+        </h1>
+        <p className="text-xs text-muted-foreground mt-1">
+          Review the compliance scoring, bidding status, and hiring outcomes of your submitted proposals.
         </p>
       </div>
 
       {loading ? (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-6 rounded-2xl bg-[#0c142b] border border-slate-800 animate-pulse h-32" />
+            <div key={i} className="p-6 rounded-panel bg-surface border border-border animate-pulse h-32" />
           ))}
         </div>
       ) : applications.length === 0 ? (
         <EmptyState
           icon={FileCheck2}
-          title="No Applications Submitted"
-          description="You have not submitted proposals for any commercial projects yet. Browse available contracts to get started."
-          actionText="Find Drone Jobs"
+          title="No proposals submitted yet"
+          description="You have not submitted proposals for any commercial projects. Browse available missions to place bids."
+          actionText="Browse Open Missions"
           actionHref="/pilot/jobs"
         />
       ) : (
@@ -85,73 +90,73 @@ export default function PilotApplicationsPage() {
             if (!job) return null;
 
             return (
-              <div
-                key={app._id}
-                className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[11px] font-semibold">
-                        {formatServiceType(job.serviceType)}
-                      </span>
-                      <StatusBadge status={app.status} type="application" />
-                      {app.matchScore !== undefined && (
-                        <MatchScoreBadge score={app.matchScore} size="sm" />
-                      )}
+              <Card key={app._id}>
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                    <div className="space-y-1.5 flex-1">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="text-[11px]">
+                          {formatServiceType(job.serviceType)}
+                        </Badge>
+                        <StatusBadge status={app.status} type="application" />
+                        {app.matchScore !== undefined && (
+                          <MatchScoreBadge score={app.matchScore} size="sm" />
+                        )}
+                      </div>
+                      <Link href={`/jobs/${job._id}`}>
+                        <h3 className="text-base font-semibold text-foreground hover:text-primary transition-colors">
+                          {job.title}
+                        </h3>
+                      </Link>
+                      <p className="text-xs text-muted-foreground flex flex-wrap items-center gap-2">
+                        <span>Client: {job.companyId?.name || "Client"}</span>
+                        <span>•</span>
+                        <span>Location: {job.location?.city}, {job.location?.state}</span>
+                        <span>•</span>
+                        <span>Flight Date: {formatDate(job.date)}</span>
+                      </p>
                     </div>
-                    <Link href={`/jobs/${job._id}`}>
-                      <h3 className="text-base font-bold text-white hover:text-cyan-300 transition">
-                        {job.title}
-                      </h3>
-                    </Link>
-                    <p className="text-xs text-slate-400 flex items-center gap-2">
-                      <span>Client: {job.companyId?.name || "Client"}</span>
-                      <span>•</span>
-                      <span>Location: {job.location?.city}, {job.location?.state}</span>
-                      <span>•</span>
-                      <span>Flight: {formatDate(job.date)}</span>
-                    </p>
+
+                    <div className="text-left sm:text-right">
+                      <span className="text-[11px] font-medium text-muted-foreground block">Your Bid</span>
+                      <span className="text-xl font-bold text-success font-mono">
+                        {formatCurrency(app.bidAmount)}
+                      </span>
+                      <span className="text-[10px] text-subtle block">
+                        (Client Budget: {formatCurrency(job.budget)})
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="text-left sm:text-right">
-                    <span className="text-xs text-slate-400 block">Your Bid</span>
-                    <span className="text-lg font-bold text-emerald-400">
-                      {formatCurrency(app.bidAmount)}
-                    </span>
-                    <span className="text-[10px] text-slate-500 block">
-                      (Project Budget: {formatCurrency(job.budget)})
-                    </span>
+                  {/* Proposal excerpt */}
+                  <div className="p-3.5 rounded-control bg-surface-2 border border-border text-xs text-foreground">
+                    <p className="font-semibold text-muted-foreground text-[11px] mb-1">Your Proposal Brief:</p>
+                    <p className="line-clamp-2 italic leading-relaxed">{app.proposal}</p>
                   </div>
-                </div>
 
-                {/* Proposal excerpt */}
-                <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800 text-xs text-slate-300">
-                  <p className="font-semibold text-slate-400 text-[11px] mb-1">Your Proposal:</p>
-                  <p className="line-clamp-2 italic">{app.proposal}</p>
-                </div>
-
-                <div className="pt-2 flex items-center justify-between text-xs text-slate-500">
-                  <span>Applied on {formatDate(app.createdAt)}</span>
-                  <div className="flex items-center gap-2">
-                    {app.status === "PENDING" && (
-                      <button
-                        onClick={() => handleWithdraw(app._id)}
-                        className="text-rose-400 hover:underline text-xs"
-                      >
-                        Withdraw Bid
-                      </button>
-                    )}
-                    <Link
-                      href={`/jobs/${job._id}`}
-                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 font-semibold text-xs flex items-center gap-1"
-                    >
-                      <span>View Project</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
+                  <div className="pt-2 flex items-center justify-between text-xs text-subtle">
+                    <span>Submitted on {formatDate(app.createdAt)}</span>
+                    <div className="flex items-center gap-2">
+                      {app.status === "PENDING" && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleWithdraw(app._id)}
+                          className="text-destructive hover:bg-destructive/10 text-xs h-8"
+                        >
+                          Withdraw Bid
+                        </Button>
+                      )}
+                      <Button asChild variant="secondary" size="sm" className="h-8">
+                        <Link href={`/jobs/${job._id}`} className="gap-1">
+                          <span>View Project</span>
+                          <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             );
           })}
         </div>

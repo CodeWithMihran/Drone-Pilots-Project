@@ -31,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark ${inter.variable}`}>
-      <body className={`${inter.className} bg-background text-foreground min-h-screen flex flex-col antialiased`}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className={`${inter.className} bg-background text-foreground min-h-screen flex flex-col antialiased transition-colors duration-200`}>
         <Providers>
           <AppFrame>{children}</AppFrame>
         </Providers>

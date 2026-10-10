@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,6 +12,14 @@ const config: Config = {
       colors: {
         background: "var(--bg)",
         foreground: "var(--text)",
+        card: {
+          DEFAULT: "var(--surface)",
+          foreground: "var(--text)",
+        },
+        popover: {
+          DEFAULT: "var(--surface)",
+          foreground: "var(--text)",
+        },
         surface: {
           DEFAULT: "var(--surface)",
           2: "var(--surface-2)",

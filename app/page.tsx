@@ -1,318 +1,466 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   Navigation,
   ShieldCheck,
   CheckCircle2,
   Briefcase,
-  Search,
   ArrowRight,
-  Plane,
   Building2,
   Camera,
   Layers,
   Trees,
   Construction,
   Award,
-  Zap,
-  Star,
-  Users,
-  Clock,
-  HelpCircle,
+  ChevronDown,
+  Check,
+  Radio,
+  FileCheck,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { Footer } from "@/components/layout/Footer";
 
 export default function LandingPage() {
-  const services = [
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const sectors = [
     {
       id: "AGRICULTURAL_SPRAYING",
       title: "Agricultural Spraying",
       icon: Trees,
-      desc: "Precision crop spraying, NDVI multispectral health indexing, and automated farm mapping.",
-      color: "from-emerald-500/20 to-emerald-950/40 text-emerald-400 border-emerald-500/30",
+      desc: "Precision crop spraying, multispectral NDVI plant stress indexing, and automated acreage distribution.",
     },
     {
       id: "INFRASTRUCTURE_INSPECTION",
       title: "Infrastructure Inspection",
       icon: Building2,
-      desc: "Thermal anomaly detection for powerlines, wind turbines, bridges, cell towers, and pipelines.",
-      color: "from-cyan-500/20 to-cyan-950/40 text-cyan-400 border-cyan-500/30",
+      desc: "High-resolution thermal anomaly analysis for utilities, wind turbines, cell towers, and energy substations.",
     },
     {
       id: "REAL_ESTATE_MAPPING",
-      title: "Real Estate & 3D Mapping",
+      title: "3D Orthomosaic Mapping",
       icon: Layers,
-      desc: "High-resolution orthomosaics, 3D point clouds, digital elevation models, and luxury showcases.",
-      color: "from-blue-500/20 to-blue-950/40 text-blue-400 border-blue-500/30",
+      desc: "Centimeter-accurate orthophotos, volumetric measurements, digital elevation models, and point clouds.",
     },
     {
       id: "CONSTRUCTION_MONITORING",
-      title: "Construction Monitoring",
+      title: "Construction Progression",
       icon: Construction,
-      desc: "Weekly progression scans, volumetric stockpile calculations, cut-and-fill analysis, and BIM overlay.",
-      color: "from-amber-500/20 to-amber-950/40 text-amber-400 border-amber-500/30",
+      desc: "Weekly site progression sweeps, stockpile volumetric audits, cut-and-fill telemetry, and BIM integration.",
     },
     {
       id: "LAND_SURVEYING",
-      title: "Land Surveying & LiDAR",
+      title: "Topographic Land Surveying",
       icon: Navigation,
-      desc: "Centimeter-grade RTK/PPK topographic surveys, boundary mapping, and GIS integration.",
-      color: "from-purple-500/20 to-purple-950/40 text-purple-400 border-purple-500/30",
+      desc: "RTK/PPK boundary surveys, terrain contours, GIS shapefile export, and civil engineering benchmarks.",
     },
     {
       id: "AERIAL_PHOTOGRAPHY",
-      title: "Aerial Photography & Cinema",
+      title: "Commercial Aerial Media",
       icon: Camera,
-      desc: "Commercial cinematography, 8K ProRes aerial filming, live event streaming, and media production.",
-      color: "from-pink-500/20 to-pink-950/40 text-pink-400 border-pink-500/30",
+      desc: "ProRes 8K stabilized footage, industrial marketing captures, and broadcast-ready corporate media.",
     },
   ];
 
   const faqs = [
     {
-      q: "How does pilot certification verification work?",
-      a: "Every pilot must submit their official FAA Part 107 Commercial Remote Pilot License (or equivalent national aviation authority credentials). Our administration team verifies the certificate number against the aviation registry before granting the '✓ VERIFIED PILOT' badge.",
+      q: "How does pilot credential verification work?",
+      a: "Every pilot must submit their official FAA Part 107 Commercial Remote Pilot License and current Certificate of Insurance (COI). Our compliance operations team verifies license numbers against the FAA airmen registry before granting the verified pilot designation.",
     },
     {
-      q: "Can unverified pilots apply to industrial jobs?",
-      a: "No. Industrial clients posting projects with certification requirements are only accessible to verified pilots with valid, non-expired credentials.",
+      q: "Can unverified pilots apply to enterprise projects?",
+      a: "No. Enterprise jobs with compliance requirements are restricted exclusively to pilots with verified, non-expired Part 107 credentials and validated equipment specs.",
     },
     {
-      q: "How does the matching algorithm calculate match scores?",
-      a: "The matching engine analyzes five core pillars: Active Certification (30 pts), Operating Location & Service Area (20 pts), Years of Specialized Experience (20 pts), Hardware & Drone Payloads (20 pts), and Schedule Availability (10 pts).",
+      q: "How are candidate match scores calculated?",
+      a: "Our matching engine weights five operational factors: Active Part 107 credential validity (30%), operating radius to flight site (20%), verified hardware and payload sensors (20%), demonstrated industry track record (20%), and mission calendar availability (10%).",
     },
     {
-      q: "How does payment protection work on the marketplace?",
-      a: "When a company accepts a proposal, funds are allocated for the project. Payment is released to the pilot immediately upon the company verifying job completion.",
+      q: "How does milestone payment security work?",
+      a: "When an enterprise awards a mission, project funds are secured in escrow. Funds are released directly to the pilot once the flight telemetry and specified deliverables are reviewed and accepted.",
     },
   ];
 
   return (
-    <div className="flex-1 flex flex-col bg-[#060b18]">
+    <div className="flex-1 flex flex-col bg-background text-foreground transition-colors duration-200">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-28 sm:pt-28 sm:pb-36 overflow-hidden">
-        {/* Background glow & gradients */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none" />
-        <div className="absolute top-1/3 left-1/3 w-[400px] h-[300px] bg-blue-600/10 blur-[110px] rounded-full pointer-events-none" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b18_1px,transparent_1px),linear-gradient(to_bottom,#1e293b18_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
+      <section className="relative pt-16 pb-20 sm:pt-24 sm:pb-28 border-b border-border overflow-hidden">
+        {/* Subtle engineering grid backdrop */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold mb-8 animate-fade-in shadow-lg shadow-cyan-500/10">
-            <ShieldCheck className="w-4 h-4 text-cyan-400" />
-            <span>FAA Part 107 Verified Commercial Flight Network</span>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          {/* Compliance Pill */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface border border-border shadow-xs text-xs font-medium text-foreground mb-8">
+            <span className="flex h-2 w-2 rounded-full bg-success"></span>
+            <span>FAA Part 107 Certified Commercial Flight Network</span>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.1]">
-            Connect With{" "}
-            <span className="gradient-text">Certified Drone Professionals</span>
+          {/* Headline */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] text-foreground max-w-4xl mx-auto leading-[1.12]">
+            Commercial drone pilots for critical industrial operations.
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-6 text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Find verified commercial drone pilots for agriculture, real estate, infrastructure inspection, surveying, and industrial operations.
+          <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            The dedicated operations marketplace connecting verified, credentialed drone pilots with enterprise leaders in infrastructure, agriculture, surveying, and energy.
           </p>
 
           {/* CTAs */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/pilots"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-bold text-sm shadow-xl shadow-cyan-500/25 hover:opacity-95 hover:scale-[1.02] transition flex items-center justify-center gap-2"
-            >
-              <span>Find a Drone Pilot</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
+            <Button asChild size="lg" variant="primary">
+              <Link href="/pilots" className="gap-2 font-semibold">
+                <span>Find a Verified Pilot</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
 
-            <Link
-              href="/jobs"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900/80 border border-slate-700 text-slate-200 font-semibold text-sm hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-2"
-            >
-              <Briefcase className="w-4 h-4 text-cyan-400" />
-              <span>Browse Drone Jobs</span>
-            </Link>
+            <Button asChild size="lg" variant="secondary">
+              <Link href="/jobs" className="gap-2 font-medium">
+                <Briefcase className="w-4 h-4 text-muted-foreground" />
+                <span>Browse Open Missions</span>
+              </Link>
+            </Button>
           </div>
 
-          {/* Trust stats pill bar */}
-          <div className="mt-16 max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-3xl bg-[#0b132b]/80 border border-slate-800/80 backdrop-blur-md shadow-2xl">
+          {/* Operational Metrics Bar */}
+          <div className="mt-14 max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-panel bg-surface border border-border shadow-xs">
             <div className="text-center p-2">
-              <p className="text-xl sm:text-2xl font-black text-cyan-400">100%</p>
-              <p className="text-[11px] text-slate-400 font-medium">Verified Part 107</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">100%</p>
+              <p className="text-xs text-muted-foreground mt-0.5">FAA Part 107 Verified</p>
             </div>
-            <div className="text-center p-2 border-l border-slate-800">
-              <p className="text-xl sm:text-2xl font-black text-white">$2.4M+</p>
-              <p className="text-[11px] text-slate-400 font-medium">Flight Contracts</p>
+            <div className="text-center p-2 border-l border-border">
+              <p className="text-xl sm:text-2xl font-bold text-foreground">&lt; 2 cm</p>
+              <p className="text-xs text-muted-foreground mt-0.5">RTK/PPK Precision</p>
             </div>
-            <div className="text-center p-2 border-l border-slate-800">
-              <p className="text-xl sm:text-2xl font-black text-teal-400">12,500+</p>
-              <p className="text-[11px] text-slate-400 font-medium">Flight Hours</p>
+            <div className="text-center p-2 border-l border-border">
+              <p className="text-xl sm:text-2xl font-bold text-foreground">$1M–$5M</p>
+              <p className="text-xs text-muted-foreground mt-0.5">COI Insured Flights</p>
             </div>
-            <div className="text-center p-2 border-l border-slate-800">
-              <p className="text-xl sm:text-2xl font-black text-amber-400">4.9 ★</p>
-              <p className="text-[11px] text-slate-400 font-medium">Pilot Rating</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 bg-[#070e22] border-y border-slate-800/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
-              Streamlined Workflow
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2">
-              How Certified Drone Pilots Works
-            </h2>
-            <p className="text-slate-400 text-sm mt-3">
-              A secure, professional end-to-end framework built specifically for high-stakes commercial drone operations.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* For Companies */}
-            <div className="p-8 rounded-3xl bg-[#0b132b] border border-slate-800/90 shadow-xl space-y-6">
-              <div className="flex items-center gap-3 pb-4 border-b border-slate-800">
-                <div className="p-3 rounded-2xl bg-cyan-500/10 text-cyan-400">
-                  <Building2 className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white">For Companies & Clients</h3>
-                  <p className="text-xs text-slate-400">Hire certified pilots with zero guesswork</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  {
-                    step: "01",
-                    title: "Post Your Drone Project",
-                    desc: "Specify industry, location, flight date, budget, and required drone payloads.",
-                  },
-                  {
-                    step: "02",
-                    title: "Review Matched Pilot Proposals",
-                    desc: "Compare verified pilots with AI-assisted match scores, certifications, and reviews.",
-                  },
-                  {
-                    step: "03",
-                    title: "Select & Assign Pilot",
-                    desc: "Lock in terms, review pre-flight specs, and track milestone progression.",
-                  },
-                  {
-                    step: "04",
-                    title: "Complete & Release Payment",
-                    desc: "Verify flight deliverables, approve payment payout, and leave feedback.",
-                  },
-                ].map((item) => (
-                  <div key={item.step} className="flex items-start gap-4 p-3 rounded-2xl bg-slate-900/40 border border-slate-800/60">
-                    <span className="text-sm font-mono font-bold text-cyan-400 px-2 py-1 rounded-lg bg-cyan-500/10">
-                      {item.step}
-                    </span>
-                    <div>
-                      <h4 className="text-sm font-semibold text-white">{item.title}</h4>
-                      <p className="text-xs text-slate-400 mt-0.5">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* For Pilots */}
-            <div className="p-8 rounded-3xl bg-[#0b132b] border border-slate-800/90 shadow-xl space-y-6">
-              <div className="flex items-center gap-3 pb-4 border-b border-slate-800">
-                <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400">
-                  <Award className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white">For Drone Pilots</h3>
-                  <p className="text-xs text-slate-400">Get hired for high-value commercial missions</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  {
-                    step: "01",
-                    title: "Create Profile & Fleet Specs",
-                    desc: "List your commercial drone hardware, sensors (RTK, Thermal, LiDAR), and skills.",
-                  },
-                  {
-                    step: "02",
-                    title: "Verify Aviation Certification",
-                    desc: "Upload your Part 107 license. Receive admin verification and badge within hours.",
-                  },
-                  {
-                    step: "03",
-                    title: "Apply to High-Score Jobs",
-                    desc: "Browse filtered industrial projects. Submit custom proposals and bids.",
-                  },
-                  {
-                    step: "04",
-                    title: "Fly & Receive Direct Earnings",
-                    desc: "Execute missions safely, submit completion, and get paid with verified reviews.",
-                  },
-                ].map((item) => (
-                  <div key={item.step} className="flex items-start gap-4 p-3 rounded-2xl bg-slate-900/40 border border-slate-800/60">
-                    <span className="text-sm font-mono font-bold text-emerald-400 px-2 py-1 rounded-lg bg-emerald-500/10">
-                      {item.step}
-                    </span>
-                    <div>
-                      <h4 className="text-sm font-semibold text-white">{item.title}</h4>
-                      <p className="text-xs text-slate-400 mt-0.5">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="text-center p-2 border-l border-border">
+              <p className="text-xl sm:text-2xl font-bold text-foreground">Escrow</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Milestone Secured</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-[#060b18]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
-              Supported Sectors
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2">
-              Industrial Commercial Drone Services
+      {/* Industrial Sectors */}
+      <section id="services" className="py-20 bg-surface-2 border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mb-12">
+            <Badge variant="default" className="mb-3">
+              Specialized Operations
+            </Badge>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-foreground">
+              Industrial commercial sectors
             </h2>
-            <p className="text-slate-400 text-sm mt-3">
-              Certified pilots ready with specialized payloads, enterprise sensors, and regulatory compliance.
+            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+              Equipped with enterprise payloads: dual thermal radiometric sensors, RTK ground stations, multispectral lenses, and heavy-lift sprayers.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((srv) => {
-              const Icon = srv.icon;
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {sectors.map((sector) => {
+              const Icon = sector.icon;
               return (
-                <div
-                  key={srv.id}
-                  className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg flex flex-col justify-between hover:border-cyan-500/40 transition group"
+                <Card
+                  key={sector.id}
+                  className="group hover:border-border-strong transition-all duration-150 flex flex-col justify-between"
                 >
-                  <div>
-                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${srv.color} flex items-center justify-center mb-5 border shadow-inner`}>
-                      <Icon className="w-6 h-6" />
+                  <CardContent className="p-6">
+                    <div className="w-10 h-10 rounded-control bg-primary/10 text-primary flex items-center justify-center mb-4 transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                      <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition">
-                      {srv.title}
+                    <h3 className="text-base font-semibold text-foreground">
+                      {sector.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed">
-                      {srv.desc}
+                    <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                      {sector.desc}
                     </p>
-                  </div>
-                  <div className="pt-6 mt-4 border-t border-slate-800/60 flex items-center justify-between">
+                  </CardContent>
+                  <div className="px-6 pb-5 pt-0">
                     <Link
-                      href={`/jobs?service=${srv.id}`}
-                      className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 group-hover:translate-x-1 transition"
+                      href={`/jobs?service=${sector.id}`}
+                      className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1"
                     >
-                      <span>Explore Jobs & Pilots</span>
+                      <span>View missions in {sector.title.split(" ")[0]}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Bilateral Workflow */}
+      <section id="how-it-works" className="py-20 bg-background border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <Badge variant="outline" className="mb-3">
+              Operational Workflow
+            </Badge>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-foreground">
+              Built for rigorous field deployments
+            </h2>
+            <p className="text-sm text-muted-foreground mt-2">
+              End-to-end mission scoping, automated compliance matching, and milestone-backed fulfillment.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* For Companies */}
+            <Card>
+              <CardContent className="p-7 space-y-6">
+                <div className="flex items-center gap-3 pb-5 border-b border-border">
+                  <div className="w-9 h-9 rounded-control bg-primary/10 text-primary flex items-center justify-center">
+                    <Building2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-semibold text-foreground">For Enterprises & Agencies</h3>
+                    <p className="text-xs text-muted-foreground">Hire compliant drone operators with verifiable credentials</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    {
+                      step: "01",
+                      title: "Define Flight Scope & Payload Specs",
+                      desc: "Specify site coordinates, flight date window, budget, required sensors (LiDAR, RTK, Thermal), and deliverables.",
+                    },
+                    {
+                      step: "02",
+                      title: "Compare Verified Pilot Proposals",
+                      desc: "Review compliant pilots with transparent algorithmic match scores based on hardware, radius, and historical performance.",
+                    },
+                    {
+                      step: "03",
+                      title: "Award Mission & Fund Milestone Escrow",
+                      desc: "Lock mission parameters and fund project milestones securely prior to takeoff.",
+                    },
+                    {
+                      step: "04",
+                      title: "Accept Deliverables & Release Payout",
+                      desc: "Verify raw sensor data, orthophotos, or telemetry reports. Release payment upon final acceptance.",
+                    },
+                  ].map((item) => (
+                    <div key={item.step} className="flex items-start gap-3.5 p-3 rounded-control bg-surface-2 border border-border">
+                      <span className="font-mono text-xs font-semibold text-primary px-2 py-1 rounded bg-surface border border-border shrink-0">
+                        {item.step}
+                      </span>
+                      <div>
+                        <h4 className="text-xs font-semibold text-foreground">{item.title}</h4>
+                        <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* For Pilots */}
+            <Card>
+              <CardContent className="p-7 space-y-6">
+                <div className="flex items-center gap-3 pb-5 border-b border-border">
+                  <div className="w-9 h-9 rounded-control bg-success/10 text-success flex items-center justify-center">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-semibold text-foreground">For Commercial Pilots</h3>
+                    <p className="text-xs text-muted-foreground">Access paid industrial missions tailored to your fleet</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    {
+                      step: "01",
+                      title: "Register Fleet & Operational Payload",
+                      desc: "Catalog your airframes, optical/thermal sensors, RTK base stations, and certified flight hours.",
+                    },
+                    {
+                      step: "02",
+                      title: "Verify FAA Part 107 Credentials",
+                      desc: "Submit your airmen license and COI insurance. Receive verified pilot status upon administrator audit.",
+                    },
+                    {
+                      step: "03",
+                      title: "Submit High-Match Proposals",
+                      desc: "Receive alerts for high-matching industrial operations in your operational radius and submit bids.",
+                    },
+                    {
+                      step: "04",
+                      title: "Execute Flights & Direct Earnings",
+                      desc: "Conduct operations safely, upload data deliverables, and receive immediate payouts with verified client reviews.",
+                    },
+                  ].map((item) => (
+                    <div key={item.step} className="flex items-start gap-3.5 p-3 rounded-control bg-surface-2 border border-border">
+                      <span className="font-mono text-xs font-semibold text-success px-2 py-1 rounded bg-surface border border-border shrink-0">
+                        {item.step}
+                      </span>
+                      <div>
+                        <h4 className="text-xs font-semibold text-foreground">{item.title}</h4>
+                        <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Compliance & Verification Feature Highlight */}
+      <section className="py-20 bg-surface-2 border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <Badge variant="outline" className="mb-3">
+                Aviation Standards
+              </Badge>
+              <h2 className="text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-foreground">
+                Rigorous compliance. Zero unverified operators.
+              </h2>
+              <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
+                Industrial flight operations carry real liabilities. Our platform mandates compliance safeguards before an operator is ever cleared to bid on a flight brief.
+              </p>
+
+              <div className="mt-8 space-y-4">
+                {[
+                  {
+                    title: "FAA Registry Cross-Referenced",
+                    desc: "Every remote pilot certificate number is verified against current FAA records to prevent expired licenses.",
+                  },
+                  {
+                    title: "Sensor & Payload Matching",
+                    desc: "Clients specify required sensors (thermal radiometric, multispectral, LiDAR), filtering out mismatched consumer rigs.",
+                  },
+                  {
+                    title: "Protected Escrow Disbursements",
+                    desc: "Eliminates payment chasing for pilots and incomplete delivery risks for hiring enterprises.",
+                  },
+                  {
+                    title: "Immutable Mission Reviews",
+                    desc: "Feedback is tied strictly to completed, verified contract transactions.",
+                  },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-success/15 text-success flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-semibold text-foreground">{item.title}</h4>
+                      <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Spec Card UI Showcase */}
+            <Card className="shadow-md">
+              <CardContent className="p-6 space-y-5">
+                <div className="flex items-center justify-between pb-4 border-b border-border">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-control bg-primary/15 text-primary flex items-center justify-center font-bold text-sm">
+                      MV
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-foreground">Marcus Vance</h4>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <Badge variant="success" className="text-[10px] px-2 py-0">
+                          FAA Part 107 Verified
+                        </Badge>
+                        <span className="text-[11px] text-muted-foreground">Texas, USA</span>
+                      </div>
+                    </div>
+                  </div>
+                  <Badge variant="default" className="font-mono text-xs">
+                    98% Match
+                  </Badge>
+                </div>
+
+                <div className="space-y-2.5 text-xs">
+                  <div className="flex justify-between py-1 border-b border-border">
+                    <span className="text-muted-foreground">Certified Airframes</span>
+                    <span className="font-medium text-foreground">DJI Matrice 350 RTK, Mavic 3 Enterprise</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-border">
+                    <span className="text-muted-foreground">Sensor Payloads</span>
+                    <span className="font-medium text-foreground">Zenmuse H20T Thermal, L2 LiDAR</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-border">
+                    <span className="text-muted-foreground">Logged Flight Hours</span>
+                    <span className="font-medium text-foreground">1,840 Commercial Hours</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-border">
+                    <span className="text-muted-foreground">COI Insurance</span>
+                    <span className="font-medium text-success">$2,000,000 Policy Verified</span>
+                  </div>
+                  <div className="flex justify-between py-1">
+                    <span className="text-muted-foreground">Client Rating</span>
+                    <span className="font-medium text-foreground">5.0 / 5.0 (42 missions)</span>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <Button asChild block variant="secondary" size="sm">
+                    <Link href="/pilots">View Verified Pilot Profiles</Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-background border-b border-border">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-3">
+              FAQ
+            </Badge>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-foreground">
+              Frequently asked questions
+            </h2>
+            <p className="text-sm text-muted-foreground mt-2">
+              Common questions regarding licensing, mission matching, and compliance.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {faqs.map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div
+                  key={idx}
+                  className="rounded-panel border border-border bg-surface overflow-hidden transition-colors"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
+                    className="w-full flex items-center justify-between p-4 sm:p-5 text-left text-sm font-semibold text-foreground hover:bg-surface-2 transition-colors"
+                  >
+                    <span>{faq.q}</span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-muted-foreground transition-transform duration-200 shrink-0 ml-4 ${
+                        isOpen ? "transform rotate-180 text-primary" : ""
+                      }`}
+                    />
+                  </button>
+                  {isOpen && (
+                    <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-muted-foreground leading-relaxed border-t border-border pt-3">
+                      {faq.a}
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -320,161 +468,22 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section className="py-20 bg-[#070e22] border-t border-slate-800/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
-                The Certified Advantage
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2 leading-tight">
-                Why Industry Leaders Trust Our Pilot Network
-              </h2>
-              <p className="text-slate-300 text-sm mt-4 leading-relaxed">
-                Industrial flight operations require strict regulatory compliance, precision flight logs, and certified equipment. We eliminate risk by rigorously validating every operator.
-              </p>
-
-              <div className="mt-8 space-y-4">
-                {[
-                  {
-                    title: "100% Verified Part 107 Credentials",
-                    desc: "Every certificate is cross-checked against FAA records before any proposal can be submitted.",
-                  },
-                  {
-                    title: "Precision Matching Engine",
-                    desc: "Scored on exact equipment (LiDAR, RTK, Thermal), flight radius, and sector experience.",
-                  },
-                  {
-                    title: "Escrow Milestone Payouts",
-                    desc: "Funds are protected and paid promptly upon client satisfaction and data delivery.",
-                  },
-                  {
-                    title: "Authentic Reviews & Flight Records",
-                    desc: "Transparent client reviews tied to verified completed flight contracts.",
-                  },
-                ].map((feature, i) => (
-                  <div key={i} className="flex items-start gap-3.5">
-                    <div className="p-1 rounded-lg bg-emerald-500/20 text-emerald-400 mt-0.5">
-                      <CheckCircle2 className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-white">{feature.title}</h4>
-                      <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{feature.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Visual Glassmorphic Showcase */}
-            <div className="relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#0c1838] to-[#080e22] border border-cyan-500/30 shadow-2xl shadow-cyan-500/10">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-700/60">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-cyan-500 text-slate-950 flex items-center justify-center font-bold">
-                    <Navigation className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-white">Captain Marcus Vance</p>
-                    <span className="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
-                      <ShieldCheck className="w-3 h-3" />
-                      ✓ VERIFIED PART 107 PILOT
-                    </span>
-                  </div>
-                </div>
-                <div className="px-2.5 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-bold">
-                  98% Match
-                </div>
-              </div>
-
-              <div className="py-4 space-y-3">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Equipment Fleet</span>
-                  <span className="text-white font-medium">DJI Matrice 350 RTK, Zenmuse H20T</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Flight Experience</span>
-                  <span className="text-white font-medium">8+ Years (1,840 Hours)</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Specialization</span>
-                  <span className="text-white font-medium">Infrastructure & Thermal Inspection</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Client Rating</span>
-                  <span className="text-amber-400 font-bold flex items-center gap-1">
-                    ★★★★★ 5.0 (42 reviews)
-                  </span>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-slate-700/60 flex items-center justify-between">
-                <span className="text-xs text-slate-400">Current Status: <strong className="text-emerald-400 font-semibold">Available for Deployments</strong></span>
-                <Link
-                  href="/pilots"
-                  className="px-3.5 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition"
-                >
-                  View Profile
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 bg-[#060b18]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
-              Questions & Answers
-            </span>
-            <h2 className="text-3xl font-extrabold text-white mt-2">
-              Frequently Asked Questions
-            </h2>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-2xl bg-[#0c142b] border border-slate-800/80"
-              >
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  <HelpCircle className="w-4 h-4 text-cyan-400 shrink-0" />
-                  {faq.q}
-                </h4>
-                <p className="text-xs sm:text-sm text-slate-400 mt-2 pl-6 leading-relaxed">
-                  {faq.a}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action Banner */}
-      <section className="py-16 bg-gradient-to-r from-cyan-900/40 via-teal-900/30 to-slate-900/80 border-t border-slate-800/80">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Ready to Deploy or Fly Industrial Drone Operations?
+      {/* Conversion Banner */}
+      <section className="py-16 bg-surface-2 border-b border-border">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+          <h2 className="text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-foreground">
+            Deploy your next industrial drone mission today.
           </h2>
-          <p className="text-slate-300 text-sm max-w-xl mx-auto">
-            Join thousands of commercial pilots and industrial enterprises leveraging the most trusted commercial drone network.
+          <p className="text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
+            Join enterprise operations teams and commercial pilots leveraging verified credentials and milestone-secured contracts.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <Link
-              href="/register?role=COMPANY"
-              className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-cyan-500 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/25 hover:bg-cyan-400 transition"
-            >
-              Post a Project as Company
-            </Link>
-            <Link
-              href="/register?role=PILOT"
-              className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition"
-            >
-              Register as Certified Pilot
-            </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <Button asChild size="lg" variant="primary">
+              <Link href="/register?role=COMPANY">Post a Project as Company</Link>
+            </Button>
+            <Button asChild size="lg" variant="secondary">
+              <Link href="/register?role=PILOT">Register as Certified Pilot</Link>
+            </Button>
           </div>
         </div>
       </section>

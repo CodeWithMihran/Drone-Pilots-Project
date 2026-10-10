@@ -5,17 +5,21 @@ import {
   ShieldCheck,
   Upload,
   FileText,
-  AlertCircle,
   CheckCircle2,
-  Clock,
   XCircle,
-  Calendar,
   Eye,
   Plus,
+  AlertTriangle,
 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Alert } from "@/components/ui/alert";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 export default function PilotCertificationPage() {
   const [certifications, setCertifications] = useState<any[]>([]);
@@ -67,7 +71,6 @@ export default function PilotCertificationPage() {
     setUploading(true);
 
     try {
-      // 1. Upload file via /api/upload
       const formData = new FormData();
       formData.append("file", file);
       formData.append("folder", "pilot_certifications");
@@ -80,7 +83,6 @@ export default function PilotCertificationPage() {
       const uploadData = await uploadRes.json();
       if (!uploadRes.ok) throw new Error(uploadData.error || "File upload failed");
 
-      // 2. Create certification record
       const certRes = await fetch("/api/certifications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -96,7 +98,7 @@ export default function PilotCertificationPage() {
       const certData = await certRes.json();
       if (!certRes.ok) throw new Error(certData.error || "Certification record failed");
 
-      setSuccess("Certification submitted for admin verification!");
+      setSuccess("Certification submitted for compliance verification!");
       setUploadModalOpen(false);
       setFile(null);
       setNumber("");
@@ -116,181 +118,193 @@ export default function PilotCertificationPage() {
   );
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-6 max-w-5xl">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div>
-          <h1 className="text-2xl font-bold text-white">Pilot Aviation Certifications</h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Upload your commercial licenses to receive the ✓ VERIFIED PILOT badge and unlock industrial contracts.
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+            Aviation Certifications
+          </h1>
+          <p className="text-xs text-muted-foreground mt-1">
+            Manage your commercial remote pilot licenses, authority credentials, and insurance verifications.
           </p>
         </div>
 
-        <button
+        <Button
           id="open-upload-cert-modal-btn"
           onClick={() => {
             setError("");
             setUploadModalOpen(true);
           }}
-          className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition flex items-center gap-1.5"
+          variant="primary"
+          size="sm"
+          className="gap-1.5"
         >
           <Plus className="w-4 h-4" />
-          <span>Upload New Certificate</span>
-        </button>
+          <span>Submit Credential</span>
+        </Button>
       </div>
 
       {success && (
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-          <span>{success}</span>
-        </div>
+        <Alert variant="success">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-success" />
+            <span>{success}</span>
+          </div>
+        </Alert>
       )}
 
-      {/* Verification Status Banner */}
-      <div className={`p-6 rounded-3xl border shadow-xl ${
-        hasVerifiedCert
-          ? "bg-gradient-to-r from-emerald-950/40 via-[#0c142b] to-[#070e22] border-emerald-500/40"
-          : "bg-gradient-to-r from-amber-950/40 via-[#0c142b] to-[#070e22] border-amber-500/40"
-      }`}>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
-              hasVerifiedCert ? "bg-emerald-500 text-slate-950" : "bg-amber-500 text-slate-950"
-            }`}>
-              <ShieldCheck className="w-7 h-7" />
+      {/* Verification Status Card */}
+      <Card className={hasVerifiedCert ? "border-success/40 bg-success/5" : "border-warning/40 bg-warning/5"}>
+        <CardContent className="p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-4">
+              <div className={`w-11 h-11 rounded-control flex items-center justify-center shrink-0 ${
+                hasVerifiedCert ? "bg-success/15 text-success" : "bg-warning/15 text-warning"
+              }`}>
+                {hasVerifiedCert ? <ShieldCheck className="w-6 h-6" /> : <AlertTriangle className="w-6 h-6" />}
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base font-semibold text-foreground">
+                    {hasVerifiedCert ? "FAA Part 107 Verified Operator" : "Credential Verification Required"}
+                  </h3>
+                  <Badge variant={hasVerifiedCert ? "success" : "warning"}>
+                    {hasVerifiedCert ? "Active" : "Action Needed"}
+                  </Badge>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1 leading-relaxed max-w-2xl">
+                  {hasVerifiedCert
+                    ? "Your commercial remote pilot license is authenticated against aviation registries. You have full clearance to bid on enterprise contracts."
+                    : "Upload an official Part 107 license (or national aviation equivalent) to unlock bidding on compliance-restricted industrial missions."}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                {hasVerifiedCert ? "✓ VERIFIED PILOT" : "Verification Pending / Required"}
-              </h3>
-              <p className="text-xs text-slate-300 mt-0.5">
-                {hasVerifiedCert
-                  ? "Your commercial Part 107 credential is verified by administration and active."
-                  : "Upload a valid commercial drone certificate to gain priority listing and apply to restricted jobs."}
-              </p>
-            </div>
-          </div>
 
-          <div className="shrink-0">
-            {hasVerifiedCert ? (
-              <span className="px-3.5 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 text-xs font-bold">
-                Status: ACTIVE
-              </span>
-            ) : (
-              <button
+            {!hasVerifiedCert && (
+              <Button
                 onClick={() => setUploadModalOpen(true)}
-                className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md transition"
+                variant="primary"
+                size="sm"
+                className="shrink-0"
               >
-                Submit Credentials
-              </button>
+                Upload License Now
+              </Button>
             )}
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
-      {/* Uploaded Certifications List */}
-      <div className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-white">
-          Certification Credentials on Record ({certifications.length})
-        </h3>
-
-        {loading ? (
-          <div className="space-y-3">
-            {[1, 2].map((i) => (
-              <div key={i} className="h-20 bg-slate-800/40 rounded-2xl animate-pulse" />
-            ))}
-          </div>
-        ) : certifications.length === 0 ? (
-          <EmptyState
-            icon={ShieldCheck}
-            title="No Certifications on File"
-            description="You have not uploaded your FAA Part 107 or equivalent commercial pilot license yet."
-            actionText="Upload Certificate Now"
-            onAction={() => setUploadModalOpen(true)}
-          />
-        ) : (
-          <div className="space-y-4">
-            {certifications.map((cert) => (
-              <div
-                key={cert._id}
-                className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <h4 className="text-sm font-bold text-white">{cert.type}</h4>
-                      <StatusBadge status={cert.status} type="certification" />
-                    </div>
-                    <p className="text-xs text-slate-400">
-                      License / Certificate ID: <strong className="text-cyan-300">{cert.number}</strong>
-                    </p>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Issued: {formatDate(cert.issueDate)} • Expiry: {formatDate(cert.expiryDate)}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    {cert.documentUrl && (
-                      <a
-                        href={cert.documentUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-semibold flex items-center gap-1.5"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>View Document</span>
-                      </a>
-                    )}
-                  </div>
-                </div>
-
-                {/* Rejection Feedback if rejected */}
-                {cert.status === "REJECTED" && (
-                  <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300 flex items-start gap-2">
-                    <XCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+      {/* Certifications Record List */}
+      <Card>
+        <CardHeader className="pb-3 border-b border-border">
+          <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            Credentials on Record ({certifications.length})
+          </CardTitle>
+          <CardDescription>
+            Historical submissions reviewed by platform compliance officers.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-6">
+          {loading ? (
+            <div className="space-y-3">
+              {[1, 2].map((i) => (
+                <div key={i} className="h-20 bg-surface-2 rounded-control animate-pulse border border-border" />
+              ))}
+            </div>
+          ) : certifications.length === 0 ? (
+            <EmptyState
+              icon={ShieldCheck}
+              title="No credentials on record"
+              description="Upload your FAA Part 107 or national commercial remote pilot license to receive verified operator credentials."
+              actionText="Upload Certificate Now"
+              onAction={() => setUploadModalOpen(true)}
+            />
+          ) : (
+            <div className="space-y-3">
+              {certifications.map((cert) => (
+                <div
+                  key={cert._id}
+                  className="p-4 rounded-control bg-surface-2 border border-border space-y-3 transition-colors hover:border-border-strong"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <span className="font-semibold block">Admin Verification Note:</span>
-                      <span>{cert.rejectionReason || "Uploaded document was unreadable or failed license verification."}</span>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="text-sm font-semibold text-foreground">{cert.type}</h4>
+                        <StatusBadge status={cert.status} type="certification" />
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        License ID: <strong className="text-foreground font-mono">{cert.number}</strong>
+                      </p>
+                      <p className="text-xs text-subtle mt-0.5">
+                        Issued: {formatDate(cert.issueDate)} • Expiry: {formatDate(cert.expiryDate)}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {cert.documentUrl && (
+                        <Button asChild variant="secondary" size="sm">
+                          <a
+                            href={cert.documentUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="gap-1.5 text-xs"
+                          >
+                            <Eye className="w-3.5 h-3.5 text-muted-foreground" />
+                            <span>View Document</span>
+                          </a>
+                        </Button>
+                      )}
                     </div>
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+                  {cert.status === "REJECTED" && (
+                    <div className="p-3 rounded-control bg-destructive/10 border border-destructive/20 text-xs text-destructive flex items-start gap-2">
+                      <XCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                      <div>
+                        <span className="font-semibold block">Compliance Officer Feedback:</span>
+                        <span>{cert.rejectionReason || "Uploaded license failed validation against official aviation registry records."}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Upload Certificate Modal */}
       {uploadModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg rounded-3xl bg-[#0c142b] border border-slate-700 shadow-2xl p-6 sm:p-8 space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Upload className="w-4 h-4 text-cyan-400" />
-                Upload Commercial Drone Certificate
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-lg rounded-panel bg-surface border border-border shadow-2xl p-6 space-y-5 text-foreground">
+            <div className="flex items-center justify-between pb-3 border-b border-border">
+              <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                <Upload className="w-4 h-4 text-primary" />
+                Submit Commercial Pilot License
               </h3>
               <button
                 onClick={() => setUploadModalOpen(false)}
-                className="text-slate-400 hover:text-white text-sm"
+                className="text-muted-foreground hover:text-foreground text-sm p-1 rounded-control hover:bg-surface-2"
+                aria-label="Close dialog"
               >
                 ✕
               </button>
             </div>
 
             {error && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300">
-                {error}
-              </div>
+              <Alert variant="error">
+                <span>{error}</span>
+              </Alert>
             )}
 
             <form onSubmit={handleUploadSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Certification Authority / Type
-                </label>
+              <Field label="Certification Authority & License Type" htmlFor="cert-type-select">
                 <select
+                  id="cert-type-select"
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+                  className="w-full px-3 py-2 rounded-control bg-surface border border-border text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-ring"
                 >
                   <option value="FAA Part 107 Commercial Remote Pilot">FAA Part 107 Commercial Remote Pilot (USA)</option>
                   <option value="DGCA Remote Pilot License (RPL)">DGCA Remote Pilot License (RPL - India)</option>
@@ -300,58 +314,43 @@ export default function PilotCertificationPage() {
                   <option value="Pix4D / DroneDeploy Certified Photogrammetrist">Pix4D / DroneDeploy Certified Photogrammetrist</option>
                   <option value="Other National Aviation Commercial License">Other National Commercial License</option>
                 </select>
-              </div>
+              </Field>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Certificate / License Number
-                </label>
-                <input
+              <Field label="Certificate / License Registration Number" htmlFor="cert-number-input">
+                <Input
                   id="cert-number-input"
                   type="text"
                   required
                   value={number}
                   onChange={(e) => setNumber(e.target.value)}
                   placeholder="e.g. 4829104-FAA or RPL-2024-883"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
                 />
-              </div>
+              </Field>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    Issue Date
-                  </label>
-                  <input
+                <Field label="Issue Date" htmlFor="cert-issue-date-input">
+                  <Input
                     id="cert-issue-date-input"
                     type="date"
                     required
                     value={issueDate}
                     onChange={(e) => setIssueDate(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
                   />
-                </div>
+                </Field>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    Expiry Date
-                  </label>
-                  <input
+                <Field label="Expiry Date" htmlFor="cert-expiry-date-input">
+                  <Input
                     id="cert-expiry-date-input"
                     type="date"
                     required
                     value={expiryDate}
                     onChange={(e) => setExpiryDate(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
                   />
-                </div>
+                </Field>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Document File (PDF, PNG, JPG - max 10MB)
-                </label>
-                <div className="p-4 rounded-xl border-2 border-dashed border-slate-700 hover:border-cyan-500 text-center bg-[#070e22] transition cursor-pointer relative">
+              <Field label="Document Upload (PDF, PNG, JPG - max 10MB)">
+                <div className="p-4 rounded-control border-2 border-dashed border-border hover:border-primary text-center bg-surface-2 transition-colors cursor-pointer relative">
                   <input
                     id="cert-file-input"
                     type="file"
@@ -360,34 +359,36 @@ export default function PilotCertificationPage() {
                     onChange={handleFileChange}
                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                   />
-                  <FileText className="w-8 h-8 text-slate-500 mx-auto mb-1" />
+                  <FileText className="w-8 h-8 text-muted-foreground mx-auto mb-1.5 opacity-60" />
                   {file ? (
-                    <p className="text-xs font-bold text-cyan-400 truncate">{file.name}</p>
+                    <p className="text-xs font-semibold text-primary truncate">{file.name}</p>
                   ) : (
                     <>
-                      <p className="text-xs text-slate-300 font-semibold">Click or drag file here to upload</p>
-                      <p className="text-[10px] text-slate-500 mt-0.5">Scanned certificate or digital license card</p>
+                      <p className="text-xs text-foreground font-medium">Click or drag license document to upload</p>
+                      <p className="text-[11px] text-muted-foreground mt-0.5">Scanned certificate or digital license card</p>
                     </>
                   )}
                 </div>
-              </div>
+              </Field>
 
-              <div className="pt-3 flex gap-3">
-                <button
+              <div className="pt-2 flex gap-3">
+                <Button
                   type="button"
+                  variant="secondary"
+                  className="flex-1"
                   onClick={() => setUploadModalOpen(false)}
-                  className="flex-1 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-semibold text-xs"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   id="submit-cert-upload-btn"
                   type="submit"
+                  variant="primary"
+                  className="flex-1"
                   disabled={uploading}
-                  className="flex-1 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20"
                 >
-                  {uploading ? "Uploading & Submitting..." : "Submit for Verification"}
-                </button>
+                  {uploading ? "Submitting..." : "Submit for Verification"}
+                </Button>
               </div>
             </form>
           </div>

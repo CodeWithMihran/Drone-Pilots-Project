@@ -21,6 +21,9 @@ import {
 import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 function PilotActiveJobsContent() {
   const searchParams = useSearchParams();
@@ -82,23 +85,25 @@ function PilotActiveJobsContent() {
   const displayList = tab === "active" ? activeJobs : completedJobs;
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-6 max-w-5xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div>
-          <h1 className="text-2xl font-bold text-white">Assigned Flight Missions</h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Manage your active operations, flight deliverables, and mission completion logs.
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+            Assigned Flight Missions
+          </h1>
+          <p className="text-xs text-muted-foreground mt-1">
+            Track and advance contract milestones from takeoff clearance to final deliverable acceptance.
           </p>
         </div>
 
-        {/* Tabs */}
-        <div className="flex p-1 rounded-2xl bg-slate-900 border border-slate-800">
+        {/* Tab Controls */}
+        <div className="flex p-1 rounded-control bg-surface-2 border border-border self-start sm:self-auto">
           <button
             onClick={() => setTab("active")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-control text-xs font-semibold transition-colors flex items-center gap-1.5 ${
               tab === "active"
-                ? "bg-cyan-500 text-slate-950 shadow-md"
-                : "text-slate-400 hover:text-white"
+                ? "bg-primary text-primary-foreground shadow-xs"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             <Clock className="w-3.5 h-3.5" />
@@ -106,134 +111,136 @@ function PilotActiveJobsContent() {
           </button>
           <button
             onClick={() => setTab("completed")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-control text-xs font-semibold transition-colors flex items-center gap-1.5 ${
               tab === "completed"
-                ? "bg-cyan-500 text-slate-950 shadow-md"
-                : "text-slate-400 hover:text-white"
+                ? "bg-primary text-primary-foreground shadow-xs"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>Completed Missions ({completedJobs.length})</span>
+            <span>Completed ({completedJobs.length})</span>
           </button>
         </div>
       </div>
 
       {loading ? (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {[1, 2].map((i) => (
-            <div key={i} className="p-6 rounded-2xl bg-[#0c142b] border border-slate-800 animate-pulse h-36" />
+            <div key={i} className="p-6 rounded-panel bg-surface border border-border animate-pulse h-36" />
           ))}
         </div>
       ) : displayList.length === 0 ? (
         <EmptyState
           icon={Briefcase}
-          title={tab === "active" ? "No Active Missions" : "No Completed Missions Yet"}
+          title={tab === "active" ? "No active flight contracts" : "No completed operations yet"}
           description={
             tab === "active"
-              ? "You do not currently have assigned flight contracts in progress. Browse jobs to submit proposals."
-              : "Completed missions and client reviews will be archived here."
+              ? "You do not have assigned industrial operations in progress. Browse open missions to submit proposals."
+              : "Completed missions and client ratings will be cataloged here."
           }
-          actionText={tab === "active" ? "Browse Open Jobs" : undefined}
+          actionText={tab === "active" ? "Browse Open Missions" : undefined}
           actionHref={tab === "active" ? "/pilot/jobs" : undefined}
         />
       ) : (
         <div className="space-y-4">
           {displayList.map((job) => (
-            <div
-              key={job._id}
-              className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                <div className="space-y-1.5 flex-1">
+            <Card key={job._id}>
+              <CardContent className="p-6 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div className="space-y-1.5 flex-1">
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline" className="text-[11px]">
+                        {formatServiceType(job.serviceType)}
+                      </Badge>
+                      <StatusBadge status={job.status} type="job" />
+                    </div>
+
+                    <Link href={`/jobs/${job._id}`}>
+                      <h3 className="text-base font-semibold text-foreground hover:text-primary transition-colors">
+                        {job.title}
+                      </h3>
+                    </Link>
+
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground pt-0.5">
+                      <span className="flex items-center gap-1 font-medium text-foreground">
+                        <Building className="w-3.5 h-3.5 text-subtle" />
+                        Client: {job.companyId?.name}
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5 text-subtle" />
+                        {job.location?.city}, {job.location?.state}
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-subtle" />
+                        Flight Date: {formatDate(job.date)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="text-left sm:text-right">
+                    <span className="text-[11px] font-medium text-muted-foreground block">Milestone Escrow</span>
+                    <span className="text-xl font-bold text-success font-mono">
+                      {formatCurrency(job.budget)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Status progression controls */}
+                <div className="pt-3 border-t border-border flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                    {job.companyId?.phone && (
+                      <span className="flex items-center gap-1">
+                        <Phone className="w-3.5 h-3.5 text-subtle" />
+                        {job.companyId.phone}
+                      </span>
+                    )}
+                    {job.companyId?.email && (
+                      <span className="flex items-center gap-1">
+                        <Mail className="w-3.5 h-3.5 text-subtle" />
+                        {job.companyId.email}
+                      </span>
+                    )}
+                  </div>
+
                   <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[11px] font-semibold">
-                      {formatServiceType(job.serviceType)}
-                    </span>
-                    <StatusBadge status={job.status} type="job" />
+                    {job.status === "PILOT_SELECTED" && (
+                      <Button
+                        onClick={() => handleStatusUpdate(job._id, "IN_PROGRESS")}
+                        disabled={updating === job._id}
+                        variant="primary"
+                        size="sm"
+                        className="gap-1.5"
+                      >
+                        <Play className="w-3.5 h-3.5" />
+                        <span>Begin Mission Flight</span>
+                      </Button>
+                    )}
+
+                    {job.status === "IN_PROGRESS" && (
+                      <Button
+                        onClick={() => handleStatusUpdate(job._id, "COMPLETED")}
+                        disabled={updating === job._id}
+                        variant="primary"
+                        size="sm"
+                        className="gap-1.5 bg-success text-white hover:bg-success/90"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Mark Mission Completed</span>
+                      </Button>
+                    )}
+
+                    <Button asChild variant="secondary" size="sm">
+                      <Link href={`/jobs/${job._id}`} className="gap-1">
+                        <span>Mission Room</span>
+                        <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
+                      </Link>
+                    </Button>
                   </div>
-
-                  <Link href={`/jobs/${job._id}`}>
-                    <h3 className="text-lg font-bold text-white hover:text-cyan-300 transition">
-                      {job.title}
-                    </h3>
-                  </Link>
-
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 pt-0.5">
-                    <span className="flex items-center gap-1 text-slate-300">
-                      <Building className="w-3.5 h-3.5 text-cyan-400" />
-                      Client: {job.companyId?.name}
-                    </span>
-                    <span>•</span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-slate-500" />
-                      {job.location?.city}, {job.location?.state}
-                    </span>
-                    <span>•</span>
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-teal-400" />
-                      Flight Date: {formatDate(job.date)}
-                    </span>
-                  </div>
                 </div>
-
-                <div className="text-left sm:text-right">
-                  <span className="text-xs text-slate-400 block">Milestone Payout</span>
-                  <span className="text-xl font-bold text-emerald-400">
-                    {formatCurrency(job.budget)}
-                  </span>
-                </div>
-              </div>
-
-              {/* Status progression controls */}
-              <div className="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3 text-xs text-slate-400">
-                  {job.companyId?.phone && (
-                    <span className="flex items-center gap-1">
-                      <Phone className="w-3.5 h-3.5 text-cyan-400" />
-                      {job.companyId.phone}
-                    </span>
-                  )}
-                  {job.companyId?.email && (
-                    <span className="flex items-center gap-1">
-                      <Mail className="w-3.5 h-3.5 text-teal-400" />
-                      {job.companyId.email}
-                    </span>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {job.status === "PILOT_SELECTED" && (
-                    <button
-                      onClick={() => handleStatusUpdate(job._id, "IN_PROGRESS")}
-                      disabled={updating === job._id}
-                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md transition flex items-center gap-1.5"
-                    >
-                      <Play className="w-3.5 h-3.5" />
-                      <span>Start Mission (In Progress)</span>
-                    </button>
-                  )}
-
-                  {job.status === "IN_PROGRESS" && (
-                    <button
-                      onClick={() => handleStatusUpdate(job._id, "COMPLETED")}
-                      disabled={updating === job._id}
-                      className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center gap-1.5"
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      <span>Mark Mission Completed</span>
-                    </button>
-                  )}
-
-                  <Link
-                    href={`/jobs/${job._id}`}
-                    className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs transition flex items-center gap-1"
-                  >
-                    <span>Mission Room</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       )}
@@ -243,7 +250,7 @@ function PilotActiveJobsContent() {
 
 export default function PilotActiveJobsPage() {
   return (
-    <Suspense fallback={<div className="text-white text-xs">Loading active missions...</div>}>
+    <Suspense fallback={<div className="text-muted-foreground text-xs py-8 text-center">Loading active missions...</div>}>
       <PilotActiveJobsContent />
     </Suspense>
   );

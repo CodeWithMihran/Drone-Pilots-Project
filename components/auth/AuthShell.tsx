@@ -1,6 +1,7 @@
 import React from "react";
 import { Check } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 const points = [
   "Part 107 certificates checked before you hire",
@@ -46,9 +47,13 @@ export function AuthShell({
         <p className="text-caption text-subtle">Aether — Certified Drone Pilots</p>
       </aside>
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col relative">
         <div className="flex items-center justify-between border-b border-border px-5 py-4 lg:hidden">
           <Logo size="sm" />
+          <ThemeToggle />
+        </div>
+        <div className="hidden lg:flex absolute top-6 right-8 z-10">
+          <ThemeToggle />
         </div>
 
         <div className="flex flex-1 items-center justify-center px-5 py-10 sm:px-8">

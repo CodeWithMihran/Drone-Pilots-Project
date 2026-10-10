@@ -12,6 +12,11 @@ import {
   AlertCircle,
   FileText,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Field } from "@/components/ui/field";
+import { Alert } from "@/components/ui/alert";
 
 export default function CompanyProfileEditPage() {
   const [name, setName] = useState("");
@@ -86,7 +91,7 @@ export default function CompanyProfileEditPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to update profile");
 
-      setMessage({ type: "success", text: "Company profile updated successfully!" });
+      setMessage({ type: "success", text: "Organization profile updated successfully!" });
     } catch (err: any) {
       setMessage({ type: "error", text: err.message || "Update error" });
     } finally {
@@ -95,165 +100,133 @@ export default function CompanyProfileEditPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">Company Profile</h1>
-        <p className="text-xs text-slate-400 mt-1">
-          Manage your organization credentials, industrial sector, and headquarters location.
+    <div className="max-w-4xl space-y-6">
+      <div className="pb-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Organization Profile</h1>
+        <p className="text-xs text-muted-foreground mt-1">
+          Manage your enterprise credentials, industry sector, procurement contact, and headquarters location.
         </p>
       </div>
 
       {message.text && (
-        <div
-          className={`p-4 rounded-2xl border text-xs flex items-center gap-2.5 ${
-            message.type === "success"
-              ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
-              : "bg-rose-500/10 border-rose-500/30 text-rose-300"
-          }`}
-        >
-          {message.type === "success" ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-          ) : (
-            <AlertCircle className="w-4 h-4 text-rose-400" />
-          )}
+        <Alert variant={message.type === "success" ? "success" : "error"}>
           <span>{message.text}</span>
-        </div>
+        </Alert>
       )}
 
       <form onSubmit={handleSave} className="space-y-6">
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-            <Building className="w-4 h-4 text-cyan-400" />
-            Organization Profile
-          </h3>
+        <Card>
+          <CardHeader className="pb-3 border-b border-border">
+            <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Building className="w-4 h-4 text-primary" />
+              Enterprise Information
+            </CardTitle>
+            <CardDescription>
+              Visible to commercial pilots reviewing your posted mission briefs.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-6 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Company / Entity Legal Name" htmlFor="company-name-input">
+                <Input
+                  id="company-name-input"
+                  type="text"
+                  required
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                />
+              </Field>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Company / Organization Name
-              </label>
-              <input
-                id="company-name-input"
-                type="text"
-                required
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+              <Field label="Primary Sector" htmlFor="company-industry-select">
+                <select
+                  id="company-industry-select"
+                  value={industry}
+                  onChange={(e) => setIndustry(e.target.value)}
+                  className="w-full px-3 py-2 rounded-control bg-surface border border-border text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+                >
+                  <option value="Agriculture & Forestry">Agriculture & Forestry</option>
+                  <option value="Infrastructure & Utilities">Infrastructure & Utilities</option>
+                  <option value="Real Estate & Construction">Real Estate & Construction</option>
+                  <option value="Energy & Solar/Wind">Energy & Solar/Wind</option>
+                  <option value="Land Surveying & Mining">Land Surveying & Mining</option>
+                  <option value="Media & Cinema">Media & Cinema</option>
+                  <option value="Commercial Services">Commercial Services</option>
+                </select>
+              </Field>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Procurement Contact Person">
+                <Input
+                  type="text"
+                  required
+                  value={contactPerson}
+                  onChange={(e) => setContactPerson(e.target.value)}
+                />
+              </Field>
+
+              <Field label="Corporate Website">
+                <Input
+                  type="url"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  placeholder="https://company.com"
+                />
+              </Field>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <Field label="Phone Contact">
+                <Input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+1 (555) 019-2834"
+                />
+              </Field>
+
+              <Field label="City Headquarters">
+                <Input
+                  type="text"
+                  required
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </Field>
+
+              <Field label="State / Region">
+                <Input
+                  type="text"
+                  required
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                />
+              </Field>
+            </div>
+
+            <Field label="Company Mission & Flight Operations Profile">
+              <textarea
+                rows={4}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Describe your organization's flight requirements, safety compliance, site access procedures..."
+                className="w-full p-3 rounded-control bg-surface border border-border text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-ring leading-relaxed"
               />
-            </div>
+            </Field>
+          </CardContent>
+        </Card>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Industry Sector
-              </label>
-              <select
-                value={industry}
-                onChange={(e) => setIndustry(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-              >
-                <option value="Agriculture & Forestry">Agriculture & Forestry</option>
-                <option value="Infrastructure & Utilities">Infrastructure & Utilities</option>
-                <option value="Real Estate & Construction">Real Estate & Construction</option>
-                <option value="Energy & Solar/Wind">Energy & Solar/Wind</option>
-                <option value="Land Surveying & Mining">Land Surveying & Mining</option>
-                <option value="Media & Cinema">Media & Cinema</option>
-                <option value="Commercial Services">Commercial Services</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Primary Contact Person
-              </label>
-              <input
-                type="text"
-                required
-                value={contactPerson}
-                onChange={(e) => setContactPerson(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Website URL
-              </label>
-              <input
-                type="url"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-                placeholder="https://company.com"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+1 (555) 019-2834"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                City HQ
-              </label>
-              <input
-                type="text"
-                required
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                State / Region
-              </label>
-              <input
-                type="text"
-                required
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Company Description & Mission Focus
-            </label>
-            <textarea
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe your organization's flight requirements, safety compliance, and procurement profile..."
-              className="w-full p-3 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-            />
-          </div>
-        </div>
-
-        <button
+        <Button
           id="save-company-profile-btn"
           type="submit"
+          variant="primary"
+          size="md"
           disabled={saving}
-          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-400 hover:opacity-95 text-slate-950 font-bold text-xs shadow-xl shadow-cyan-500/20 transition flex items-center justify-center gap-2 disabled:opacity-50"
+          className="gap-2"
         >
           <Save className="w-4 h-4" />
-          <span>{saving ? "Saving Changes..." : "Save Company Profile"}</span>
-        </button>
+          <span>{saving ? "Saving Changes..." : "Save Organization Profile"}</span>
+        </Button>
       </form>
     </div>
   );
