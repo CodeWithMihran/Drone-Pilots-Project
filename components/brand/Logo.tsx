@@ -18,12 +18,13 @@ export function Logo({
   return (
     <Link href={href} className="inline-flex items-center gap-2.5 text-foreground">
       <span
+        suppressHydrationWarning
         className={cn(
           "inline-flex items-center justify-center rounded-control bg-primary/15 text-primary",
           mark
         )}
       >
-        <Navigation className={cn(icon, "-rotate-45")} />
+        <Navigation suppressHydrationWarning className={cn(icon, "-rotate-45")} />
       </span>
       {showWordmark && (
         <span className="flex flex-col leading-none">

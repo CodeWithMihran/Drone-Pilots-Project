@@ -37,22 +37,31 @@ function LoginForm() {
     setLoading(true);
 
     try {
+      const cleanCallback = callbackUrl && !callbackUrl.includes("/login") ? callbackUrl : "";
+
       const res = await signIn("credentials", {
-        email,
+        email: email.trim().toLowerCase(),
         password,
         redirect: false,
+        callbackUrl: cleanCallback || "/",
       });
 
       if (res?.error) {
-        setError(res.error);
+        if (res.error === "CredentialsSignin" || res.error === "Invalid email or password") {
+          setError("Invalid email or password. Please verify your credentials.");
+        } else if (res.error === "Configuration") {
+          setError("Invalid credentials or authentication error. Please try again.");
+        } else {
+          setError(res.error);
+        }
         setLoading(false);
       } else {
         const sessionRes = await fetch("/api/auth/session");
         const sessionData = await sessionRes.json();
         const role = sessionData?.user?.role;
 
-        if (callbackUrl && !callbackUrl.includes("/login")) {
-          router.push(callbackUrl);
+        if (cleanCallback) {
+          router.push(cleanCallback);
         } else if (role === "PILOT") {
           router.push("/pilot/dashboard");
         } else if (role === "COMPANY") {

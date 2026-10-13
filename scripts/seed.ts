@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import { connectToDatabase } from "../lib/mongodb";
@@ -10,6 +12,18 @@ import { Application } from "../models/Application";
 import { Payment } from "../models/Payment";
 import { Review } from "../models/Review";
 import { Notification } from "../models/Notification";
+
+// Auto-load .env.local if MONGODB_URI not set
+if (!process.env.MONGODB_URI) {
+  const envPath = path.resolve(process.cwd(), ".env.local");
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, "utf-8");
+    const uriMatch = envContent.match(/^MONGODB_URI=(.+)$/m);
+    if (uriMatch && uriMatch[1].trim()) {
+      process.env.MONGODB_URI = uriMatch[1].trim();
+    }
+  }
+}
 
 async function seed() {
   console.log("Connecting to database for seeding...");
