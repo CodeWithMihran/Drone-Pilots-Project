@@ -423,6 +423,7 @@ export async function connectToDatabase() {
       if (uri) {
         try {
           const conn = await mongoose.connect(uri, { ...opts, serverSelectionTimeoutMS: 2000 });
+          await autoSeedInMemory();
           return conn;
         } catch (err: any) {
           console.warn("Direct MongoDB connection failed:", err.message);

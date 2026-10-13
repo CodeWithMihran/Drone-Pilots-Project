@@ -15,6 +15,10 @@ import {
 import { formatCurrency } from "@/lib/utils";
 import { StarRating } from "@/components/shared/StarRating";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 
 export default function CompanyPilotsDirectoryPage() {
   const [pilots, setPilots] = useState<any[]>([]);
@@ -45,138 +49,134 @@ export default function CompanyPilotsDirectoryPage() {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-6 max-w-5xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div>
-          <h1 className="text-2xl font-bold text-white">Verified Commercial Pilots</h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Browse FAA Part 107 verified pilots with enterprise sensors and certified flight hours.
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+            Verified Commercial Pilots
+          </h1>
+          <p className="text-xs text-muted-foreground mt-1">
+            Browse FAA Part 107 verified operators equipped with enterprise sensors, LiDAR, and thermal cameras.
           </p>
         </div>
 
-        <Link
-          href="/company/post-job"
-          className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-md transition flex items-center gap-1.5 self-start sm:self-auto"
-        >
-          <Briefcase className="w-4 h-4" />
-          <span>Post Tender to Hire</span>
-        </Link>
+        <Button asChild variant="primary" size="sm" className="gap-1.5 self-start sm:self-auto">
+          <Link href="/company/post-job">
+            <Briefcase className="w-4 h-4" />
+            <span>Post Mission to Hire</span>
+          </Link>
+        </Button>
       </div>
 
       {/* Search Bar */}
-      <div className="p-4 rounded-2xl bg-[#0c142b] border border-slate-800/80 shadow-lg">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            fetchPilots();
-          }}
-          className="flex gap-3"
-        >
-          <div className="relative flex-1">
-            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name, location, LiDAR, thermal, or agricultural payload..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-md transition"
+      <Card>
+        <CardContent className="p-4">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              fetchPilots();
+            }}
+            className="flex gap-3"
           >
-            Search
-          </button>
-        </form>
-      </div>
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
+              <Input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search by pilot name, base location, LiDAR, thermal, or agricultural payload..."
+                className="pl-9"
+              />
+            </div>
+            <Button type="submit" variant="primary" size="sm" className="px-5 shrink-0">
+              Search
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
 
       {/* Pilots Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800 animate-pulse h-48" />
+            <div key={i} className="p-6 rounded-panel bg-surface border border-border animate-pulse h-48" />
           ))}
         </div>
       ) : pilots.length === 0 ? (
         <EmptyState
           icon={Plane}
-          title="No Pilots Found"
-          description="No verified pilots matched your criteria. Try searching for a different skill or city."
+          title="No verified pilots found"
+          description="No pilots matched your criteria. Try adjusting your search query."
         />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {pilots.map((pilot) => (
-            <div
+            <Card
               key={pilot._id}
-              className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg flex flex-col justify-between hover:border-cyan-500/40 transition group"
+              className="flex flex-col justify-between hover:border-border-strong transition-all"
             >
-              <div className="space-y-4">
-                <div className="flex items-start justify-between">
+              <CardContent className="p-6 space-y-4">
+                <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-600 to-teal-400 p-0.5 shadow-md">
-                      <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center font-bold text-cyan-300 text-base">
-                        {pilot.name ? pilot.name.charAt(0).toUpperCase() : "P"}
-                      </div>
+                    <div className="w-10 h-10 rounded-control bg-primary/10 text-primary font-bold text-sm flex items-center justify-center shrink-0">
+                      {pilot.name ? pilot.name.charAt(0).toUpperCase() : "P"}
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-white group-hover:text-cyan-300 transition">
+                      <h3 className="text-sm font-semibold text-foreground leading-tight">
                         {pilot.name}
                       </h3>
-                      <p className="text-xs text-slate-400 flex items-center gap-1">
-                        <MapPin className="w-3 h-3 text-cyan-400" />
-                        {pilot.location?.city || "Regional"}, {pilot.location?.state}
+                      <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                        <MapPin className="w-3 h-3 text-subtle" />
+                        {pilot.location?.city || "Station Base"}, {pilot.location?.state}
                       </p>
                     </div>
                   </div>
 
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-300 flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3" />
-                    VERIFIED
-                  </span>
+                  <Badge variant="success" className="text-[10px] px-2 py-0 shrink-0">
+                    Part 107
+                  </Badge>
                 </div>
 
-                <div className="flex items-center justify-between text-xs py-2 border-y border-slate-800/80">
+                <div className="flex items-center justify-between text-xs py-2 border-y border-border">
                   <StarRating
                     rating={pilot.profile?.rating || 5.0}
                     totalReviews={pilot.profile?.totalReviews || 0}
                     size="sm"
                   />
-                  <span className="text-slate-300 font-semibold">
-                    {pilot.profile?.experience || 1}+ yrs exp
+                  <span className="text-muted-foreground font-medium">
+                    {pilot.profile?.experience || 2}+ yrs exp
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                  {pilot.profile?.bio || "Licensed commercial drone operator specializing in industrial flight surveys and mapping."}
+                <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                  {pilot.profile?.bio || "Licensed commercial remote pilot specializing in enterprise photogrammetry and aerial inspections."}
                 </p>
 
                 {pilot.profile?.equipment && pilot.profile.equipment.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-1">
                     {pilot.profile.equipment.slice(0, 2).map((eq: string, idx: number) => (
-                      <span key={idx} className="px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-700 text-[10px] text-cyan-300">
+                      <span key={idx} className="px-2 py-0.5 rounded text-[10px] bg-surface-2 border border-border text-foreground font-mono">
                         {eq}
                       </span>
                     ))}
                   </div>
                 )}
-              </div>
+              </CardContent>
 
-              <div className="pt-5 mt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <div className="p-6 pt-0 border-t border-border flex items-center justify-between mt-auto pt-4">
                 <div>
-                  <span className="text-xs font-bold text-cyan-400">${pilot.profile?.rate || 75}/hr</span>
-                  <span className="text-[10px] text-slate-500 block">Est. Rate</span>
+                  <span className="text-xs font-bold text-foreground font-mono">${pilot.profile?.rate || 85}/hr</span>
+                  <span className="text-[10px] text-subtle block">Standard Rate</span>
                 </div>
 
-                <Link
-                  href={`/pilots/${pilot._id}`}
-                  className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition flex items-center gap-1"
-                >
-                  <span>View Credentials</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                <Button asChild variant="secondary" size="sm">
+                  <Link href={`/pilots/${pilot._id}`} className="gap-1 text-xs">
+                    <span>Credentials</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
+                  </Link>
+                </Button>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       )}

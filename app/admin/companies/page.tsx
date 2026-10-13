@@ -4,6 +4,10 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Building, Search, Briefcase, MapPin, Globe } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 
 export default function AdminCompaniesDirectoryPage() {
   const [companies, setCompanies] = useState<any[]>([]);
@@ -33,87 +37,95 @@ export default function AdminCompaniesDirectoryPage() {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">Enterprise Client Directory</h1>
-        <p className="text-xs text-slate-400 mt-1">
+    <div className="space-y-6 max-w-6xl">
+      <div className="pb-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+          Enterprise Client Directory
+        </h1>
+        <p className="text-xs text-muted-foreground mt-1">
           Organizations, procurement entities, and commercial tender publishers.
         </p>
       </div>
 
-      <div className="p-4 rounded-2xl bg-[#0c142b] border border-slate-800/80 shadow-lg">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            fetchCompanies();
-          }}
-          className="flex gap-3"
-        >
-          <div className="relative flex-1">
-            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search companies by name, industry, or location..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="px-5 py-2.5 rounded-xl bg-cyan-500 text-slate-950 font-bold text-xs shadow-md"
+      <Card>
+        <CardContent className="p-4">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              fetchCompanies();
+            }}
+            className="flex gap-3"
           >
-            Search
-          </button>
-        </form>
-      </div>
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
+              <Input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search companies by legal name, sector, or city..."
+                className="pl-9"
+              />
+            </div>
+            <Button
+              type="submit"
+              variant="primary"
+              size="sm"
+              className="px-5 shrink-0"
+            >
+              Search
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {loading ? (
           [1, 2, 3].map((i) => (
-            <div key={i} className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800 animate-pulse h-44" />
+            <div key={i} className="p-6 rounded-panel bg-surface border border-border animate-pulse h-44" />
           ))
         ) : companies.length === 0 ? (
           <div className="col-span-3">
             <EmptyState
               icon={Building}
-              title="No Companies Found"
-              description="No company profiles matched your search."
+              title="No companies found"
+              description="No enterprise client records matched your search."
             />
           </div>
         ) : (
           companies.map((c) => (
-            <div
+            <Card
               key={c._id}
-              className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg flex flex-col justify-between space-y-4"
+              className="flex flex-col justify-between hover:border-border-strong transition-all"
             >
-              <div className="space-y-3">
+              <CardContent className="p-6 space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-800 text-cyan-400 font-bold text-lg flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-control bg-primary/10 text-primary font-bold text-sm flex items-center justify-center shrink-0">
                     {c.profile?.companyName ? c.profile.companyName.charAt(0) : "C"}
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-white">{c.profile?.companyName || c.name}</h3>
-                    <p className="text-xs text-cyan-400">{c.profile?.industry || "Commercial Services"}</p>
-                    <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-slate-500" />
-                      {c.location?.city || "USA"}, {c.location?.state}
+                    <h3 className="text-base font-semibold text-foreground">{c.profile?.companyName || c.name}</h3>
+                    <p className="text-xs text-primary font-medium">{c.profile?.industry || "Commercial Services"}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-subtle" />
+                      {c.location?.city || "Station Base"}, {c.location?.state}
                     </p>
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-400 line-clamp-2">
-                  {c.profile?.description || "Commercial drone services client."}
+                <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                  {c.profile?.description || "Industrial flight client."}
                 </p>
-              </div>
+              </CardContent>
 
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-                <span className="text-slate-400">
-                  Total Tenders: <strong className="text-white">{c.totalJobsPosted || 0}</strong>
+              <div className="p-6 pt-0 border-t border-border flex items-center justify-between text-xs pt-4 mt-auto">
+                <span className="text-muted-foreground">
+                  Posted Missions: <strong className="text-foreground">{c.totalJobsPosted || 0}</strong>
                 </span>
-                <span className="text-emerald-400 font-bold">Active Account</span>
+                <Badge variant="success" className="text-[10px]">
+                  Verified Account
+                </Badge>
               </div>
-            </div>
+            </Card>
           ))
         )}
       </div>

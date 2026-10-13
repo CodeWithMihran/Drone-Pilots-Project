@@ -18,6 +18,7 @@ import {
 import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
 
 export default function CompanyMyJobsPage() {
   const [jobs, setJobs] = useState<any[]>([]);
@@ -60,26 +61,25 @@ export default function CompanyMyJobsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-5xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">My Drone Projects</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">My Drone Projects</h1>
+          <p className="text-sm text-muted-foreground mt-1.5">
             Track and manage all industrial drone tenders posted by your organization.
           </p>
         </div>
 
-        <Link
-          href="/company/post-job"
-          className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition flex items-center gap-1.5 self-start sm:self-auto"
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span>Post New Project</span>
-        </Link>
+        <Button asChild size="lg" className="self-start sm:self-auto">
+          <Link href="/company/post-job">
+            <PlusCircle className="w-4 h-4 mr-2" />
+            Post New Project
+          </Link>
+        </Button>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-[#0c142b] border border-slate-800">
+      <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-secondary/50 border border-border">
         {[
           { label: "All Projects", val: "ALL" },
           { label: "Open & Bidding", val: "OPEN" },
@@ -91,10 +91,10 @@ export default function CompanyMyJobsPage() {
           <button
             key={tab.val}
             onClick={() => setStatusFilter(tab.val)}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
+            className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
               statusFilter === tab.val
-                ? "bg-cyan-500 text-slate-950 shadow-md"
-                : "text-slate-400 hover:text-white"
+                ? "bg-background text-foreground shadow-sm border border-border/50"
+                : "text-muted-foreground hover:text-foreground hover:bg-background/50 border border-transparent"
             }`}
           >
             {tab.label}
@@ -105,7 +105,7 @@ export default function CompanyMyJobsPage() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-6 rounded-2xl bg-[#0c142b] border border-slate-800 animate-pulse h-32" />
+            <div key={i} className="p-6 sm:p-8 rounded-3xl bg-card border border-border shadow-sm animate-pulse h-32" />
           ))}
         </div>
       ) : jobs.length === 0 ? (
@@ -117,82 +117,92 @@ export default function CompanyMyJobsPage() {
           actionHref="/company/post-job"
         />
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-5">
           {jobs.map((job) => (
             <div
               key={job._id}
-              className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4"
+              className="p-6 sm:p-8 rounded-3xl bg-card border border-border shadow-sm space-y-5 hover:border-border-strong transition-colors"
             >
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                <div className="space-y-1.5 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[11px] font-semibold">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
+                <div className="space-y-2 flex-1">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <span className="px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] font-bold uppercase tracking-wider">
                       {formatServiceType(job.serviceType)}
                     </span>
                     <StatusBadge status={job.status} type="job" />
                   </div>
 
                   <Link href={`/jobs/${job._id}`}>
-                    <h3 className="text-base font-bold text-white hover:text-cyan-300 transition">
+                    <h3 className="text-lg font-bold text-foreground hover:text-primary transition-colors">
                       {job.title}
                     </h3>
                   </Link>
 
-                  <p className="text-xs text-slate-400 flex items-center gap-3">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+                  <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                    <span className="flex items-center gap-1.5 font-medium">
+                      <MapPin className="w-4 h-4 text-primary" />
                       {job.location?.city}, {job.location?.state}
                     </span>
-                    <span>•</span>
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-teal-400" />
+                    <span className="hidden sm:inline">•</span>
+                    <span className="flex items-center gap-1.5 font-medium">
+                      <Calendar className="w-4 h-4 text-primary" />
                       Date: {formatDate(job.date)}
                     </span>
-                  </p>
+                  </div>
                 </div>
 
-                <div className="text-left sm:text-right">
-                  <span className="text-xs text-slate-400 block">Project Budget</span>
-                  <span className="text-xl font-bold text-white">
+                <div className="text-left sm:text-right bg-surface-2 sm:bg-transparent p-4 sm:p-0 rounded-2xl shrink-0">
+                  <span className="text-sm text-muted-foreground block mb-0.5">Project Budget</span>
+                  <span className="text-2xl font-bold text-foreground">
                     {formatCurrency(job.budget)}
                   </span>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
-                <div className="text-xs text-slate-400">
+              <div className="pt-5 border-t border-border flex flex-wrap items-center justify-between gap-4">
+                <div className="text-sm text-muted-foreground font-medium">
                   {job.assignedPilotId ? (
-                    <span>Assigned Pilot: <strong className="text-cyan-300">{job.assignedPilotId.name}</strong></span>
+                    <span>Assigned Pilot: <strong className="text-primary">{job.assignedPilotId.name}</strong></span>
                   ) : (
                     <span>Accepting verified pilot applications</span>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Link
-                    href={`/company/applications?jobId=${job._id}`}
-                    className="px-3.5 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-md transition flex items-center gap-1.5"
-                  >
-                    <FileCheck2 className="w-3.5 h-3.5" />
-                    <span>View Proposals</span>
-                  </Link>
+                <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+                  <Button asChild className="w-full sm:w-auto">
+                    <Link href={`/company/applications?jobId=${job._id}`}>
+                      <FileCheck2 className="w-4 h-4 mr-2" />
+                      View Proposals
+                    </Link>
+                  </Button>
 
-                  <Link
-                    href={`/jobs/${job._id}`}
-                    className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold"
-                  >
-                    Job Specs
-                  </Link>
+                  <Button variant="secondary" asChild className="w-full sm:w-auto">
+                    <Link href={`/jobs/${job._id}`}>
+                      Job Specs
+                    </Link>
+                  </Button>
 
                   {job.status !== "COMPLETED" && job.status !== "CANCELLED" && (
-                    <button
+                    <Button
+                      variant="destructive"
+                      size="icon"
                       onClick={() => handleCancelJob(job._id)}
-                      className="p-1.5 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-xs"
                       title="Cancel Job"
+                      className="hidden sm:flex"
                     >
                       <Trash2 className="w-4 h-4" />
-                    </button>
+                    </Button>
+                  )}
+                  {/* Mobile Cancel Button */}
+                  {job.status !== "COMPLETED" && job.status !== "CANCELLED" && (
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleCancelJob(job._id)}
+                      className="w-full sm:hidden"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" /> Cancel Job
+                    </Button>
                   )}
                 </div>
               </div>

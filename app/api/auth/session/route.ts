@@ -17,7 +17,7 @@ export async function GET() {
     const user = await User.findById(sessionUser.id).select("-passwordHash").lean();
 
     if (!user) {
-      return NextResponse.json({ user: null }, { status: 404 });
+      return NextResponse.json({ user: null });
     }
 
     let profile: any = null;
@@ -42,13 +42,15 @@ export async function GET() {
     return NextResponse.json({
       user: {
         ...user,
+        id: user._id.toString(),
         profile,
         isVerified,
         latestCertification,
       },
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
     });
   } catch (error: any) {
     console.error("Session fetch error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ user: null });
   }
 }

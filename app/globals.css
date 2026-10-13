@@ -3,52 +3,135 @@
 @import "tailwindcss/utilities";
 
 :root {
-  --background: #060b18;
-  --foreground: #f1f5f9;
-  --card: #0b132b;
-  --card-foreground: #f8fafc;
-  --popover: #0e1738;
-  --popover-foreground: #f8fafc;
-  --primary: #06b6d4;
-  --primary-foreground: #02121e;
-  --secondary: #1c2541;
-  --secondary-foreground: #f1f5f9;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #22d3ee;
-  --accent-foreground: #082f49;
-  --destructive: #ef4444;
+  /* LIGHT MODE - Crisp, Architectural, Clean Aviation Surface */
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-subtle: #64748b;
+  
+  --primary: #0284c7;
+  --primary-hover: #0369a1;
+  --primary-fg: #ffffff;
+  --primary-rgb: 2 132 199;
+
+  --success: #16a34a;
+  --success-rgb: 22 163 74;
+  --warning: #d97706;
+  --warning-rgb: 217 119 6;
+  --danger: #dc2626;
+  --danger-rgb: 220 38 38;
+  --info: #2563eb;
+  --info-rgb: 37 99 235;
+
+  --ring: rgba(2, 132, 199, 0.35);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Legacy aliases */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary-foreground: var(--primary-fg);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--primary);
+  --accent-foreground: var(--primary-fg);
+  --destructive: var(--danger);
   --destructive-foreground: #ffffff;
-  --border: #1e293b;
-  --input: #1c2541;
-  --ring: #06b6d4;
-  --radius: 0.75rem;
+  --input: var(--surface-2);
+  --radius: var(--radius-md);
+}
+
+.dark {
+  /* DARK MODE - Deep Maritime Obsidian & Precision Aerospace Sky */
+  --bg: #090d16;
+  --surface: #101726;
+  --surface-2: #162034;
+  
+  --border: #233148;
+  --border-strong: #334462;
+  
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  
+  --primary: #38bdf8;
+  --primary-hover: #0ea5e9;
+  --primary-fg: #080c14;
+  --primary-rgb: 56 189 248;
+
+  --success: #34d399;
+  --success-rgb: 52 211 153;
+  --warning: #fbbf24;
+  --warning-rgb: 251 191 36;
+  --danger: #f87171;
+  --danger-rgb: 248 113 113;
+  --info: #60a5fa;
+  --info-rgb: 96 165 250;
+
+  --ring: rgba(56, 189, 248, 0.35);
+
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary-foreground: var(--primary-fg);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--primary);
+  --accent-foreground: var(--primary-fg);
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+  --input: var(--surface-2);
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: hidden;
 }
 
-/* Custom scrollbar for modern sleek aesthetic */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-::-webkit-scrollbar-track {
-  background: #070d1e;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+::selection {
+  background: rgba(31, 168, 184, 0.28);
+  color: var(--text);
 }
 
-/* Glassmorphism and glow utilities */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* Kept so existing (not-yet-restyled) pages do not break */
 .glass-card {
   background: rgba(11, 19, 43, 0.75);
   backdrop-filter: blur(12px);
@@ -61,6 +144,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.25s ease;
 }
+
 .glass-card-hover:hover {
   border-color: rgba(6, 182, 212, 0.4);
   transform: translateY(-2px);

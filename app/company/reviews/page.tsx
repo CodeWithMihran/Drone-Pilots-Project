@@ -6,6 +6,8 @@ import { Star, MessageSquare, Briefcase, ArrowRight } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { StarRating } from "@/components/shared/StarRating";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function CompanyReviewsPage() {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -41,79 +43,79 @@ export default function CompanyReviewsPage() {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">Pilot Reviews & Organization Ratings</h1>
-        <p className="text-xs text-slate-400 mt-1">
-          Feedback left by commercial pilots after completing flight contracts for your organization.
+    <div className="space-y-6 max-w-5xl">
+      <div className="pb-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+          Pilot Feedback & Reputation
+        </h1>
+        <p className="text-xs text-muted-foreground mt-1">
+          Reviews submitted by commercial pilots following mission completion and milestone payouts.
         </p>
       </div>
 
-      <div className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="text-4xl font-black text-amber-400">
-            {averageRating.toFixed(1)}
+      <Card>
+        <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-5">
+            <div className="text-4xl font-bold text-foreground font-mono">
+              {averageRating.toFixed(1)}
+            </div>
+            <div>
+              <StarRating rating={averageRating} size="lg" />
+              <p className="text-xs text-muted-foreground mt-1">
+                Based on {totalReviews} mission {totalReviews === 1 ? "review" : "reviews"}
+              </p>
+            </div>
           </div>
-          <div>
-            <StarRating rating={averageRating} size="lg" />
-            <p className="text-xs text-slate-400 mt-1">
-              Based on {totalReviews} completed project {totalReviews === 1 ? "review" : "reviews"}
-            </p>
-          </div>
-        </div>
 
-        <Link
-          href="/company/jobs"
-          className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs transition"
-        >
-          Review Completed Flights
-        </Link>
-      </div>
+          <Button asChild variant="secondary" size="sm">
+            <Link href="/company/jobs">Inspect Active Missions</Link>
+          </Button>
+        </CardContent>
+      </Card>
 
       <div className="space-y-4">
         {loading ? (
           <div className="space-y-3">
             {[1, 2].map((i) => (
-              <div key={i} className="h-24 bg-slate-800/40 rounded-2xl animate-pulse" />
+              <div key={i} className="h-24 bg-surface rounded-panel border border-border animate-pulse" />
             ))}
           </div>
         ) : reviews.length === 0 ? (
           <EmptyState
             icon={Star}
-            title="No Pilot Reviews Yet"
-            description="Pilots will leave feedback for your organization upon completing mission milestones."
+            title="No pilot reviews recorded yet"
+            description="Pilots will provide feedback on communication, site readiness, and payment speed upon contract fulfillment."
           />
         ) : (
           reviews.map((rev) => (
-            <div
-              key={rev._id}
-              className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-3"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-slate-800 text-cyan-400 font-bold text-xs flex items-center justify-center">
-                    {rev.reviewerId?.name ? rev.reviewerId.name.charAt(0) : "P"}
+            <Card key={rev._id}>
+              <CardContent className="p-6 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-control bg-primary/10 text-primary font-bold text-xs flex items-center justify-center shrink-0">
+                      {rev.reviewerId?.name ? rev.reviewerId.name.charAt(0) : "P"}
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-foreground">
+                        {rev.reviewerId?.name || "Verified Pilot"}
+                      </h4>
+                      <p className="text-[11px] text-muted-foreground">
+                        Mission: <strong className="text-foreground">{rev.jobId?.title || "Flight Operation"}</strong>
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white">
-                      {rev.reviewerId?.name || "Verified Pilot"}
-                    </h4>
-                    <p className="text-[11px] text-slate-400">
-                      Project: <strong className="text-cyan-300">{rev.jobId?.title || "Flight Mission"}</strong>
-                    </p>
+
+                  <div className="flex items-center gap-3">
+                    <StarRating rating={rev.rating} size="sm" />
+                    <span className="text-xs text-subtle">{formatDate(rev.createdAt)}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <StarRating rating={rev.rating} size="sm" />
-                  <span className="text-xs text-slate-500">{formatDate(rev.createdAt)}</span>
-                </div>
-              </div>
-
-              <p className="text-xs text-slate-300 leading-relaxed italic bg-slate-900/40 p-3.5 rounded-2xl border border-slate-800/60">
-                "{rev.comment}"
-              </p>
-            </div>
+                <p className="text-xs text-foreground leading-relaxed italic bg-surface-2 p-3.5 rounded-control border border-border">
+                  "{rev.comment}"
+                </p>
+              </CardContent>
+            </Card>
           ))
         )}
       </div>

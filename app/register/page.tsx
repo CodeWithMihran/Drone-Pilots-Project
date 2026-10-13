@@ -4,24 +4,21 @@ import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
-import {
-  Navigation,
-  ShieldCheck,
-  Building,
-  User,
-  Mail,
-  Lock,
-  Phone,
-  MapPin,
-  ArrowRight,
-  AlertCircle,
-} from "lucide-react";
+import { AuthShell } from "@/components/auth/AuthShell";
+import { Alert } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+import { Select } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialRole = searchParams.get("role") === "COMPANY" ? "COMPANY" : "PILOT";
 
+  const [step, setStep] = useState<1 | 2>(1);
   const [role, setRole] = useState<"PILOT" | "COMPANY">(initialRole);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,11 +29,34 @@ function RegisterForm() {
   const [companyName, setCompanyName] = useState("");
   const [industry, setIndustry] = useState("Commercial Services");
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+
+  const goToDetails = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    const next: Record<string, string> = {};
+    if (name.trim().length < 2) next.name = "Enter your full name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = "Enter a valid email.";
+    if (password.length < 6) next.password = "Use at least 6 characters.";
+    setFieldErrors(next);
+    if (Object.keys(next).length > 0) return;
+    setStep(2);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    const next: Record<string, string> = {};
+    if (!city.trim()) next.city = "Enter your city.";
+    if (!state.trim()) next.state = "Enter your state.";
+    if (role === "COMPANY" && companyName.trim().length < 2) {
+      next.companyName = "Enter the company name.";
+    }
+    setFieldErrors(next);
+    if (Object.keys(next).length > 0) return;
+
     setLoading(true);
 
     try {
@@ -63,7 +83,6 @@ function RegisterForm() {
         throw new Error(data.error || "Failed to create account.");
       }
 
-      // Auto sign in with credentials
       const signInRes = await signIn("credentials", {
         email,
         password,
@@ -81,89 +100,135 @@ function RegisterForm() {
         router.refresh();
       }
     } catch (err: any) {
-      setError(err.message || "Something went wrong.");
+      const msg = err.message || "Something went wrong.";
+      // Automatically bounce user back to Step 1 if the error is about the email
+      if (msg.toLowerCase().includes("email") || msg.toLowerCase().includes("exists")) {
+        setStep(1);
+        setFieldErrors({ email: msg });
+      } else {
+        setError(msg);
+      }
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-lg relative z-10">
-      <div className="p-8 rounded-3xl bg-[#0b132b]/90 border border-slate-800 shadow-2xl backdrop-blur-md">
-        {/* Header */}
-        <div className="text-center mb-6">
-          <Link href="/" className="inline-flex items-center gap-2 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-teal-400 p-0.5 shadow-lg shadow-cyan-500/20">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Navigation className="w-5 h-5 text-cyan-400 transform -rotate-45" />
-              </div>
+    <>
+      <div className="mb-6 flex items-center gap-3 text-caption">
+        <span className={cn("font-medium", step === 1 ? "text-foreground" : "text-subtle")}>
+          1. Account
+        </span>
+        <span className="h-px flex-1 bg-border" />
+        <span className={cn("font-medium", step === 2 ? "text-foreground" : "text-subtle")}>
+          2. Details
+        </span>
+      </div>
+
+      {error && (
+        <div className="mb-5">
+          <Alert tone="error">{error}</Alert>
+        </div>
+      )}
+
+      {step === 1 ? (
+        <form onSubmit={goToDetails} className="space-y-4" noValidate>
+          <div>
+            <p className="mb-1.5 text-label text-foreground">I am joining as</p>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                aria-pressed={role === "PILOT"}
+                onClick={() => setRole("PILOT")}
+                className={cn(
+                  "h-11 rounded-control border text-body font-medium transition-colors",
+                  role === "PILOT"
+                    ? "border-primary bg-primary/10 text-foreground"
+                    : "border-border text-muted-foreground hover:border-border-strong"
+                )}
+              >
+                Pilot
+              </button>
+              <button
+                type="button"
+                aria-pressed={role === "COMPANY"}
+                onClick={() => setRole("COMPANY")}
+                className={cn(
+                  "h-11 rounded-control border text-body font-medium transition-colors",
+                  role === "COMPANY"
+                    ? "border-primary bg-primary/10 text-foreground"
+                    : "border-border text-muted-foreground hover:border-border-strong"
+                )}
+              >
+                Company
+              </button>
             </div>
-          </Link>
-          <h1 className="text-2xl font-bold text-white">Create Your Account</h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Join the certified commercial flight network
-          </p>
-        </div>
-
-        {/* Role Selector Tabs */}
-        <div className="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-slate-900/80 border border-slate-800 mb-6">
-          <button
-            type="button"
-            onClick={() => setRole("PILOT")}
-            className={`py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition ${
-              role === "PILOT"
-                ? "bg-cyan-500 text-slate-950 shadow-md"
-                : "text-slate-400 hover:text-white"
-            }`}
-          >
-            <ShieldCheck className="w-4 h-4" />
-            <span>I am a Drone Pilot</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setRole("COMPANY")}
-            className={`py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition ${
-              role === "COMPANY"
-                ? "bg-cyan-500 text-slate-950 shadow-md"
-                : "text-slate-400 hover:text-white"
-            }`}
-          >
-            <Building className="w-4 h-4" />
-            <span>I am a Company</span>
-          </button>
-        </div>
-
-        {error && (
-          <div className="mb-6 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-start gap-2.5 text-xs text-rose-300">
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
-            <span>{error}</span>
           </div>
-        )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+          <Field
+            label={role === "PILOT" ? "Full name" : "Contact name"}
+            htmlFor="register-name-input"
+            error={fieldErrors.name}
+          >
+            <Input
+              id="register-name-input"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={role === "PILOT" ? "Alex Rivera" : "Sarah Jenkins"}
+              error={fieldErrors.name}
+            />
+          </Field>
+
+          <Field label="Email" htmlFor="register-email-input" error={fieldErrors.email}>
+            <Input
+              id="register-email-input"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@company.com"
+              error={fieldErrors.email}
+            />
+          </Field>
+
+          <Field
+            label="Password"
+            htmlFor="register-password-input"
+            hint="At least 6 characters."
+            error={fieldErrors.password}
+          >
+            <PasswordInput
+              id="register-password-input"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Create a password"
+              error={fieldErrors.password}
+            />
+          </Field>
+
+          <Button type="submit" block size="lg">
+            Continue
+          </Button>
+        </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           {role === "COMPANY" && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                  Company Name
-                </label>
-                <input
+            <>
+              <Field label="Company name" htmlFor="register-company-name-input" error={fieldErrors.companyName}>
+                <Input
                   id="register-company-name-input"
-                  type="text"
-                  required
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
                   placeholder="Skyline Engineering LLC"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700/80 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
+                  error={fieldErrors.companyName}
                 />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                  Industry Sector
-                </label>
-                <select
+              </Field>
+              <Field label="Industry" htmlFor="register-industry-select">
+                <Select
+                  id="register-industry-select"
                   value={industry}
                   onChange={(e) => setIndustry(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700/80 text-white text-xs focus:outline-none focus:border-cyan-500"
                 >
                   <option value="Agriculture & Forestry">Agriculture & Forestry</option>
                   <option value="Infrastructure & Utilities">Infrastructure & Utilities</option>
@@ -172,151 +237,80 @@ function RegisterForm() {
                   <option value="Land Surveying & Mining">Land Surveying & Mining</option>
                   <option value="Media & Cinema">Media & Cinema</option>
                   <option value="Commercial Services">Commercial Services</option>
-                </select>
-              </div>
-            </div>
+                </Select>
+              </Field>
+            </>
           )}
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              {role === "PILOT" ? "Full Name" : "Contact Person Name"}
-            </label>
-            <div className="relative">
-              <User className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
-              <input
-                id="register-name-input"
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={role === "PILOT" ? "Alex Rivera" : "Sarah Jenkins"}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#070e22] border border-slate-700/80 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
+          <Field label="Phone" htmlFor="register-phone-input" hint="Optional">
+            <Input
+              id="register-phone-input"
+              type="tel"
+              autoComplete="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="+1 (555) 019-2834"
+            />
+          </Field>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="City" htmlFor="register-city-input" error={fieldErrors.city}>
+              <Input
+                id="register-city-input"
+                autoComplete="address-level2"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Austin"
+                error={fieldErrors.city}
               />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
-                <input
-                  id="register-email-input"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@domain.com"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#070e22] border border-slate-700/80 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Phone Number
-              </label>
-              <div className="relative">
-                <Phone className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+1 (555) 019-2834"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#070e22] border border-slate-700/80 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                City
-              </label>
-              <div className="relative">
-                <MapPin className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
-                <input
-                  type="text"
-                  required
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  placeholder="Austin"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#070e22] border border-slate-700/80 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                State / Region
-              </label>
-              <input
-                type="text"
-                required
+            </Field>
+            <Field label="State" htmlFor="register-state-input" error={fieldErrors.state}>
+              <Input
+                id="register-state-input"
+                autoComplete="address-level1"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 placeholder="Texas"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700/80 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
+                error={fieldErrors.state}
               />
-            </div>
+            </Field>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
-              <input
-                id="register-password-input"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="At least 6 characters"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#070e22] border border-slate-700/80 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
-              />
-            </div>
+          <div className="flex gap-2 pt-1">
+            <Button type="button" variant="secondary" className="flex-1" onClick={() => setStep(1)}>
+              Back
+            </Button>
+            <Button id="register-submit-btn" type="submit" className="flex-1" size="lg" disabled={loading}>
+              {loading
+                ? "Creating account…"
+                : role === "PILOT"
+                  ? "Create pilot account"
+                  : "Create company account"}
+            </Button>
           </div>
-
-          <button
-            id="register-submit-btn"
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/25 hover:opacity-95 transition flex items-center justify-center gap-2 mt-4 disabled:opacity-50"
-          >
-            {loading ? (
-              <span>Creating Account...</span>
-            ) : (
-              <>
-                <span>Create {role === "PILOT" ? "Pilot" : "Company"} Account</span>
-                <ArrowRight className="w-4 h-4" />
-              </>
-            )}
-          </button>
         </form>
-
-        <div className="mt-6 text-center text-xs text-slate-400">
-          Already registered?{" "}
-          <Link href="/login" className="text-cyan-400 font-semibold hover:underline">
-            Sign In
-          </Link>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 
 export default function RegisterPage() {
   return (
-    <div className="flex-1 flex items-center justify-center px-4 py-12 bg-[#060b18] relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/10 blur-[140px] rounded-full pointer-events-none" />
-      <Suspense fallback={<div className="text-white text-xs">Loading registration form...</div>}>
+    <AuthShell
+      title="Create an account"
+      subtitle="Join Certified Drone Pilots as a pilot looking for work, or as a company hiring one."
+      footer={
+        <>
+          Already have an account?{" "}
+          <Link href="/login" className="font-semibold text-primary hover:underline">
+            Sign in
+          </Link>
+        </>
+      }
+    >
+      <Suspense fallback={<p className="text-body text-muted-foreground">Loading…</p>}>
         <RegisterForm />
       </Suspense>
-    </div>
+    </AuthShell>
   );
 }

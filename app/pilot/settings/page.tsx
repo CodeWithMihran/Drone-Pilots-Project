@@ -2,6 +2,11 @@
 
 import React, { useState } from "react";
 import { Settings, Lock, Bell, Shield, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Field } from "@/components/ui/field";
+import { Alert } from "@/components/ui/alert";
 
 export default function PilotSettingsPage() {
   const [emailAlerts, setEmailAlerts] = useState(true);
@@ -16,108 +21,109 @@ export default function PilotSettingsPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">Pilot Account Settings</h1>
-        <p className="text-xs text-slate-400 mt-1">
-          Configure flight alert preferences, notification channels, and account credentials.
+    <div className="max-w-3xl space-y-6">
+      <div className="pb-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Account & Dispatch Settings</h1>
+        <p className="text-xs text-muted-foreground mt-1">
+          Configure notification thresholds, dispatch alerts, and credentials security.
         </p>
       </div>
 
       {saved && (
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-          <span>Preferences saved successfully!</span>
-        </div>
+        <Alert variant="success">
+          <span>Preferences updated successfully!</span>
+        </Alert>
       )}
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Notification Preferences */}
-        <div className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-            <Bell className="w-4 h-4 text-cyan-400" />
-            Dispatch & Notification Preferences
-          </h3>
+        <Card>
+          <CardHeader className="pb-3 border-b border-border">
+            <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Bell className="w-4 h-4 text-primary" />
+              Dispatch & Mission Notifications
+            </CardTitle>
+            <CardDescription>
+              Select real-time dispatch alerts and contract event channels.
+            </CardDescription>
+          </CardHeader>
 
-          <div className="space-y-3">
-            <label className="flex items-center justify-between p-3 rounded-2xl bg-slate-900/50 border border-slate-800 cursor-pointer">
+          <CardContent className="p-6 space-y-3">
+            <label className="flex items-center justify-between p-3.5 rounded-control bg-surface-2 border border-border cursor-pointer hover:border-border-strong transition-colors">
               <div>
-                <p className="text-xs font-semibold text-white">High-Match Project Dispatch</p>
-                <p className="text-[11px] text-slate-400">Receive alerts when jobs matching &gt;80% of your fleet are posted.</p>
+                <p className="text-xs font-semibold text-foreground">High-Match Mission Dispatch</p>
+                <p className="text-[11px] text-muted-foreground">Receive real-time alerts when projects matching &gt;80% of your fleet are posted in your flight radius.</p>
               </div>
               <input
                 type="checkbox"
                 checked={jobMatchAlerts}
                 onChange={(e) => setJobMatchAlerts(e.target.checked)}
-                className="rounded border-slate-700 text-cyan-500 w-4 h-4"
+                className="rounded border-border text-primary focus:ring-ring w-4 h-4 ml-4"
               />
             </label>
 
-            <label className="flex items-center justify-between p-3 rounded-2xl bg-slate-900/50 border border-slate-800 cursor-pointer">
+            <label className="flex items-center justify-between p-3.5 rounded-control bg-surface-2 border border-border cursor-pointer hover:border-border-strong transition-colors">
               <div>
-                <p className="text-xs font-semibold text-white">Escrow Payment Notifications</p>
-                <p className="text-[11px] text-slate-400">Instant notification when simulated payouts are released.</p>
+                <p className="text-xs font-semibold text-foreground">Milestone Escrow Notifications</p>
+                <p className="text-[11px] text-muted-foreground">Immediate alerts upon client milestone authorization and escrow disbursements.</p>
               </div>
               <input
                 type="checkbox"
                 checked={paymentAlerts}
                 onChange={(e) => setPaymentAlerts(e.target.checked)}
-                className="rounded border-slate-700 text-cyan-500 w-4 h-4"
+                className="rounded border-border text-primary focus:ring-ring w-4 h-4 ml-4"
               />
             </label>
 
-            <label className="flex items-center justify-between p-3 rounded-2xl bg-slate-900/50 border border-slate-800 cursor-pointer">
+            <label className="flex items-center justify-between p-3.5 rounded-control bg-surface-2 border border-border cursor-pointer hover:border-border-strong transition-colors">
               <div>
-                <p className="text-xs font-semibold text-white">Email Digest Updates</p>
-                <p className="text-[11px] text-slate-400">Weekly compilation of regional commercial drone tenders.</p>
+                <p className="text-xs font-semibold text-foreground">Email Digest & Tenders</p>
+                <p className="text-[11px] text-muted-foreground">Weekly compilation of regional industrial drone opportunities.</p>
               </div>
               <input
                 type="checkbox"
                 checked={emailAlerts}
                 onChange={(e) => setEmailAlerts(e.target.checked)}
-                className="rounded border-slate-700 text-cyan-500 w-4 h-4"
+                className="rounded border-border text-primary focus:ring-ring w-4 h-4 ml-4"
               />
             </label>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Security & Password */}
-        <div className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-            <Lock className="w-4 h-4 text-cyan-400" />
-            Security & Authentication
-          </h3>
+        <Card>
+          <CardHeader className="pb-3 border-b border-border">
+            <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Lock className="w-4 h-4 text-primary" />
+              Credentials & Security
+            </CardTitle>
+          </CardHeader>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                New Password
-              </label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-              />
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="New Password">
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                />
+              </Field>
+              <Field label="Confirm New Password">
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                />
+              </Field>
             </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-              />
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        <button
+        <Button
           type="submit"
-          className="w-full py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-lg transition"
+          variant="primary"
+          size="md"
         >
-          Save Settings
-        </button>
+          Save Preferences
+        </Button>
       </form>
     </div>
   );
