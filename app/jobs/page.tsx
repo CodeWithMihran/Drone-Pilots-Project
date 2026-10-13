@@ -11,7 +11,6 @@ import {
   Briefcase,
   Clock,
   ShieldCheck,
-  Zap,
   ArrowRight,
   SlidersHorizontal,
   X,

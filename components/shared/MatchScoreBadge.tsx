@@ -1,5 +1,5 @@
 import React from "react";
-import { Zap } from "lucide-react";
+import { Target } from "lucide-react";
 import { getMatchScoreColor } from "@/lib/utils";
 
 interface MatchScoreBadgeProps {
@@ -24,9 +24,9 @@ export function MatchScoreBadge({
   return (
     <div
       className={`inline-flex items-center rounded-full font-medium border ${colors.badge} ${sizeClasses[size]} transition-colors`}
-      title="Based on certificate, location, equipment, and experience"
+      title="Calibrated against Part 107 certification, flight radius, equipment sensors, and experience"
     >
-      {showIcon && <Zap className="w-3 h-3 shrink-0" />}
+      {showIcon && <Target className="w-3 h-3 shrink-0" />}
       <span>{score}% match</span>
     </div>
   );

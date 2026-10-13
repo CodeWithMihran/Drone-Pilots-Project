@@ -30,39 +30,57 @@ export default function LandingPage() {
   const sectors = [
     {
       id: "AGRICULTURAL_SPRAYING",
+      code: "AG-107",
       title: "Agricultural Spraying",
       icon: Trees,
-      desc: "Precision crop spraying, multispectral NDVI plant stress indexing, and automated acreage distribution.",
+      payload: "DJI Agras T40 / 40L Spray Tank",
+      metric: "Up to 500 acres/day",
+      desc: "Variable rate chemical application, multispectral NDVI plant stress indexing, and automated acreage distribution.",
     },
     {
       id: "INFRASTRUCTURE_INSPECTION",
+      code: "IN-204",
       title: "Infrastructure Inspection",
       icon: Building2,
-      desc: "High-resolution thermal anomaly analysis for utilities, wind turbines, cell towers, and energy substations.",
+      payload: "Radiometric Thermal / 640×512 NETD",
+      metric: "Sub-millimeter flaw detection",
+      desc: "Thermal anomaly analysis for utility grids, wind turbine blades, cell tower arrays, and electrical substations.",
     },
     {
       id: "REAL_ESTATE_MAPPING",
+      code: "MP-301",
       title: "3D Orthomosaic Mapping",
       icon: Layers,
-      desc: "Centimeter-accurate orthophotos, volumetric measurements, digital elevation models, and point clouds.",
+      payload: "Full-frame 45MP / RTK Ground Base",
+      metric: "< 1.5 cm GSD Accuracy",
+      desc: "Survey-grade orthophotos, volumetric measurements, digital surface models (DSM), and geo-referenced point clouds.",
     },
     {
       id: "CONSTRUCTION_MONITORING",
+      code: "CM-408",
       title: "Construction Progression",
       icon: Construction,
-      desc: "Weekly site progression sweeps, stockpile volumetric audits, cut-and-fill telemetry, and BIM integration.",
+      payload: "Weekly BIM Overlay / Cut & Fill",
+      metric: "Weekly Cadence / 24h Turnaround",
+      desc: "Scheduled jobsite progression flights, stockpile volumetric audits, earthwork verification, and Autodesk BIM integration.",
     },
     {
       id: "LAND_SURVEYING",
+      code: "SV-502",
       title: "Topographic Land Surveying",
       icon: Navigation,
-      desc: "RTK/PPK boundary surveys, terrain contours, GIS shapefile export, and civil engineering benchmarks.",
+      payload: "Aerial LiDAR / PPK Georeferenced",
+      metric: "Civil 3D / GIS Ready",
+      desc: "Boundary contouring, digital terrain modeling through heavy canopy, GIS shapefile export, and civil engineering benchmarks.",
     },
     {
       id: "AERIAL_PHOTOGRAPHY",
+      code: "MD-605",
       title: "Commercial Aerial Media",
       icon: Camera,
-      desc: "ProRes 8K stabilized footage, industrial marketing captures, and broadcast-ready corporate media.",
+      payload: "ProRes 8K / 3-Axis Gimbal Cine",
+      metric: "Cinema DCI 8K ProRes",
+      desc: "Broadcast-grade industrial marketing cinematography, stabilized tracking shots, and corporate investor media packages.",
     },
   ];
 
@@ -167,31 +185,54 @@ export default function LandingPage() {
             {sectors.map((sector) => {
               const Icon = sector.icon;
               return (
-                <Card
+                <div
                   key={sector.id}
-                  className="group hover:border-border-strong transition-all duration-150 flex flex-col justify-between"
+                  className="group rounded-panel bg-surface border border-border hover:border-border-strong shadow-xs transition-all duration-200 p-6 flex flex-col justify-between"
                 >
-                  <CardContent className="p-6">
-                    <div className="w-10 h-10 rounded-control bg-primary/10 text-primary flex items-center justify-center mb-4 transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                      <Icon className="w-5 h-5" />
+                  <div>
+                    {/* Header with technical code & subtle icon badge */}
+                    <div className="flex items-center justify-between pb-4 mb-4 border-b border-border">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-control bg-surface-2 border border-border flex items-center justify-center text-foreground group-hover:text-primary transition-colors">
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <span className="text-xs font-mono font-medium text-muted-foreground uppercase tracking-wider">
+                          {sector.code}
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-medium text-primary px-2 py-0.5 rounded-control bg-primary/10">
+                        {sector.metric}
+                      </span>
                     </div>
-                    <h3 className="text-base font-semibold text-foreground">
+
+                    <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
                       {sector.title}
                     </h3>
+
                     <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                       {sector.desc}
                     </p>
-                  </CardContent>
-                  <div className="px-6 pb-5 pt-0">
+
+                    <div className="mt-4 pt-3 border-t border-border/60">
+                      <p className="text-[11px] font-mono text-muted-foreground">
+                        Standard Payload: <span className="font-sans font-medium text-foreground">{sector.payload}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 mt-4 border-t border-border flex items-center justify-between">
                     <Link
                       href={`/jobs?service=${sector.id}`}
-                      className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1"
+                      className="text-xs font-medium text-primary hover:underline inline-flex items-center gap-1"
                     >
-                      <span>View missions in {sector.title.split(" ")[0]}</span>
+                      <span>Explore missions</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
+                    <span className="text-[10px] uppercase font-mono text-muted-foreground">
+                      Part 107
+                    </span>
                   </div>
-                </Card>
+                </div>
               );
             })}
           </div>

@@ -15,7 +15,6 @@ import {
   User,
   Plane,
   Award,
-  Zap,
 } from "lucide-react";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { MatchScoreBadge } from "@/components/shared/MatchScoreBadge";

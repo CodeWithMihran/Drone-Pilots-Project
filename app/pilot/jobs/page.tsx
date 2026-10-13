@@ -8,7 +8,6 @@ import {
   MapPin,
   Calendar,
   Briefcase,
-  Zap,
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";

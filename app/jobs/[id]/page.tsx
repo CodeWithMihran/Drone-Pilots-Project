@@ -21,7 +21,6 @@ import {
   ArrowLeft,
   Lock,
   Layers,
-  Sparkles,
   CreditCard,
   MessageSquare,
 } from "lucide-react";
