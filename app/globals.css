@@ -55,33 +55,33 @@
 }
 
 .dark {
-  /* DARK MODE - Deep Maritime Obsidian & Precision Aerospace Sky */
-  --bg: #090d16;
-  --surface: #101726;
-  --surface-2: #162034;
+  /* DARK MODE - The AcadeMIa Pitch Black & Obsidian Aerospace Theme */
+  --bg: #000000;
+  --surface: #0a0a0a;
+  --surface-2: #121212;
   
-  --border: #233148;
-  --border-strong: #334462;
+  --border: #27272a;
+  --border-strong: #3f3f46;
   
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --text-subtle: #64748b;
+  --text: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-subtle: #71717a;
   
-  --primary: #38bdf8;
-  --primary-hover: #0ea5e9;
-  --primary-fg: #080c14;
-  --primary-rgb: 56 189 248;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-fg: #ffffff;
+  --primary-rgb: 59 130 246;
 
-  --success: #34d399;
-  --success-rgb: 52 211 153;
-  --warning: #fbbf24;
-  --warning-rgb: 251 191 36;
-  --danger: #f87171;
-  --danger-rgb: 248 113 113;
-  --info: #60a5fa;
-  --info-rgb: 96 165 250;
+  --success: #10b981;
+  --success-rgb: 16 185 129;
+  --warning: #f59e0b;
+  --warning-rgb: 245 158 11;
+  --danger: #ef4444;
+  --danger-rgb: 239 68 68;
+  --info: #3b82f6;
+  --info-rgb: 59 130 246;
 
-  --ring: rgba(56, 189, 248, 0.35);
+  --ring: rgba(59, 130, 246, 0.4);
 
   --background: var(--bg);
   --foreground: var(--text);
@@ -103,9 +103,16 @@
 
 body {
   color: var(--text);
-  background: var(--bg);
+  background-color: var(--bg);
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.dark body {
+  background-color: #000000;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 ::selection {

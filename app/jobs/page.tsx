@@ -78,34 +78,38 @@ function JobsMarketplaceContent() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-fade-in">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <span className="text-caption font-semibold uppercase tracking-widest text-primary">
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
               Commercial Flight Marketplace
             </span>
-            <h1 className="text-heading-1 font-bold text-foreground mt-1">
-              Browse Industrial Drone Projects
-            </h1>
-            <p className="text-body text-muted-foreground mt-1">
-              Verified high-value missions across agriculture, surveying, energy, and infrastructure.
-            </p>
           </div>
-
-          <Link
-            href="/company/post-job"
-            className="self-start md:self-auto px-4 py-2.5 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground text-label font-medium shadow-md transition flex items-center gap-1.5"
-          >
-            <Briefcase className="w-4 h-4" />
-            <span>Post New Drone Project</span>
-          </Link>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Browse Industrial Drone Projects
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Verified high-value missions across agriculture, industrial inspection, energy infrastructure, and topographical surveying.
+          </p>
         </div>
+
+        <Link
+          href="/company/post-job"
+          className="self-start md:self-auto px-5 py-2.5 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-semibold shadow-xs hover:shadow transition-all flex items-center gap-2 active:scale-[0.98]"
+        >
+          <Briefcase className="w-4 h-4" />
+          <span>Post New Drone Project</span>
+        </Link>
       </div>
 
       {/* Search Bar */}
-      <div className="p-4 rounded-panel bg-card border border-border mb-8 shadow-md">
+      <div className="p-4 sm:p-5 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-3">
           <div className="sm:col-span-5 relative">
             <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
@@ -114,7 +118,7 @@ function JobsMarketplaceContent() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search job title, keywords, or equipment..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
             />
           </div>
 
@@ -125,7 +129,7 @@ function JobsMarketplaceContent() {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               placeholder="City or state..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
             />
           </div>
 
@@ -133,7 +137,7 @@ function JobsMarketplaceContent() {
             <select
               value={serviceType}
               onChange={(e) => setServiceType(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary transition-colors"
+              className="w-full px-3 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
             >
               <option value="">All Services</option>
               <option value="AGRICULTURAL_SPRAYING">Agricultural Spraying</option>
@@ -149,7 +153,7 @@ function JobsMarketplaceContent() {
           <div className="sm:col-span-2 flex gap-2">
             <button
               type="submit"
-              className="flex-1 py-2.5 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-body shadow-sm transition flex items-center justify-center gap-1.5"
+              className="flex-1 py-2.5 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-xs transition flex items-center justify-center gap-1.5 active:scale-[0.98]"
             >
               <Search className="w-3.5 h-3.5" />
               Filter
@@ -157,7 +161,7 @@ function JobsMarketplaceContent() {
             <button
               type="button"
               onClick={handleResetFilters}
-              className="p-2.5 rounded-control bg-surface-2 border border-border hover:bg-border/30 text-muted-foreground hover:text-foreground transition-colors"
+              className="p-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 hover:bg-border/30 text-muted-foreground hover:text-foreground transition-colors"
               title="Reset filters"
             >
               <X className="w-4 h-4" />
@@ -170,7 +174,7 @@ function JobsMarketplaceContent() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Filters Sidebar */}
         <div className="hidden lg:block lg:col-span-1 space-y-6">
-          <div className="p-5 rounded-panel bg-card border border-border space-y-5 shadow-md">
+          <div className="p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 space-y-5 shadow-xs">
             <div className="flex items-center justify-between pb-3 border-b border-border">
               <h3 className="text-caption font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
                 <SlidersHorizontal className="w-4 h-4 text-primary" />
@@ -299,12 +303,12 @@ function JobsMarketplaceContent() {
             jobs.map((job) => (
               <div
                 key={job._id}
-                className="p-6 rounded-panel bg-card border border-border shadow-md hover:border-primary/50 transition-colors group relative"
+                className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300 group relative"
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                  <div className="space-y-1.5 flex-1">
+                  <div className="space-y-2 flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className="px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-caption font-medium">
+                      <span className="px-2.5 py-0.5 rounded-control bg-primary/10 border border-primary/20 text-primary text-[11px] font-medium">
                         {formatServiceType(job.serviceType)}
                       </span>
                       <StatusBadge status={job.status} type="job" />
@@ -314,12 +318,12 @@ function JobsMarketplaceContent() {
                     </div>
 
                     <Link href={`/jobs/${job._id}`}>
-                      <h2 className="text-label font-semibold text-foreground group-hover:text-primary transition-colors text-lg">
+                      <h2 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
                         {job.title}
                       </h2>
                     </Link>
 
-                    <p className="text-caption text-muted-foreground flex items-center gap-2">
+                    <p className="text-xs text-muted-foreground flex items-center gap-2 flex-wrap">
                       <span>
                         Posted by <strong className="text-foreground font-medium">{job.companyId?.name || "Verified Client"}</strong>
                       </span>
@@ -331,33 +335,33 @@ function JobsMarketplaceContent() {
                     </p>
                   </div>
 
-                  <div className="text-right sm:shrink-0 flex sm:flex-col items-center sm:items-end justify-between">
-                    <div className="text-heading-2 font-bold text-primary">
+                  <div className="text-right sm:shrink-0 flex sm:flex-col items-center sm:items-end justify-between pt-2 sm:pt-0">
+                    <div className="text-xl sm:text-2xl font-semibold text-primary tracking-tight">
                       {formatCurrency(job.budget)}
                     </div>
-                    <span className="text-caption text-muted-foreground font-medium">
+                    <span className="text-[11px] text-muted-foreground font-medium">
                       Fixed Project Budget
                     </span>
                   </div>
                 </div>
 
-                <p className="text-body text-muted-foreground my-4 line-clamp-2 leading-relaxed">
+                <p className="text-xs sm:text-sm text-muted-foreground my-4 line-clamp-2 leading-relaxed">
                   {job.description}
                 </p>
 
                 {/* Requirements & Gear badges */}
-                <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-border text-caption text-muted-foreground">
-                  <div className="flex items-center gap-1 text-foreground font-medium">
+                <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-border dark:border-zinc-800/80 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1.5 text-foreground font-medium">
                     <Calendar className="w-3.5 h-3.5 text-primary" />
                     <span>Flight Date: {formatDate(job.date)}</span>
                   </div>
                   <span>•</span>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 text-info" />
                     <span>Duration: {job.duration}</span>
                   </div>
                   <span>•</span>
-                  <div className="flex items-center gap-1 text-success">
+                  <div className="flex items-center gap-1.5 text-success">
                     <ShieldCheck className="w-3.5 h-3.5" />
                     <span>Req: {job.requiredCertification || "Part 107"}</span>
                   </div>
@@ -365,7 +369,7 @@ function JobsMarketplaceContent() {
                   <div className="ml-auto pt-2 sm:pt-0">
                     <Link
                       href={`/jobs/${job._id}`}
-                      className="px-4 py-2 rounded-control bg-surface-2 border border-border hover:bg-primary hover:text-primary-foreground hover:border-primary text-primary font-medium text-caption transition-colors flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 hover:bg-primary hover:text-primary-foreground hover:border-primary text-foreground font-medium text-xs transition-all flex items-center gap-1.5 active:scale-[0.98]"
                     >
                       <span>View & Apply</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -383,8 +387,8 @@ function JobsMarketplaceContent() {
 
 export default function JobsMarketplacePage() {
   return (
-    <div className="flex-1 bg-background py-8 sm:py-12">
-      <Suspense fallback={<div className="text-foreground text-caption max-w-7xl mx-auto px-4">Loading jobs marketplace...</div>}>
+    <div className="flex-1 bg-background py-10 sm:py-16">
+      <Suspense fallback={<div className="text-foreground text-xs max-w-7xl mx-auto px-4">Loading jobs marketplace...</div>}>
         <JobsMarketplaceContent />
       </Suspense>
     </div>
