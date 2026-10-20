@@ -136,6 +136,7 @@ export default function PilotEarningsPage() {
                     </td>
                     <td className="py-4 text-right pr-2">
                       <StatusBadge status={p.status} type="payment" />
+                      <StatusBadge status={p.status} type="payment" />
                     </td>
                   </tr>
                 ))}
