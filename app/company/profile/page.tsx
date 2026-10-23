@@ -100,12 +100,31 @@ export default function CompanyProfileEditPage() {
   };
 
   return (
-    <div className="max-w-4xl space-y-6">
-      <div className="pb-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Organization Profile</h1>
-        <p className="text-xs text-muted-foreground mt-1">
-          Manage your enterprise credentials, industry sector, procurement contact, and headquarters location.
-        </p>
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Commercial Client Profile
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Organization Profile & Headquarters
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Manage your legal entity records, industry sector, procurement contact, and operating location.
+          </p>
+        </div>
+
+        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          <Building className="w-4 h-4 text-primary" />
+          <span>{industry}</span>
+        </div>
       </div>
 
       {message.text && (
@@ -115,17 +134,18 @@ export default function CompanyProfileEditPage() {
       )}
 
       <form onSubmit={handleSave} className="space-y-6">
-        <Card>
-          <CardHeader className="pb-3 border-b border-border">
-            <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
+        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
+          <div className="pb-3 border-b border-border dark:border-zinc-800">
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
               <Building className="w-4 h-4 text-primary" />
               Enterprise Information
-            </CardTitle>
-            <CardDescription>
+            </h3>
+            <p className="text-xs text-muted-foreground mt-0.5">
               Visible to commercial pilots reviewing your posted mission briefs.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-6 space-y-4">
+            </p>
+          </div>
+
+          <div className="space-y-4 pt-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Company / Entity Legal Name" htmlFor="company-name-input">
                 <Input
@@ -134,6 +154,7 @@ export default function CompanyProfileEditPage() {
                   required
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
+                  className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
                 />
               </Field>
 
@@ -142,7 +163,7 @@ export default function CompanyProfileEditPage() {
                   id="company-industry-select"
                   value={industry}
                   onChange={(e) => setIndustry(e.target.value)}
-                  className="w-full px-3 py-2 rounded-control bg-surface border border-border text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full px-3 py-2 rounded-control bg-surface dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary h-10"
                 >
                   <option value="Agriculture & Forestry">Agriculture & Forestry</option>
                   <option value="Infrastructure & Utilities">Infrastructure & Utilities</option>
@@ -162,6 +183,7 @@ export default function CompanyProfileEditPage() {
                   required
                   value={contactPerson}
                   onChange={(e) => setContactPerson(e.target.value)}
+                  className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
                 />
               </Field>
 
@@ -171,6 +193,7 @@ export default function CompanyProfileEditPage() {
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
                   placeholder="https://company.com"
+                  className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
                 />
               </Field>
             </div>
@@ -182,6 +205,7 @@ export default function CompanyProfileEditPage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+1 (555) 019-2834"
+                  className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
                 />
               </Field>
 
@@ -191,6 +215,7 @@ export default function CompanyProfileEditPage() {
                   required
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
+                  className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
                 />
               </Field>
 
@@ -200,6 +225,7 @@ export default function CompanyProfileEditPage() {
                   required
                   value={state}
                   onChange={(e) => setState(e.target.value)}
+                  className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
                 />
               </Field>
             </div>
@@ -210,11 +236,11 @@ export default function CompanyProfileEditPage() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe your organization's flight requirements, safety compliance, site access procedures..."
-                className="w-full p-3 rounded-control bg-surface border border-border text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-ring leading-relaxed"
+                className="w-full p-3 rounded-control bg-surface dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary leading-relaxed"
               />
             </Field>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         <Button
           id="save-company-profile-btn"
@@ -222,7 +248,7 @@ export default function CompanyProfileEditPage() {
           variant="primary"
           size="md"
           disabled={saving}
-          className="gap-2"
+          className="gap-2 h-10 px-6 font-semibold text-xs"
         >
           <Save className="w-4 h-4" />
           <span>{saving ? "Saving Changes..." : "Save Organization Profile"}</span>

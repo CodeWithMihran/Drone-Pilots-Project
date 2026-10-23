@@ -104,22 +104,37 @@ function CompanyApplicationsContent() {
   };
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">Pilot Proposals & Applications</h1>
-          <p className="text-sm text-muted-foreground mt-1.5">
-            Compare pilot match scores, certifications, hardware fleet, and select your flight operator.
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Candidate Evaluation & Proposals
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Pilot Proposals & Flight Bids
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Compare pilot match scores, Part 107 certifications, sensor payloads, and award contract tenders.
           </p>
         </div>
 
         {/* Job Selector Dropdown */}
         {companyJobs.length > 0 && (
-          <div className="w-full sm:w-72">
+          <div className="w-full sm:w-80 shrink-0">
+            <label className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground block mb-1.5">
+              Select Mission Tender
+            </label>
             <select
               value={selectedJobId}
               onChange={(e) => setSelectedJobId(e.target.value)}
-              className="flex w-full h-11 rounded-control border border-border bg-background px-3.5 py-2 text-[15px] text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:border-primary transition-colors hover:border-border-strong cursor-pointer"
+              className="flex w-full h-10 rounded-control border border-border dark:border-zinc-800 bg-surface-2 dark:bg-zinc-900 px-3.5 py-1.5 text-xs text-foreground shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-colors hover:border-border-strong cursor-pointer"
             >
               {companyJobs.map((j) => (
                 <option key={j._id} value={j._id}>
@@ -134,7 +149,7 @@ function CompanyApplicationsContent() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2].map((i) => (
-            <div key={i} className="p-6 rounded-3xl bg-card border border-border shadow-sm animate-pulse h-44" />
+            <div key={i} className="p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs animate-pulse h-44" />
           ))}
         </div>
       ) : applications.length === 0 ? (
@@ -152,13 +167,13 @@ function CompanyApplicationsContent() {
             return (
               <div
                 key={app._id}
-                className="p-6 sm:p-8 rounded-3xl bg-card border border-border shadow-sm space-y-5 hover:border-border-strong transition-colors"
+                className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300"
               >
                 {/* Header: Pilot Info + Match Score + Bid */}
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-                      <span className="font-bold text-primary text-lg">
+                    <div className="w-12 h-12 rounded-control bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0">
+                      <span className="font-bold text-lg">
                         {pilot?.name ? pilot.name.charAt(0).toUpperCase() : "P"}
                       </span>
                     </div>
@@ -166,24 +181,24 @@ function CompanyApplicationsContent() {
                     <div className="space-y-1.5">
                       <div className="flex flex-wrap items-center gap-2.5">
                         <Link href={`/pilots/${pilot?._id}`}>
-                          <h3 className="text-lg font-bold text-foreground hover:text-primary transition-colors">
+                          <h3 className="text-base sm:text-lg font-semibold text-foreground hover:text-primary transition-colors">
                             {pilot?.name || "Pilot"}
                           </h3>
                         </Link>
                         {app.isVerified ? (
-                          <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+                          <span className="px-2.5 py-0.5 rounded-control bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                             <ShieldCheck className="w-3.5 h-3.5" />
-                            VERIFIED PILOT
+                            PART 107 VERIFIED
                           </span>
                         ) : (
-                          <span className="px-2.5 py-0.5 rounded-full bg-secondary text-[11px] font-medium text-muted-foreground">
-                            Unverified
+                          <span className="px-2.5 py-0.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-[11px] font-medium text-muted-foreground">
+                            Standard
                           </span>
                         )}
                         <StatusBadge status={app.status} type="application" />
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                         <StarRating rating={profile?.rating || 5.0} totalReviews={profile?.totalReviews || 0} size="sm" />
                         <span className="hidden sm:inline">•</span>
                         <span>{profile?.experience || 1}+ Years Commercial Exp</span>
@@ -193,10 +208,10 @@ function CompanyApplicationsContent() {
                     </div>
                   </div>
 
-                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-3 shrink-0 bg-surface-2 sm:bg-transparent p-4 sm:p-0 rounded-2xl">
+                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2.5 shrink-0 bg-surface-2 dark:bg-zinc-900/60 sm:bg-transparent p-3.5 sm:p-0 rounded-control border border-border/40 sm:border-0">
                     <div className="text-left sm:text-right">
-                      <span className="text-sm text-muted-foreground block mb-0.5">Proposed Bid</span>
-                      <span className="text-2xl font-bold text-foreground">
+                      <span className="text-[11px] text-muted-foreground block mb-0.5">Proposed Bid</span>
+                      <span className="text-xl sm:text-2xl font-semibold text-foreground font-mono">
                         {formatCurrency(app.bidAmount)}
                       </span>
                     </div>
@@ -207,10 +222,10 @@ function CompanyApplicationsContent() {
                 </div>
 
                 {/* Proposal Text */}
-                <div className="p-5 rounded-2xl bg-secondary/40 border border-border text-sm space-y-2.5">
-                  <div className="flex items-center justify-between text-xs font-semibold">
+                <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900/50 border border-border dark:border-zinc-800 text-xs space-y-2">
+                  <div className="flex items-center justify-between text-[11px] font-medium">
                     <span className="text-muted-foreground uppercase tracking-wider">Flight Proposal & Methodology</span>
-                    <span className="text-primary bg-primary/10 px-2 py-1 rounded-md">Availability: {app.availability}</span>
+                    <span className="text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-control">Availability: {app.availability}</span>
                   </div>
                   <p className="leading-relaxed whitespace-pre-line text-foreground italic">
                     "{app.proposal}"
@@ -219,14 +234,14 @@ function CompanyApplicationsContent() {
 
                 {/* Equipment Fleet Tags */}
                 {profile?.equipment && profile.equipment.length > 0 && (
-                  <div className="flex items-center gap-3 text-sm">
+                  <div className="flex items-center gap-3 text-xs">
                     <span className="text-muted-foreground shrink-0 flex items-center gap-1.5 font-medium">
-                      <Plane className="w-4 h-4 text-primary" />
+                      <Plane className="w-3.5 h-3.5 text-primary" />
                       Fleet:
                     </span>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                       {profile.equipment.map((eq: string, idx: number) => (
-                        <span key={idx} className="px-2.5 py-1 rounded-lg bg-background border border-border text-xs text-foreground font-medium shadow-sm">
+                        <span key={idx} className="px-2.5 py-0.5 rounded bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-[11px] text-muted-foreground font-medium">
                           {eq}
                         </span>
                       ))}
@@ -235,24 +250,25 @@ function CompanyApplicationsContent() {
                 )}
 
                 {/* Decision Actions Bar */}
-                <div className="pt-5 mt-2 border-t border-border flex flex-wrap items-center justify-between gap-4">
-                  <span className="text-sm text-muted-foreground font-medium">
-                    Submitted {formatDate(app.createdAt)}
+                <div className="pt-4 border-t border-border dark:border-zinc-800/80 flex flex-wrap items-center justify-between gap-4">
+                  <span className="text-xs text-muted-foreground font-medium">
+                    Submitted on {formatDate(app.createdAt)}
                   </span>
 
                   <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
-                    <Button variant="secondary" asChild className="w-full sm:w-auto">
+                    <Button variant="secondary" size="sm" asChild className="w-full sm:w-auto active:scale-[0.98]">
                       <Link href={`/pilots/${pilot?._id}`}>
-                        View Full Profile
+                        View Pilot Profile
                       </Link>
                     </Button>
 
                     {app.status === "PENDING" && (
                       <Button
                         variant="outline"
+                        size="sm"
                         onClick={() => handleUpdateStatus(app._id, "SHORTLISTED")}
                         disabled={actionLoading === app._id}
-                        className="w-full sm:w-auto"
+                        className="w-full sm:w-auto active:scale-[0.98]"
                       >
                         Shortlist
                       </Button>
@@ -262,27 +278,30 @@ function CompanyApplicationsContent() {
                       <>
                         <Button
                           variant="destructive"
+                          size="sm"
                           onClick={() => handleUpdateStatus(app._id, "REJECTED")}
                           disabled={actionLoading === app._id}
-                          className="w-full sm:w-auto"
+                          className="w-full sm:w-auto active:scale-[0.98]"
                         >
                           Decline
                         </Button>
 
                         <Button
                           id={`accept-applicant-btn-${app._id}`}
+                          variant="primary"
+                          size="sm"
                           onClick={() => handleUpdateStatus(app._id, "ACCEPTED")}
                           disabled={actionLoading === app._id}
-                          className="w-full sm:w-auto"
+                          className="w-full sm:w-auto active:scale-[0.98]"
                         >
-                          <CheckCircle2 className="w-4 h-4 mr-2" />
+                          <CheckCircle2 className="w-4 h-4 mr-1.5" />
                           Accept & Assign Pilot
                         </Button>
                       </>
                     )}
 
                     {app.status === "ACCEPTED" && (
-                      <div className="px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-2 text-sm w-full sm:w-auto justify-center">
+                      <div className="px-3.5 py-1.5 rounded-control bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1.5 text-xs w-full sm:w-auto justify-center">
                         <CheckCircle2 className="w-4 h-4" />
                         Assigned Pilot for this Project
                       </div>

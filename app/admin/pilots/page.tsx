@@ -38,51 +38,67 @@ export default function AdminPilotsDirectoryPage() {
   }, []);
 
   return (
-    <div className="space-y-6 max-w-6xl">
-      <div className="pb-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          Commercial Pilot Roster Audit
-        </h1>
-        <p className="text-xs text-muted-foreground mt-1">
-          Aviation compliance audit, fleet specifications, and verified credential tracking.
-        </p>
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Aviation Compliance Governance
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Commercial Pilot Roster Audit
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Monitor airman compliance records, equipment payload specifications, and Part 107 accreditation status across the operator registry.
+          </p>
+        </div>
+
+        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          <Plane className="w-4 h-4 text-primary" />
+          <span>Active Roster: {pilots.length} Pilots</span>
+        </div>
       </div>
 
-      <Card>
-        <CardContent className="p-4">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              fetchPilots();
-            }}
-            className="flex gap-3"
+      {/* Search Bar */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 shadow-xs">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchPilots();
+          }}
+          className="flex gap-3"
+        >
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
+            <Input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by pilot name, license ID, city, or equipment..."
+              className="pl-9 h-10 bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+            />
+          </div>
+          <Button
+            type="submit"
+            variant="primary"
+            size="sm"
+            className="px-5 shrink-0 h-10 font-semibold text-xs"
           >
-            <div className="relative flex-1">
-              <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
-              <Input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by pilot name, license ID, city, or equipment..."
-                className="pl-9"
-              />
-            </div>
-            <Button
-              type="submit"
-              variant="primary"
-              size="sm"
-              className="px-5 shrink-0"
-            >
-              Search
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+            Search
+          </Button>
+        </form>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {loading ? (
           [1, 2, 3].map((i) => (
-            <div key={i} className="p-6 rounded-panel bg-surface border border-border animate-pulse h-44" />
+            <div key={i} className="p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800 animate-pulse h-48" />
           ))
         ) : pilots.length === 0 ? (
           <div className="col-span-3">
@@ -94,49 +110,49 @@ export default function AdminPilotsDirectoryPage() {
           </div>
         ) : (
           pilots.map((p) => (
-            <Card
+            <div
               key={p._id}
-              className="flex flex-col justify-between hover:border-border-strong transition-all"
+              className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 shadow-xs flex flex-col justify-between hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300"
             >
-              <CardContent className="p-6 space-y-4">
+              <div className="space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="text-base font-semibold text-foreground">{p.name}</h3>
-                    <p className="text-xs text-muted-foreground">{p.email}</p>
+                    <p className="text-xs text-muted-foreground font-mono">{p.email}</p>
                     <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-subtle" />
-                      {p.location?.city}, {p.location?.state}
+                      <MapPin className="w-3.5 h-3.5 text-primary" />
+                      {p.location?.city ? `${p.location.city}, ${p.location.state}` : "Location Unspecified"}
                     </p>
                   </div>
                   {p.isVerified ? (
-                    <Badge variant="success" className="text-[10px]">
+                    <Badge variant="success" className="text-[10px] px-2 py-0.5">
                       Verified
                     </Badge>
                   ) : (
-                    <Badge variant="secondary" className="text-[10px]">
+                    <Badge variant="secondary" className="text-[10px] px-2 py-0.5">
                       Standard
                     </Badge>
                   )}
                 </div>
 
-                <div className="flex items-center justify-between text-xs py-2 border-y border-border">
+                <div className="flex items-center justify-between text-xs py-2.5 border-y border-border dark:border-zinc-800">
                   <StarRating rating={p.profile?.rating || 5.0} totalReviews={p.profile?.totalReviews || 0} size="sm" />
-                  <span className="text-muted-foreground font-medium">{p.profile?.experience || 2}+ yrs exp</span>
+                  <span className="text-muted-foreground font-medium text-[11px]">{p.profile?.experience || 2}+ yrs exp</span>
                 </div>
 
                 <div className="text-xs text-muted-foreground space-y-1">
                   <span className="text-[11px] font-semibold text-foreground block">Airframes & Payloads:</span>
-                  <p className="line-clamp-2 leading-relaxed">{p.profile?.equipment?.join(", ") || "Standard commercial aircraft"}</p>
+                  <p className="line-clamp-2 leading-relaxed text-[11px]">{p.profile?.equipment?.join(", ") || "Standard commercial aircraft"}</p>
                 </div>
-              </CardContent>
+              </div>
 
-              <div className="p-6 pt-0 border-t border-border flex items-center justify-between pt-4 mt-auto">
-                <span className="text-xs font-bold text-foreground font-mono">${p.profile?.rate || 85}/hr</span>
-                <Button asChild variant="secondary" size="sm" className="h-7 text-[11px]">
+              <div className="pt-4 mt-4 border-t border-border dark:border-zinc-800 flex items-center justify-between">
+                <span className="text-sm font-bold text-foreground font-mono">${p.profile?.rate || 85}<span className="text-xs font-normal text-muted-foreground">/hr</span></span>
+                <Button asChild variant="secondary" size="sm" className="h-8 text-xs px-3">
                   <Link href={`/pilots/${p._id}`}>Inspect Profile</Link>
                 </Button>
               </div>
-            </Card>
+            </div>
           ))
         )}
       </div>

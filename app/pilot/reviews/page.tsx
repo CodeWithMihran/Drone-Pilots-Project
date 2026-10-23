@@ -42,44 +42,62 @@ export default function PilotReviewsPage() {
   }, []);
 
   return (
-    <div className="space-y-6 max-w-5xl">
-      <div className="pb-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          Client Reviews & Reputation
-        </h1>
-        <p className="text-xs text-muted-foreground mt-1">
-          Performance metrics and client ratings tied directly to completed, verified contract transactions.
-        </p>
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-warning opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-warning"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Aviation Performance Records
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Client Reviews & Operational Reputation
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Performance metrics and verified client ratings tied directly to completed, escrow-released mission deliverables.
+          </p>
+        </div>
+
+        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          <Star className="w-4 h-4 text-warning" />
+          <span>Verified Rating: {averageRating.toFixed(1)} / 5.0</span>
+        </div>
       </div>
 
       {/* Overview Card */}
-      <Card>
-        <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-5">
-            <div className="text-4xl font-bold text-foreground font-mono">
-              {averageRating.toFixed(1)}
-            </div>
-            <div>
-              <StarRating rating={averageRating} size="lg" />
-              <p className="text-xs text-muted-foreground mt-1">
-                Based on {totalReviews} completed mission {totalReviews === 1 ? "review" : "reviews"}
-              </p>
-            </div>
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="flex items-center gap-5">
+          <div className="text-4xl sm:text-5xl font-bold text-foreground font-mono">
+            {averageRating.toFixed(1)}
           </div>
+          <div>
+            <StarRating rating={averageRating} size="lg" />
+            <p className="text-xs text-muted-foreground mt-1.5">
+              Aggregated across <strong className="text-foreground">{totalReviews}</strong> completed flight {totalReviews === 1 ? "review" : "reviews"}
+            </p>
+          </div>
+        </div>
 
-          <div className="text-xs text-muted-foreground sm:text-right">
-            <span className="text-success font-semibold block">100% Verified Reviews</span>
-            <span>Only hiring enterprises can submit feedback upon milestone release.</span>
-          </div>
-        </CardContent>
-      </Card>
+        <div className="text-xs text-muted-foreground sm:text-right space-y-1">
+          <span className="text-success font-semibold flex items-center sm:justify-end gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-success"></span>
+            100% Escrow-Verified Feedback
+          </span>
+          <span className="block text-subtle text-[11px]">Only contracting clients can submit reviews upon mission acceptance.</span>
+        </div>
+      </div>
 
       {/* Reviews List */}
       <div className="space-y-4">
         {loading ? (
           <div className="space-y-3">
             {[1, 2].map((i) => (
-              <div key={i} className="h-24 bg-surface rounded-panel border border-border animate-pulse" />
+              <div key={i} className="h-28 bg-surface dark:bg-zinc-950/90 rounded-panel border border-border dark:border-zinc-800 animate-pulse" />
             ))}
           </div>
         ) : reviews.length === 0 ? (
@@ -90,34 +108,35 @@ export default function PilotReviewsPage() {
           />
         ) : (
           reviews.map((rev) => (
-            <Card key={rev._id}>
-              <CardContent className="p-6 space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-control bg-primary/10 text-primary font-bold text-xs flex items-center justify-center shrink-0">
-                      {rev.reviewerId?.name ? rev.reviewerId.name.charAt(0) : "C"}
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-semibold text-foreground">
-                        {rev.reviewerId?.name || "Client Organization"}
-                      </h4>
-                      <p className="text-[11px] text-muted-foreground">
-                        Mission: <strong className="text-foreground">{rev.jobId?.title || "Flight Operation"}</strong>
-                      </p>
-                    </div>
+            <div
+              key={rev._id}
+              className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 shadow-xs space-y-3.5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-control bg-primary/15 text-primary font-bold text-xs flex items-center justify-center shrink-0">
+                    {rev.reviewerId?.name ? rev.reviewerId.name.charAt(0) : "C"}
                   </div>
-
-                  <div className="flex items-center gap-3">
-                    <StarRating rating={rev.rating} size="sm" />
-                    <span className="text-xs text-subtle">{formatDate(rev.createdAt)}</span>
+                  <div>
+                    <h4 className="text-sm font-semibold text-foreground">
+                      {rev.reviewerId?.name || "Client Organization"}
+                    </h4>
+                    <p className="text-[11px] text-muted-foreground">
+                      Mission: <strong className="text-foreground">{rev.jobId?.title || "Flight Operation"}</strong>
+                    </p>
                   </div>
                 </div>
 
-                <p className="text-xs text-foreground leading-relaxed italic bg-surface-2 p-3.5 rounded-control border border-border">
-                  "{rev.comment}"
-                </p>
-              </CardContent>
-            </Card>
+                <div className="flex items-center gap-3">
+                  <StarRating rating={rev.rating} size="sm" />
+                  <span className="text-xs text-subtle">{formatDate(rev.createdAt)}</span>
+                </div>
+              </div>
+
+              <p className="text-xs text-foreground leading-relaxed italic bg-surface-2 dark:bg-zinc-900 p-4 rounded-control border border-border dark:border-zinc-800">
+                "{rev.comment}"
+              </p>
+            </div>
           ))
         )}
       </div>

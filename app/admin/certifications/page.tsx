@@ -98,71 +98,86 @@ export default function AdminCertificationsPage() {
   });
 
   return (
-    <div className="space-y-6 max-w-6xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Aviation Compliance Governance
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
             License Verification Queue
           </h1>
-          <p className="text-xs text-muted-foreground mt-1">
-            Validate commercial remote pilot credentials against FAA and international aviation records.
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Validate commercial remote pilot credentials against FAA and international aviation authority registries.
           </p>
+        </div>
+
+        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          <ShieldCheck className="w-4 h-4 text-success" />
+          <span>Part 107 Audit Console</span>
         </div>
       </div>
 
       {/* Filter Tabs & Search Bar */}
-      <Card>
-        <CardContent className="p-4 space-y-3">
-          <div className="flex flex-wrap gap-1.5">
-            {[
-              { label: "Pending Verification", val: "PENDING" },
-              { label: "Verified Credentials", val: "VERIFIED" },
-              { label: "Rejected Submissions", val: "REJECTED" },
-              { label: "Expired Licenses", val: "EXPIRED" },
-              { label: "All Submissions", val: "ALL" },
-            ].map((tab) => {
-              const active = statusFilter === tab.val;
-              return (
-                <button
-                  key={tab.val}
-                  onClick={() => setStatusFilter(tab.val)}
-                  className={`px-3 py-1.5 rounded-control text-xs font-semibold transition-colors ${
-                    active
-                      ? "bg-primary text-primary-foreground shadow-xs"
-                      : "text-muted-foreground hover:text-foreground hover:bg-surface-2"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 shadow-xs space-y-4">
+        <div className="flex flex-wrap gap-1.5 p-1 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          {[
+            { label: "Pending Verification", val: "PENDING" },
+            { label: "Verified Credentials", val: "VERIFIED" },
+            { label: "Rejected Submissions", val: "REJECTED" },
+            { label: "Expired Licenses", val: "EXPIRED" },
+            { label: "All Submissions", val: "ALL" },
+          ].map((tab) => {
+            const active = statusFilter === tab.val;
+            return (
+              <button
+                key={tab.val}
+                onClick={() => setStatusFilter(tab.val)}
+                className={`px-3.5 py-1.5 rounded-control text-xs font-semibold transition-all ${
+                  active
+                    ? "bg-primary text-primary-foreground shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
 
-          <div className="relative">
-            <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
-            <Input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by pilot name, license ID, or certificate authority..."
-              className="pl-9"
-            />
-          </div>
-        </CardContent>
-      </Card>
+        <div className="relative">
+          <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3" />
+          <Input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by pilot name, license ID, or certificate authority..."
+            className="pl-10 text-xs bg-surface-2 dark:bg-zinc-900 border-border dark:border-zinc-800"
+          />
+        </div>
+      </div>
 
       {/* Certifications Table */}
-      <Card>
-        <CardHeader className="pb-3 border-b border-border">
-          <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs overflow-hidden">
+        <div className="p-5 sm:p-6 border-b border-border dark:border-zinc-800/80 flex items-center justify-between">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-foreground">
             Review Queue ({filtered.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
+          </h2>
+          <span className="text-xs text-muted-foreground">Showing verified records</span>
+        </div>
+
+        <div>
           {loading ? (
             <div className="p-6 space-y-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-12 bg-surface-2 rounded-control animate-pulse border border-border" />
+                <div key={i} className="h-12 bg-surface-2 dark:bg-zinc-900/60 rounded-control animate-pulse border border-border dark:border-zinc-800" />
               ))}
             </div>
           ) : filtered.length === 0 ? (
@@ -175,9 +190,9 @@ export default function AdminCertificationsPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-left text-xs whitespace-nowrap">
                 <thead>
-                  <tr className="border-b border-border bg-surface-2/50 text-muted-foreground font-semibold">
+                  <tr className="border-b border-border dark:border-zinc-800 bg-surface-2/40 dark:bg-zinc-900/40 text-muted-foreground font-semibold">
                     <th className="py-3 px-4">Pilot Details</th>
                     <th className="py-3 px-4">Authority & Type</th>
                     <th className="py-3 px-4">License ID</th>
@@ -187,9 +202,9 @@ export default function AdminCertificationsPage() {
                     <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border">
+                <tbody className="divide-y divide-border dark:divide-zinc-800/80">
                   {filtered.map((cert) => (
-                    <tr key={cert._id} className="hover:bg-surface-2/60 transition-colors">
+                    <tr key={cert._id} className="hover:bg-surface-2/50 dark:hover:bg-zinc-900/30 transition-colors">
                       <td className="py-3.5 px-4">
                         <Link
                           href={`/pilots/${cert.pilotId?._id}`}
@@ -212,14 +227,14 @@ export default function AdminCertificationsPage() {
 
                       <td className="py-3.5 px-4 text-muted-foreground">
                         <span>Issued: {formatDate(cert.issueDate)}</span>
-                        <span className="block text-[11px] text-subtle">
+                        <span className="block text-[11px] text-muted-foreground">
                           Expires: {formatDate(cert.expiryDate)}
                         </span>
                       </td>
 
                       <td className="py-3.5 px-4">
                         {cert.documentUrl ? (
-                          <Button asChild variant="secondary" size="sm">
+                          <Button asChild variant="secondary" size="sm" className="active:scale-[0.98]">
                             <a
                               href={cert.documentUrl}
                               target="_blank"
@@ -231,7 +246,7 @@ export default function AdminCertificationsPage() {
                             </a>
                           </Button>
                         ) : (
-                          <span className="text-subtle text-[11px]">No file</span>
+                          <span className="text-muted-foreground text-[11px]">No file</span>
                         )}
                       </td>
 
@@ -247,7 +262,7 @@ export default function AdminCertificationsPage() {
                               size="sm"
                               disabled={actionLoading === cert._id}
                               onClick={() => handleApprove(cert._id)}
-                              className="bg-success text-white hover:bg-success/90"
+                              className="bg-success text-white hover:bg-success/90 h-8 active:scale-[0.98]"
                             >
                               Approve
                             </Button>
@@ -259,6 +274,7 @@ export default function AdminCertificationsPage() {
                                 setSelectedCertId(cert._id);
                                 setRejectModalOpen(true);
                               }}
+                              className="h-8 active:scale-[0.98]"
                             >
                               Reject
                             </Button>
@@ -283,21 +299,21 @@ export default function AdminCertificationsPage() {
               </table>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Reject Modal */}
       {rejectModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-panel bg-surface border border-border shadow-2xl p-6 space-y-4 text-foreground">
-            <div className="flex items-center justify-between pb-3 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-7 space-y-4 text-foreground">
+            <div className="flex items-center justify-between pb-3 border-b border-border dark:border-zinc-800">
               <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
                 <XCircle className="w-4 h-4 text-destructive" />
                 Reject License Submission
               </h3>
               <button
                 onClick={() => setRejectModalOpen(false)}
-                className="text-muted-foreground hover:text-foreground text-sm"
+                className="text-muted-foreground hover:text-foreground text-sm p-1 rounded-control hover:bg-surface-2 dark:hover:bg-zinc-900"
               >
                 ✕
               </button>

@@ -50,35 +50,52 @@ export default function PilotJobsFinderPage() {
   }, [service]);
 
   return (
-    <div className="space-y-6 max-w-5xl">
-      <div className="pb-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          Discover Flight Contracts
-        </h1>
-        <p className="text-xs text-muted-foreground mt-1">
-          Explore open commercial flight briefs tailored to your flight radius, airframe payloads, and credentials.
-        </p>
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Commercial Flight Tender Dispatch
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Available Flight Contracts
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Explore open commercial missions calibrated to your fleet airframes, sensor payloads, and Part 107 verification.
+          </p>
+        </div>
+
+        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          <Briefcase className="w-4 h-4 text-primary" />
+          <span>Active Opportunities: {jobs.length}</span>
+        </div>
       </div>
 
       {/* Filter bar */}
-      <Card>
-        <CardContent className="p-4 flex flex-col sm:flex-row gap-3">
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
+            <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
             <Input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && fetchJobs()}
               placeholder="Search missions, site location, or sensor payload..."
-              className="pl-9"
+              className="pl-9 h-10 bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
             />
           </div>
 
           <select
             value={service}
             onChange={(e) => setService(e.target.value)}
-            className="px-3 py-2 rounded-control bg-surface border border-border text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-ring sm:w-56"
+            className="px-3 py-2 h-10 rounded-control bg-surface dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary sm:w-56"
           >
             <option value="">All Industrial Sectors</option>
             <option value="AGRICULTURAL_SPRAYING">Agricultural Spraying</option>
@@ -93,18 +110,18 @@ export default function PilotJobsFinderPage() {
             onClick={fetchJobs}
             variant="primary"
             size="sm"
-            className="px-5 shrink-0"
+            className="px-5 shrink-0 h-10"
           >
             Filter
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Job listings */}
       {loading ? (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-6 rounded-panel bg-surface border border-border animate-pulse h-28" />
+            <div key={i} className="p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 animate-pulse h-32" />
           ))}
         </div>
       ) : jobs.length === 0 ? (
@@ -116,55 +133,56 @@ export default function PilotJobsFinderPage() {
       ) : (
         <div className="space-y-4">
           {jobs.map((job) => (
-            <Card key={job._id} className="hover:border-border-strong transition-all">
-              <CardContent className="p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="space-y-2 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Badge variant="outline" className="text-[11px]">
-                        {formatServiceType(job.serviceType)}
-                      </Badge>
-                      <StatusBadge status={job.status} type="job" />
-                      {job.matchScore !== undefined && (
-                        <MatchScoreBadge score={job.matchScore} size="sm" />
-                      )}
-                    </div>
-
-                    <Link href={`/jobs/${job._id}`}>
-                      <h2 className="text-base font-semibold text-foreground hover:text-primary transition-colors">
-                        {job.title}
-                      </h2>
-                    </Link>
-
-                    <p className="text-xs text-muted-foreground flex flex-wrap items-center gap-2">
-                      <span>Client: <strong className="text-foreground">{job.companyId?.name || "Client"}</strong></span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-subtle" />
-                        {job.location?.city}, {job.location?.state}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 text-subtle" />
-                        Flight Date: {formatDate(job.date)}
-                      </span>
-                    </p>
+            <div
+              key={job._id}
+              className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+                <div className="space-y-2.5 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-[11px] font-medium text-foreground">
+                      {formatServiceType(job.serviceType)}
+                    </span>
+                    <StatusBadge status={job.status} type="job" />
+                    {job.matchScore !== undefined && (
+                      <MatchScoreBadge score={job.matchScore} size="sm" />
+                    )}
                   </div>
 
-                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-3 shrink-0">
-                    <div className="text-xl font-bold text-foreground font-mono">
-                      {formatCurrency(job.budget)}
-                    </div>
-                    <Button asChild variant="primary" size="sm">
-                      <Link href={`/jobs/${job._id}`} className="gap-1 font-semibold">
-                        <span>Review Scope</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </Button>
+                  <Link href={`/jobs/${job._id}`}>
+                    <h2 className="text-base sm:text-lg font-semibold text-foreground hover:text-primary transition-colors tracking-tight">
+                      {job.title}
+                    </h2>
+                  </Link>
+
+                  <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-2.5 pt-0.5">
+                    <span>Client: <strong className="text-foreground">{job.companyId?.name || "Client"}</strong></span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-primary" />
+                      {job.location?.city}, {job.location?.state}
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5 text-subtle" />
+                      Flight Date: {formatDate(job.date)}
+                    </span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+
+                <div className="flex sm:flex-col items-center sm:items-end justify-between gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-border dark:border-zinc-800">
+                  <div className="text-xl font-bold text-foreground font-mono">
+                    {formatCurrency(job.budget)}
+                  </div>
+                  <Button asChild variant="primary" size="sm" className="h-9 px-4">
+                    <Link href={`/jobs/${job._id}`} className="gap-1.5 font-semibold text-xs">
+                      <span>Review Scope</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       )}

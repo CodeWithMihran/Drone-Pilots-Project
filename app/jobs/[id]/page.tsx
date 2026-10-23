@@ -263,7 +263,7 @@ export default function JobDetailPage() {
           {/* Main Content Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Header Card */}
-            <div className="p-6 sm:p-8 rounded-panel bg-card border border-border shadow-md space-y-4">
+            <div className="p-6 sm:p-8 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-4 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
               <div className="flex flex-wrap items-center gap-2.5">
                 <span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-caption font-medium">
                   {formatServiceType(job.serviceType)}
@@ -295,7 +295,7 @@ export default function JobDetailPage() {
             </div>
 
             {/* Mission Description */}
-            <div className="p-6 sm:p-8 rounded-panel bg-card border border-border shadow-md space-y-4">
+            <div className="p-6 sm:p-8 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-4">
               <h3 className="text-label text-foreground flex items-center gap-2">
                 <Layers className="w-4 h-4 text-primary" />
                 Mission Scope & Objectives
@@ -306,14 +306,14 @@ export default function JobDetailPage() {
             </div>
 
             {/* Regulatory & Equipment Requirements */}
-            <div className="p-6 sm:p-8 rounded-panel bg-card border border-border shadow-md space-y-6">
+            <div className="p-6 sm:p-8 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-6">
               <h3 className="text-label text-foreground flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-success" />
                 Regulatory & Equipment Requirements
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-control bg-surface-2 border border-border">
+                <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
                   <p className="text-caption font-medium text-subtle uppercase">Required Certification</p>
                   <p className="text-label text-success mt-1 flex items-center gap-1.5 font-medium">
                     <ShieldCheck className="w-4 h-4 text-success" />
@@ -321,7 +321,7 @@ export default function JobDetailPage() {
                   </p>
                 </div>
 
-                <div className="p-4 rounded-control bg-surface-2 border border-border">
+                <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
                   <p className="text-caption font-medium text-subtle uppercase">Pilot Experience</p>
                   <p className="text-label text-foreground mt-1 font-medium">
                     {job.requiredExperience}+ Year(s) Commercial Experience
@@ -338,7 +338,7 @@ export default function JobDetailPage() {
                     {job.requiredEquipment.map((eq: string, idx: number) => (
                       <span
                         key={idx}
-                        className="px-3 py-1.5 rounded-control bg-surface-2 border border-border text-caption text-primary font-medium"
+                        className="px-3 py-1.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-caption text-primary font-medium"
                       >
                         {eq}
                       </span>
@@ -374,7 +374,7 @@ export default function JobDetailPage() {
           {/* Sidebar Column */}
           <div className="space-y-6">
             {/* Compensation & Actions */}
-            <div className="p-6 rounded-panel bg-card border border-border shadow-md space-y-6">
+            <div className="p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-6">
               <div>
                 <span className="text-caption font-medium uppercase tracking-wider text-primary">
                   Total Compensation
@@ -387,7 +387,7 @@ export default function JobDetailPage() {
                 </p>
               </div>
 
-              <div className="space-y-2.5 py-4 border-y border-border text-caption">
+              <div className="space-y-2.5 py-4 border-y border-border dark:border-zinc-800 text-caption">
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Estimated Duration</span>
                   <span className="text-foreground font-medium">{job.duration || "1 Day"}</span>
@@ -556,12 +556,12 @@ export default function JobDetailPage() {
             </div>
 
             {/* Company Info Card */}
-            <div className="p-6 rounded-panel bg-card border border-border shadow-md space-y-4">
+            <div className="p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-4">
               <h3 className="text-caption font-medium uppercase tracking-wider text-muted-foreground">
                 About the Hiring Organization
               </h3>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-control bg-surface-2 flex items-center justify-center font-semibold text-primary text-label">
+                <div className="w-10 h-10 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 flex items-center justify-center font-semibold text-primary text-label">
                   {job.companyId?.name ? job.companyId.name.charAt(0).toUpperCase() : "C"}
                 </div>
                 <div>
@@ -571,7 +571,7 @@ export default function JobDetailPage() {
               </div>
 
               {job.companyProfile && (
-                <div className="pt-3 border-t border-border text-caption text-muted-foreground space-y-2">
+                <div className="pt-3 border-t border-border dark:border-zinc-800 text-caption text-muted-foreground space-y-2">
                   <StarRating rating={job.companyProfile.rating || 5.0} totalReviews={job.companyProfile.totalReviews} size="sm" />
                   <p className="line-clamp-3 text-body">{job.companyProfile.description || "Commercial drone operations client."}</p>
                 </div>
@@ -583,9 +583,9 @@ export default function JobDetailPage() {
 
       {/* Apply Proposal Modal */}
       {applyModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg rounded-panel bg-card border border-border shadow-2xl p-6 sm:p-8 space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-lg rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-border dark:border-zinc-800">
               <div>
                 <h3 className="text-heading-3 text-foreground font-semibold">Submit Flight Proposal</h3>
                 <p className="text-caption text-muted-foreground">Project: {job.title}</p>
@@ -611,7 +611,7 @@ export default function JobDetailPage() {
                     value={bidAmount}
                     onChange={(e) => setBidAmount(e.target.value)}
                     placeholder="1200"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-body focus:outline-none focus:border-primary"
                   />
                 </div>
                 <span className="text-caption text-muted-foreground mt-1 block">Client's listed budget: {formatCurrency(job.budget)}</span>
@@ -627,7 +627,7 @@ export default function JobDetailPage() {
                   value={availability}
                   onChange={(e) => setAvailability(e.target.value)}
                   placeholder="Available immediately for morning flights"
-                  className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary"
+                  className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-body focus:outline-none focus:border-primary"
                 />
               </div>
 
@@ -641,7 +641,7 @@ export default function JobDetailPage() {
                   value={proposal}
                   onChange={(e) => setProposal(e.target.value)}
                   placeholder="Describe your flight approach, payload sensors to be used, and turnaround time..."
-                  className="w-full p-3 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary"
+                  className="w-full p-3 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-body focus:outline-none focus:border-primary"
                 />
               </div>
 
@@ -649,7 +649,7 @@ export default function JobDetailPage() {
                 <button
                   type="button"
                   onClick={() => setApplyModalOpen(false)}
-                  className="flex-1 h-11 rounded-control bg-surface-2 text-foreground font-medium text-body hover:bg-border/20 transition-colors"
+                  className="flex-1 h-11 rounded-control bg-surface-2 dark:bg-zinc-900 text-foreground font-medium text-body hover:bg-border/20 transition-colors"
                 >
                   Cancel
                 </button>
@@ -669,8 +669,8 @@ export default function JobDetailPage() {
 
       {/* Simulated Payment Confirmation Modal */}
       {payModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-panel bg-card border border-border shadow-2xl p-6 sm:p-8 space-y-5 text-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5 text-center">
             <div className="w-12 h-12 rounded-control bg-success/20 text-success mx-auto flex items-center justify-center">
               <CreditCard className="w-6 h-6" />
             </div>
@@ -680,7 +680,7 @@ export default function JobDetailPage() {
               Authorize direct payout to the assigned pilot for mission completion:
             </p>
 
-            <div className="p-4 rounded-control bg-surface-2 border border-border text-left space-y-2">
+            <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-left space-y-2">
               <div className="flex justify-between text-caption">
                 <span className="text-muted-foreground">Project:</span>
                 <span className="text-foreground font-medium truncate max-w-[200px]">{job.title}</span>
@@ -689,7 +689,7 @@ export default function JobDetailPage() {
                 <span className="text-muted-foreground">Assigned Pilot:</span>
                 <span className="text-primary font-medium">{job.assignedPilotId?.name || "Pilot"}</span>
               </div>
-              <div className="flex justify-between text-label font-semibold pt-2 border-t border-border">
+              <div className="flex justify-between text-label font-semibold pt-2 border-t border-border dark:border-zinc-800">
                 <span className="text-foreground">Total Payout:</span>
                 <span className="text-success text-body">{formatCurrency(job.budget)}</span>
               </div>
@@ -699,7 +699,7 @@ export default function JobDetailPage() {
               <button
                 type="button"
                 onClick={() => setPayModalOpen(false)}
-                className="flex-1 h-11 rounded-control bg-surface-2 text-foreground font-medium text-body hover:bg-border/20 transition-colors"
+                className="flex-1 h-11 rounded-control bg-surface-2 dark:bg-zinc-900 text-foreground font-medium text-body hover:bg-border/20 transition-colors"
               >
                 Cancel
               </button>
@@ -719,8 +719,8 @@ export default function JobDetailPage() {
 
       {/* Review Modal */}
       {reviewModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-panel bg-card border border-border shadow-2xl p-6 sm:p-8 space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
             <div className="text-center">
               <Star className="w-8 h-8 text-warning mx-auto mb-2" />
               <h3 className="text-heading-3 text-foreground font-semibold">Rate Flight Performance</h3>
@@ -752,7 +752,7 @@ export default function JobDetailPage() {
                   value={reviewComment}
                   onChange={(e) => setReviewComment(e.target.value)}
                   placeholder="Share details about flight accuracy, communication, and deliverables..."
-                  className="w-full p-3 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary"
+                  className="w-full p-3 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-body focus:outline-none focus:border-primary"
                 />
               </div>
 
@@ -760,7 +760,7 @@ export default function JobDetailPage() {
                 <button
                   type="button"
                   onClick={() => setReviewModalOpen(false)}
-                  className="flex-1 h-11 rounded-control bg-surface-2 text-foreground font-medium text-body hover:bg-border/20 transition-colors"
+                  className="flex-1 h-11 rounded-control bg-surface-2 dark:bg-zinc-900 text-foreground font-medium text-body hover:bg-border/20 transition-colors"
                 >
                   Cancel
                 </button>

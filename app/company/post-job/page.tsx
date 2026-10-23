@@ -115,17 +115,35 @@ export default function CompanyPostJobPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 py-6 sm:py-10 px-4">
-      {/* Header */}
-      <div>
-        <h1 className="text-heading-1 font-bold text-foreground">Post New Drone Project</h1>
-        <p className="text-caption text-muted-foreground mt-1">
-          Publish industrial flight requirements to receive proposals from verified commercial pilots.
-        </p>
+    <div className="max-w-5xl mx-auto space-y-8 py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Commercial Tender Publishing
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Post Industrial Drone Project
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Publish tender flight specifications to receive verified Part 107 bids with escrow protection.
+          </p>
+        </div>
+
+        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          <ShieldCheck className="w-4 h-4 text-success" />
+          <span>FAA Verification Guaranteed</span>
+        </div>
       </div>
 
       {error && (
-        <div className="p-4 rounded-panel bg-destructive/10 border border-destructive/30 text-destructive text-caption flex items-center gap-2">
+        <div className="p-4 rounded-panel bg-destructive/10 border border-destructive/30 text-destructive text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -133,14 +151,14 @@ export default function CompanyPostJobPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Project Overview Card */}
-        <div className="p-6 sm:p-8 rounded-panel bg-card border border-border shadow-md space-y-5">
-          <h3 className="text-label font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
+        <div className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
             <Briefcase className="w-4 h-4 text-primary" />
             Project Scope & Classification
           </h3>
 
           <div>
-            <label className="block text-label font-medium text-foreground mb-1.5">
+            <label className="block text-xs font-medium text-foreground mb-1.5">
               Project Title
             </label>
             <input
@@ -150,20 +168,20 @@ export default function CompanyPostJobPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. 500kW Solar Farm Infrared Thermal Inspection & Fault Analysis"
-              className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-label font-medium text-foreground mb-1.5">
+              <label className="block text-xs font-medium text-foreground mb-1.5">
                 Industry Sector
               </label>
               <select
                 id="job-service-type-select"
                 value={serviceType}
                 onChange={(e) => setServiceType(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
               >
                 <option value="AGRICULTURAL_SPRAYING">Agricultural Spraying & Multispectral</option>
                 <option value="INFRASTRUCTURE_INSPECTION">Infrastructure & Thermal Inspection</option>
@@ -176,11 +194,11 @@ export default function CompanyPostJobPage() {
             </div>
 
             <div>
-              <label className="block text-label font-medium text-foreground mb-1.5">
+              <label className="block text-xs font-medium text-foreground mb-1.5">
                 Fixed Project Budget (USD)
               </label>
               <div className="relative">
-                <DollarSign className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
+                <DollarSign className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3" />
                 <input
                   id="job-budget-input"
                   type="number"
@@ -189,14 +207,14 @@ export default function CompanyPostJobPage() {
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
                   placeholder="2400"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
                 />
               </div>
             </div>
           </div>
 
           <div>
-            <label className="block text-label font-medium text-foreground mb-1.5">
+            <label className="block text-xs font-medium text-foreground mb-1.5">
               Mission Description & Deliverable Specs
             </label>
             <textarea
@@ -206,21 +224,21 @@ export default function CompanyPostJobPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Provide full flight mission details, acreage or structural dimensions, desired ground sampling distance (GSD), raw/orthomosaic deliverable formats, and site safety constraints..."
-              className="w-full p-3 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+              className="w-full p-3 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors leading-relaxed"
             />
           </div>
         </div>
 
         {/* Location & Scheduling */}
-        <div className="p-6 sm:p-8 rounded-panel bg-card border border-border shadow-md space-y-5">
-          <h3 className="text-label font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
+        <div className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
             <MapPin className="w-4 h-4 text-primary" />
-            Location & Schedule
+            Location & Flight Schedule
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-label font-medium text-foreground mb-1.5">
+              <label className="block text-xs font-medium text-foreground mb-1.5">
                 City / Location
               </label>
               <input
@@ -230,12 +248,12 @@ export default function CompanyPostJobPage() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Phoenix"
-                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-label font-medium text-foreground mb-1.5">
+              <label className="block text-xs font-medium text-foreground mb-1.5">
                 State / Region
               </label>
               <input
@@ -245,13 +263,13 @@ export default function CompanyPostJobPage() {
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 placeholder="Arizona"
-                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-label font-medium text-foreground mb-1.5">
+            <label className="block text-xs font-medium text-foreground mb-1.5">
               Specific Flight Site Address or Landmarks
             </label>
             <input
@@ -259,13 +277,13 @@ export default function CompanyPostJobPage() {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="e.g. Sector 4 Solar Array, Desert Ridge Field Office"
-              className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-label font-medium text-foreground mb-1.5">
+              <label className="block text-xs font-medium text-foreground mb-1.5">
                 Flight Operation Date
               </label>
               <input
@@ -274,12 +292,12 @@ export default function CompanyPostJobPage() {
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-label font-medium text-foreground mb-1.5">
+              <label className="block text-xs font-medium text-foreground mb-1.5">
                 Start Time
               </label>
               <input
@@ -287,12 +305,12 @@ export default function CompanyPostJobPage() {
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 placeholder="08:30 AM"
-                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-label font-medium text-foreground mb-1.5">
+              <label className="block text-xs font-medium text-foreground mb-1.5">
                 Estimated Duration
               </label>
               <input
@@ -300,13 +318,13 @@ export default function CompanyPostJobPage() {
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
                 placeholder="1 Day (approx 4 flight hours)"
-                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-label font-medium text-foreground mb-1.5">
+            <label className="block text-xs font-medium text-foreground mb-1.5">
               Proposal Submission Deadline
             </label>
             <input
@@ -315,27 +333,27 @@ export default function CompanyPostJobPage() {
               required
               value={applicationDeadline}
               onChange={(e) => setApplicationDeadline(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
             />
           </div>
         </div>
 
         {/* Requirements & Hardware Payloads */}
-        <div className="p-6 sm:p-8 rounded-panel bg-card border border-border shadow-md space-y-5">
-          <h3 className="text-label font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
+        <div className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-success" />
             Pilot Certification & Equipment Prerequisites
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-label font-medium text-foreground mb-1.5">
+              <label className="block text-xs font-medium text-foreground mb-1.5">
                 Required Aviation Certification
               </label>
               <select
                 value={requiredCertification}
                 onChange={(e) => setRequiredCertification(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
               >
                 <option value="FAA Part 107 Commercial Remote Pilot">
                   FAA Part 107 Commercial Remote Pilot
@@ -356,7 +374,7 @@ export default function CompanyPostJobPage() {
             </div>
 
             <div>
-              <label className="block text-label font-medium text-foreground mb-1.5">
+              <label className="block text-xs font-medium text-foreground mb-1.5">
                 Minimum Commercial Experience (Years)
               </label>
               <input
@@ -364,17 +382,17 @@ export default function CompanyPostJobPage() {
                 min="0"
                 value={requiredExperience}
                 onChange={(e) => setRequiredExperience(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
               />
             </div>
           </div>
 
           {/* Equipment list builder */}
           <div>
-            <label className="block text-label font-medium text-foreground mb-1.5">
+            <label className="block text-xs font-medium text-foreground mb-1.5">
               Required Drone Fleet / Payload Sensors
             </label>
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2 mb-2.5">
               <input
                 type="text"
                 value={newEquipment}
@@ -386,12 +404,12 @@ export default function CompanyPostJobPage() {
                   }
                 }}
                 placeholder="e.g. DJI Zenmuse L1 LiDAR or Agras T40"
-                className="flex-1 px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="flex-1 px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
               />
               <button
                 type="button"
                 onClick={handleAddEquipment}
-                className="px-4 py-2.5 rounded-control bg-surface-2 border border-border hover:bg-border/30 text-primary font-medium text-label flex items-center gap-1 transition-colors"
+                className="px-4 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 hover:bg-border/30 text-primary font-medium text-xs flex items-center gap-1.5 transition-colors active:scale-[0.98]"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add
@@ -402,7 +420,7 @@ export default function CompanyPostJobPage() {
               {requiredEquipment.map((eq, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1.5 rounded-control bg-surface-2 border border-border text-caption text-primary font-medium flex items-center gap-2"
+                  className="px-3 py-1 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs text-primary font-medium flex items-center gap-2"
                 >
                   <span>{eq}</span>
                   <button
@@ -419,10 +437,10 @@ export default function CompanyPostJobPage() {
 
           {/* Protocols / Requirements builder */}
           <div>
-            <label className="block text-label font-medium text-foreground mb-1.5">
+            <label className="block text-xs font-medium text-foreground mb-1.5">
               Specific Flight Protocols & Guidelines
             </label>
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2 mb-2.5">
               <input
                 type="text"
                 value={newRequirement}
@@ -434,12 +452,12 @@ export default function CompanyPostJobPage() {
                   }
                 }}
                 placeholder="e.g. Pilot must maintain FAA airspace authorization"
-                className="flex-1 px-3.5 py-2.5 rounded-control bg-surface-2 border border-border text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="flex-1 px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
               />
               <button
                 type="button"
                 onClick={handleAddRequirement}
-                className="px-4 py-2.5 rounded-control bg-surface-2 border border-border hover:bg-border/30 text-primary font-medium text-label flex items-center gap-1 transition-colors"
+                className="px-4 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 hover:bg-border/30 text-primary font-medium text-xs flex items-center gap-1.5 transition-colors active:scale-[0.98]"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add
@@ -450,7 +468,7 @@ export default function CompanyPostJobPage() {
               {requirements.map((req, idx) => (
                 <div
                   key={idx}
-                  className="p-2.5 rounded-control bg-surface-2 border border-border text-caption text-foreground flex items-center justify-between"
+                  className="p-3 rounded-control bg-surface-2 dark:bg-zinc-900/60 border border-border dark:border-zinc-800 text-xs text-foreground flex items-center justify-between"
                 >
                   <span>{req}</span>
                   <button
@@ -458,7 +476,7 @@ export default function CompanyPostJobPage() {
                     onClick={() => handleRemoveRequirement(idx)}
                     className="text-muted-foreground hover:text-destructive transition-colors"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ))}
@@ -471,10 +489,10 @@ export default function CompanyPostJobPage() {
           id="submit-post-job-btn"
           type="submit"
           disabled={submitting}
-          className="w-full h-12 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-body shadow-md transition-colors flex items-center justify-center gap-2"
+          className="w-full h-11 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-xs transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
         >
           <Briefcase className="w-4 h-4" />
-          <span>{submitting ? "Publishing Project Tender..." : "Publish Drone Project"}</span>
+          <span>{submitting ? "Publishing Project Tender..." : "Publish Drone Project Tender"}</span>
         </button>
       </form>
     </div>

@@ -28,38 +28,30 @@ export function StatCard({
   const chosenColor = (variant || color || "cyan") as string;
   const mappedColor = chosenColor === "warning" ? "amber" : chosenColor === "success" ? "emerald" : chosenColor;
 
-  const colorMap: Record<string, string> = {
-    cyan: "from-primary to-primary-hover",
-    emerald: "from-emerald-500 to-teal-400",
-    amber: "from-amber-500 to-orange-400",
-    blue: "from-blue-500 to-indigo-400",
-    purple: "from-purple-500 to-pink-400",
-    default: "from-border to-border-strong",
-  };
 
   const iconBgMap: Record<string, string> = {
-    cyan: "bg-primary/10 text-primary",
-    emerald: "bg-success/10 text-success",
-    amber: "bg-warning/10 text-warning",
-    blue: "bg-info/10 text-info",
-    purple: "bg-primary/10 text-primary",
-    default: "bg-surface-2 text-muted-foreground",
+    cyan: "bg-primary/10 text-primary border-primary/20",
+    emerald: "bg-success/10 text-success border-success/20",
+    amber: "bg-warning/10 text-warning border-warning/20",
+    blue: "bg-info/10 text-info border-info/20",
+    purple: "bg-primary/10 text-primary border-primary/20",
+    default: "bg-surface-2 dark:bg-zinc-900 text-muted-foreground border-border dark:border-zinc-800",
   };
 
   return (
     <div
       className={cn(
-        "relative overflow-hidden p-5 rounded-2xl bg-card border border-border shadow-sm group hover:border-border-strong transition-colors duration-200",
+        "p-5 sm:p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300 group flex flex-col justify-between",
         className
       )}
       {...props}
     >
-      <div className="flex items-start justify-between">
-        <div className="space-y-1">
-          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-1.5 flex-1 min-w-0">
+          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider truncate">
             {title}
           </p>
-          <h3 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
+          <h3 className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
             {value}
           </h3>
           
@@ -82,23 +74,15 @@ export function StatCard({
                   {trend}
                 </span>
               )}
-              <span>{subtitle}</span>
+              <span className="truncate">{subtitle}</span>
             </div>
           )}
         </div>
 
-        <div className={cn("p-2.5 rounded-control", iconBgMap[mappedColor] || iconBgMap.cyan)}>
-          <Icon className="w-5 h-5" />
+        <div className={cn("w-9 h-9 rounded-control border flex items-center justify-center shrink-0", iconBgMap[mappedColor] || iconBgMap.cyan)}>
+          <Icon className="w-4 h-4" />
         </div>
       </div>
-
-      {/* Bottom Accent Line */}
-      <div
-        className={cn(
-          "absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r opacity-80 group-hover:opacity-100 transition-opacity",
-          colorMap[mappedColor] || colorMap.cyan
-        )}
-      />
     </div>
   );
 }

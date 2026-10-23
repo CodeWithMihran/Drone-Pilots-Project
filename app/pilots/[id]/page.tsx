@@ -74,9 +74,9 @@ export default function PilotProfileDetailPage() {
   }
 
   return (
-    <div className="flex-1 bg-background text-foreground py-8 sm:py-12 transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6 flex items-center gap-2 text-xs text-muted-foreground">
+    <div className="flex-1 bg-background text-foreground py-6 sm:py-8 transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-fade-in">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Link href="/pilots" className="hover:text-foreground transition-colors flex items-center gap-1">
             <ArrowLeft className="w-3.5 h-3.5" />
             Pilot Roster
@@ -121,7 +121,7 @@ export default function PilotProfileDetailPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-6 py-3.5 border-y border-border text-xs">
+                <div className="flex flex-wrap items-center gap-6 py-3.5 border-y border-border dark:border-zinc-800 text-xs">
                   <StarRating rating={pilot.profile?.rating || 5.0} totalReviews={pilot.profile?.totalReviews || 0} />
                   <div className="flex items-center gap-1.5 text-muted-foreground">
                     <Award className="w-4 h-4 text-primary" />
@@ -146,7 +146,7 @@ export default function PilotProfileDetailPage() {
 
             {/* Certifications Card */}
             <Card>
-              <CardHeader className="pb-3 border-b border-border">
+              <CardHeader className="pb-3 border-b border-border dark:border-zinc-800">
                 <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-success" />
                   Validated Credentials & Aviation Licenses
@@ -158,7 +158,7 @@ export default function PilotProfileDetailPage() {
                     {pilot.certifications.map((cert: any) => (
                       <div
                         key={cert._id}
-                        className="p-4 rounded-control bg-surface-2 border border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                        className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                       >
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
@@ -196,7 +196,7 @@ export default function PilotProfileDetailPage() {
 
             {/* Hardware Fleet */}
             <Card>
-              <CardHeader className="pb-3 border-b border-border">
+              <CardHeader className="pb-3 border-b border-border dark:border-zinc-800">
                 <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
                   <Plane className="w-4 h-4 text-primary" />
                   Airframe Fleet & Sensor Payloads
@@ -208,7 +208,7 @@ export default function PilotProfileDetailPage() {
                     (eq: string, idx: number) => (
                       <span
                         key={idx}
-                        className="px-3 py-1 rounded-control bg-surface-2 border border-border text-xs font-medium text-foreground"
+                        className="px-3 py-1 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs font-medium text-foreground"
                       >
                         {eq}
                       </span>
@@ -220,7 +220,7 @@ export default function PilotProfileDetailPage() {
 
             {/* Client Reviews Section */}
             <Card>
-              <CardHeader className="pb-3 border-b border-border">
+              <CardHeader className="pb-3 border-b border-border dark:border-zinc-800">
                 <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
                   <Star className="w-4 h-4 text-warning" />
                   Verified Mission Reviews ({pilot.reviews?.length || 0})
@@ -232,11 +232,11 @@ export default function PilotProfileDetailPage() {
                     {pilot.reviews.map((rev: any) => (
                       <div
                         key={rev._id}
-                        className="p-4 rounded-control bg-surface-2 border border-border space-y-2"
+                        className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 space-y-2"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-md bg-surface border border-border text-foreground font-bold text-[11px] flex items-center justify-center">
+                            <div className="w-6 h-6 rounded-md bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 text-foreground font-bold text-[11px] flex items-center justify-center">
                               {rev.reviewerId?.name ? rev.reviewerId.name.charAt(0) : "C"}
                             </div>
                             <div>
@@ -282,7 +282,7 @@ export default function PilotProfileDetailPage() {
                   </div>
                 </div>
 
-                <div className="space-y-2 text-xs py-3 border-y border-border">
+                <div className="space-y-2 text-xs py-3 border-y border-border dark:border-zinc-800">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Deployment Status:</span>
                     <span className="text-success font-semibold">

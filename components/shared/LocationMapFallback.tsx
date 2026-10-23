@@ -27,18 +27,18 @@ export function LocationMapFallback({
   const lng = location?.longitude || -122.4194;
 
   return (
-    <Card className="overflow-hidden">
+    <div className="overflow-hidden rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
       {/* Architectural Map Header Canvas */}
-      <div className="relative h-36 bg-surface-2 p-4 flex flex-col justify-between border-b border-border">
+      <div className="relative h-36 bg-surface-2 dark:bg-zinc-900/60 p-4 flex flex-col justify-between border-b border-border dark:border-zinc-800/80">
         {/* Clean subtle coordinate grid */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
 
         <div className="relative z-10 flex items-center justify-between">
-          <Badge variant="outline" className="bg-surface font-mono text-[10px]">
+          <Badge variant="outline" className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-700 font-mono text-[10px]">
             {title}
           </Badge>
 
-          <span className="text-[11px] font-mono text-subtle">
+          <span className="text-[11px] font-mono text-muted-foreground">
             {lat.toFixed(4)}° N, {Math.abs(lng).toFixed(4)}° W
           </span>
         </div>
@@ -52,7 +52,7 @@ export function LocationMapFallback({
       </div>
 
       {/* Location Details Footer */}
-      <CardContent className="p-4 space-y-2 text-xs">
+      <div className="p-4 space-y-2 text-xs">
         <div className="flex items-center justify-between">
           <span className="text-muted-foreground">Operating Region:</span>
           <span className="font-semibold text-foreground">
@@ -69,15 +69,15 @@ export function LocationMapFallback({
           </div>
         )}
 
-        <div className="flex items-center justify-between pt-1 border-t border-border text-[11px]">
-          <span className="text-subtle">FAA Jurisdiction:</span>
-          <span className="text-success font-medium flex items-center gap-1">
+        <div className="flex items-center justify-between pt-2 border-t border-border dark:border-zinc-800/80 text-[11px]">
+          <span className="text-muted-foreground">FAA Jurisdiction:</span>
+          <span className="text-success font-medium flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-success"></span>
             Class G / Airspace Authorized
           </span>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 

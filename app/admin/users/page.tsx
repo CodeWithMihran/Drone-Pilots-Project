@@ -72,93 +72,116 @@ export default function AdminUsersPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-6xl">
-      <div className="pb-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">User Management</h1>
-        <p className="text-xs text-muted-foreground mt-1">
-          Monitor accounts, manage authorization levels, and maintain compliance standards across all participants.
-        </p>
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Platform Governance & Access
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            User Account Registry
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Monitor operator accounts, audit authorization levels, and enforce compliance standards across all platform members.
+          </p>
+        </div>
+
+        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          <Users className="w-4 h-4 text-primary" />
+          <span>Active Registry: {users.length}</span>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <Card>
-        <CardContent className="p-4 space-y-3">
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 shadow-xs space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-semibold text-muted-foreground mr-1 uppercase tracking-wider">Role:</span>
-            {["ALL", "PILOT", "COMPANY", "ADMIN"].map((r) => {
-              const active = roleFilter === r;
-              return (
-                <button
-                  key={r}
-                  onClick={() => setRoleFilter(r)}
-                  className={`px-3 py-1 rounded-control text-xs font-semibold transition-colors ${
-                    active
-                      ? "bg-primary text-primary-foreground shadow-xs"
-                      : "text-muted-foreground hover:text-foreground hover:bg-surface-2"
-                  }`}
-                >
-                  {r === "ALL" ? "All Roles" : r === "PILOT" ? "Pilots" : r === "COMPANY" ? "Companies" : "Admins"}
-                </button>
-              );
-            })}
-
-            <div className="h-4 w-px bg-border mx-2" />
-
-            <span className="text-[11px] font-semibold text-muted-foreground mr-1 uppercase tracking-wider">Status:</span>
-            {["ALL", "ACTIVE", "SUSPENDED"].map((s) => {
-              const active = statusFilter === s;
-              return (
-                <button
-                  key={s}
-                  onClick={() => setStatusFilter(s)}
-                  className={`px-3 py-1 rounded-control text-xs font-semibold transition-colors ${
-                    active
-                      ? "bg-foreground text-background shadow-xs"
-                      : "text-muted-foreground hover:text-foreground hover:bg-surface-2"
-                  }`}
-                >
-                  {s === "ALL" ? "All Statuses" : s}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
-              <Input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && fetchUsers()}
-                placeholder="Search accounts by name, email, or city..."
-                className="pl-9"
-              />
+            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mr-1">Role:</span>
+            <div className="flex flex-wrap gap-1 p-1 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+              {["ALL", "PILOT", "COMPANY", "ADMIN"].map((r) => {
+                const active = roleFilter === r;
+                return (
+                  <button
+                    key={r}
+                    onClick={() => setRoleFilter(r)}
+                    className={`px-3 py-1 rounded-control text-xs font-semibold transition-all ${
+                      active
+                        ? "bg-primary text-primary-foreground shadow-xs"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {r === "ALL" ? "All Roles" : r === "PILOT" ? "Pilots" : r === "COMPANY" ? "Companies" : "Admins"}
+                  </button>
+                );
+              })}
             </div>
-            <Button
-              onClick={fetchUsers}
-              variant="primary"
-              size="sm"
-              className="px-5 shrink-0"
-            >
-              Filter
-            </Button>
+
+            <div className="h-4 w-px bg-border dark:bg-zinc-800 mx-1 hidden sm:block" />
+
+            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mr-1 ml-1">Status:</span>
+            <div className="flex flex-wrap gap-1 p-1 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+              {["ALL", "ACTIVE", "SUSPENDED"].map((s) => {
+                const active = statusFilter === s;
+                return (
+                  <button
+                    key={s}
+                    onClick={() => setStatusFilter(s)}
+                    className={`px-3 py-1 rounded-control text-xs font-semibold transition-all ${
+                      active
+                        ? "bg-foreground text-background shadow-xs"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {s === "ALL" ? "All Statuses" : s}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
+            <Input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && fetchUsers()}
+              placeholder="Search accounts by name, email, or city..."
+              className="pl-9 h-10 bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+            />
+          </div>
+          <Button
+            onClick={fetchUsers}
+            variant="primary"
+            size="sm"
+            className="px-5 shrink-0 h-10"
+          >
+            Filter
+          </Button>
+        </div>
+      </div>
 
       {/* Users Table */}
-      <Card>
-        <CardHeader className="pb-3 border-b border-border">
-          <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs overflow-hidden">
+        <div className="px-6 py-4 border-b border-border dark:border-zinc-800/80 flex items-center justify-between">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Account Registry ({users.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
+          </span>
+        </div>
+        <div>
           {loading ? (
             <div className="p-6 space-y-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-12 bg-surface-2 rounded-control animate-pulse border border-border" />
+                <div key={i} className="h-12 bg-surface-2 dark:bg-zinc-900 rounded-control animate-pulse border border-border dark:border-zinc-800" />
               ))}
             </div>
           ) : users.length === 0 ? (
@@ -173,7 +196,7 @@ export default function AdminUsersPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-border bg-surface-2/50 text-muted-foreground font-semibold">
+                  <tr className="border-b border-border dark:border-zinc-800 bg-surface-2/60 dark:bg-zinc-900/60 text-muted-foreground font-semibold">
                     <th className="py-3 px-4">User Details</th>
                     <th className="py-3 px-4">Role</th>
                     <th className="py-3 px-4">Base Location</th>
@@ -182,16 +205,16 @@ export default function AdminUsersPage() {
                     <th className="py-3 px-4 text-right">Moderation</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border">
+                <tbody className="divide-y divide-border dark:divide-zinc-800/80">
                   {users.map((u) => (
-                    <tr key={u._id} className="hover:bg-surface-2/60 transition-colors">
+                    <tr key={u._id} className="hover:bg-surface-2/40 dark:hover:bg-zinc-900/40 transition-colors">
                       <td className="py-3.5 px-4">
                         <span className="font-semibold text-foreground block">{u.name}</span>
                         <span className="text-[11px] text-muted-foreground font-mono">{u.email}</span>
                       </td>
 
                       <td className="py-3.5 px-4">
-                        <Badge variant="outline" className="text-[10px] uppercase font-mono">
+                        <Badge variant="outline" className="text-[10px] uppercase font-mono border-border dark:border-zinc-800">
                           {u.role}
                         </Badge>
                       </td>
@@ -227,8 +250,8 @@ export default function AdminUsersPage() {
               </table>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
