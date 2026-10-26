@@ -15,6 +15,9 @@ import {
   Plus,
   X,
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export default function PilotProfileEditPage() {
   const [name, setName] = useState("");
@@ -125,27 +128,49 @@ export default function PilotProfileEditPage() {
     setList(list.filter((_, i) => i !== index));
   };
 
+  // Reusable styles to match our Input component for native select/textareas
+  const inputMatchingClasses = "flex w-full rounded-control border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-900 px-3.5 py-2 text-xs text-foreground shadow-xs transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 hover:border-border-strong dark:hover:border-zinc-700";
+
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">Pilot Profile & Equipment Fleet</h1>
-        <p className="text-xs text-slate-400 mt-1">
-          Keep your aircraft models, sensor payloads, and service coverage updated to optimize match scores.
-        </p>
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Commercial Flight Credentials
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Pilot Profile & Airframe Fleet
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Keep your aircraft models, sensor payloads, and service coverage updated to optimize automated matching on commercial tenders.
+          </p>
+        </div>
+
+        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          <Plane className="w-4 h-4 text-primary" />
+          <span>Active Fleet: {equipment.length} Payloads</span>
+        </div>
       </div>
 
       {message.text && (
         <div
-          className={`p-4 rounded-2xl border text-xs flex items-center gap-2.5 ${
+          className={`p-4 rounded-panel border text-xs font-medium flex items-center gap-2.5 ${
             message.type === "success"
-              ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
-              : "bg-rose-500/10 border-rose-500/30 text-rose-300"
+              ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-300"
+              : "bg-rose-500/10 border-rose-500/30 text-rose-700 dark:text-rose-300"
           }`}
         >
           {message.type === "success" ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           ) : (
-            <AlertCircle className="w-4 h-4 text-rose-400" />
+            <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
           )}
           <span>{message.text}</span>
         </div>
@@ -153,112 +178,104 @@ export default function PilotProfileEditPage() {
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Personal & Contact Information */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-            <User className="w-4 h-4 text-cyan-400" />
+        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <User className="w-4 h-4 text-primary" />
             Personal & Contact Information
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Full Pilot Name
-              </label>
-              <input
-                id="profile-name-input"
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="space-y-1.5">
+              <Label htmlFor="profile-name">Full Pilot Name</Label>
+              <Input
+                id="profile-name"
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Phone Number
-              </label>
-              <input
+            <div className="space-y-1.5">
+              <Label htmlFor="profile-phone">Phone Number</Label>
+              <Input
+                id="profile-phone"
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+1 (555) 019-2834"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Home Base City
-              </label>
-              <input
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="space-y-1.5">
+              <Label htmlFor="profile-city">Home Base City</Label>
+              <Input
+                id="profile-city"
                 type="text"
                 required
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                State / Province
-              </label>
-              <input
+            <div className="space-y-1.5">
+              <Label htmlFor="profile-state">State / Province</Label>
+              <Input
+                id="profile-state"
                 type="text"
                 required
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
               />
             </div>
           </div>
         </div>
 
         {/* Operational & Pricing Details */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-            <Award className="w-4 h-4 text-cyan-400" />
+        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Award className="w-4 h-4 text-primary" />
             Flight Experience & Rate
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Commercial Experience (Years)
-              </label>
-              <input
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="space-y-1.5">
+              <Label htmlFor="profile-experience">Commercial Experience (Years)</Label>
+              <Input
+                id="profile-experience"
                 type="number"
                 min="0"
                 value={experience}
                 onChange={(e) => setExperience(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs font-mono"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Standard Hourly Rate (USD)
-              </label>
-              <input
+            <div className="space-y-1.5">
+              <Label htmlFor="profile-rate">Standard Hourly Rate (USD)</Label>
+              <Input
+                id="profile-rate"
                 type="number"
                 min="0"
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs font-mono"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Flight Availability Status
-              </label>
+            <div className="space-y-1.5">
+              <Label htmlFor="profile-availability">Flight Availability Status</Label>
               <select
+                id="profile-availability"
                 value={availability}
                 onChange={(e) => setAvailability(e.target.value as any)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+                className={`h-10 ${inputMatchingClasses}`}
               >
                 <option value="AVAILABLE">AVAILABLE (Accepting missions)</option>
                 <option value="BUSY">BUSY (Limited schedule)</option>
@@ -267,32 +284,31 @@ export default function PilotProfileEditPage() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Pilot Biography & Operations Summary
-            </label>
+          <div className="space-y-1.5">
+            <Label htmlFor="profile-bio">Pilot Biography & Operations Summary</Label>
             <textarea
+              id="profile-bio"
               rows={4}
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               placeholder="Detail your industrial mission background, FAA waivers, safety records, and sensor capabilities..."
-              className="w-full p-3 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+              className={`min-h-[100px] resize-y ${inputMatchingClasses}`}
             />
           </div>
         </div>
 
         {/* Drone Equipment Fleet */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-            <Plane className="w-4 h-4 text-cyan-400" />
+        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Plane className="w-4 h-4 text-primary" />
             Drone Fleet & Payload Sensors
           </h3>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-muted-foreground">
             Add all drones and cameras/sensors you operate (e.g. DJI Matrice 350 RTK, Agras T40, Zenmuse H20T Thermal).
           </p>
 
-          <div className="flex gap-2">
-            <input
+          <div className="flex gap-3">
+            <Input
               type="text"
               value={newEquipment}
               onChange={(e) => setNewEquipment(e.target.value)}
@@ -302,32 +318,33 @@ export default function PilotProfileEditPage() {
                   addTag(equipment, setEquipment, newEquipment, setNewEquipment);
                 }
               }}
-              placeholder="e.g. DJI Matrice 300 RTK"
-              className="flex-1 px-3.5 py-2 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+              placeholder="e.g. DJI Matrice 350 RTK"
+              className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
             />
-            <button
+            <Button
               type="button"
+              variant="secondary"
               onClick={() => addTag(equipment, setEquipment, newEquipment, setNewEquipment)}
-              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-semibold text-xs flex items-center gap-1"
+              className="shrink-0 text-xs h-10"
             >
-              <Plus className="w-3.5 h-3.5" />
-              Add Equipment
-            </button>
+              <Plus className="w-4 h-4 mr-1" />
+              Add 
+            </Button>
           </div>
 
-          <div className="flex flex-wrap gap-2 pt-2">
+          <div className="flex flex-wrap gap-2 pt-1">
             {equipment.map((eq, idx) => (
               <span
                 key={idx}
-                className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-cyan-300 flex items-center gap-2 font-medium"
+                className="px-3 py-1.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs text-foreground flex items-center gap-2 font-medium"
               >
                 <span>{eq}</span>
                 <button
                   type="button"
                   onClick={() => removeTag(equipment, setEquipment, idx)}
-                  className="text-slate-500 hover:text-rose-400"
+                  className="text-muted-foreground hover:text-destructive transition-colors"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
               </span>
             ))}
@@ -335,14 +352,14 @@ export default function PilotProfileEditPage() {
         </div>
 
         {/* Specializations & Skills */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-            <Layers className="w-4 h-4 text-cyan-400" />
+        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Layers className="w-4 h-4 text-primary" />
             Specializations & Technical Skills
           </h3>
 
-          <div className="flex gap-2">
-            <input
+          <div className="flex gap-3">
+            <Input
               type="text"
               value={newSpec}
               onChange={(e) => setNewSpec(e.target.value)}
@@ -352,47 +369,50 @@ export default function PilotProfileEditPage() {
                   addTag(specializations, setSpecializations, newSpec, setNewSpec);
                 }
               }}
-              placeholder="e.g. LiDAR Topography, Orthomosaic 3D, Thermal Inspection"
-              className="flex-1 px-3.5 py-2 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
+              placeholder="e.g. LiDAR Topography, Orthomosaic 3D"
+              className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
             />
-            <button
+            <Button
               type="button"
+              variant="secondary"
               onClick={() => addTag(specializations, setSpecializations, newSpec, setNewSpec)}
-              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-semibold text-xs flex items-center gap-1"
+              className="shrink-0 text-xs h-10"
             >
-              <Plus className="w-3.5 h-3.5" />
-              Add Skill
-            </button>
+              <Plus className="w-4 h-4 mr-1" />
+              Add 
+            </Button>
           </div>
 
-          <div className="flex flex-wrap gap-2 pt-2">
+          <div className="flex flex-wrap gap-2 pt-1">
             {specializations.map((spec, idx) => (
               <span
                 key={idx}
-                className="px-3 py-1.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-300 flex items-center gap-2 font-medium"
+                className="px-3 py-1.5 rounded-control bg-primary/10 border border-primary/20 text-xs text-primary flex items-center gap-2 font-medium"
               >
                 <span>{spec}</span>
                 <button
                   type="button"
                   onClick={() => removeTag(specializations, setSpecializations, idx)}
-                  className="text-slate-500 hover:text-rose-400"
+                  className="text-primary/70 hover:text-destructive transition-colors"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
               </span>
             ))}
           </div>
         </div>
 
-        <button
+        <Button
           id="save-pilot-profile-btn"
           type="submit"
           disabled={saving}
-          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-400 hover:opacity-95 text-slate-950 font-bold text-xs shadow-xl shadow-cyan-500/20 transition flex items-center justify-center gap-2 disabled:opacity-50"
+          size="lg"
+          block
+          className="h-11 font-semibold text-xs"
         >
-          <Save className="w-4 h-4" />
-          <span>{saving ? "Saving Changes..." : "Save Profile & Fleet Details"}</span>
-        </button>
+          <Save className="w-4 h-4 mr-2" />
+          {saving ? "Saving Changes..." : "Save Profile & Fleet Details"}
+        </Button>
       </form>
     </div>
   );

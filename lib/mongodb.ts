@@ -8,7 +8,7 @@ if (!cached) {
 
 async function autoSeedInMemory() {
   if (cached.seeded) return;
-  cached.seeded = true;
+  // Mark seeded ONLY after successful completion (moved to end of function)
   try {
     // Dynamically import seed function to avoid circular dependencies
     const bcrypt = await import("bcryptjs");
@@ -399,10 +399,11 @@ async function autoSeedInMemory() {
       link: "/admin/certifications",
     });
 
-    console.log("Auto-seed complete!");
+    console.log("✅ Auto-seed complete! Database is ready.");
+    cached.seeded = true; // Mark as seeded only after full success
   } catch (err: any) {
     console.error("Auto-seed error:", err.message);
-    cached.seeded = false; // Allow retry
+    cached.seeded = false; // Allow retry on next request
   }
 }
 
@@ -416,46 +417,49 @@ export async function connectToDatabase() {
       bufferCommands: false,
     };
 
-    let uri = process.env.MONGODB_URI;
+    const uri = process.env.MONGODB_URI;
 
     cached.promise = (async () => {
-      // If uri is provided, attempt to connect
+      // ── Atlas / real MongoDB ──────────────────────────────────────────────
       if (uri) {
-        try {
-          const conn = await mongoose.connect(uri, { ...opts, serverSelectionTimeoutMS: 2000 });
-          return conn;
-        } catch (err: any) {
-          console.warn("Direct MongoDB connection failed:", err.message);
-        }
-      }
-
-      // If direct connection failed or no uri provided, spin up in-memory mongodb
-      console.log("Starting in-memory MongoDB fallback server...");
-      try {
-        const { MongoMemoryServer } = await import("mongodb-memory-server");
-        if (!cached.memoryServer) {
-          cached.memoryServer = await MongoMemoryServer.create({
-            instance: {
-              dbName: "drone_marketplace",
-            },
-          });
-        }
-        const memoryUri = cached.memoryServer.getUri();
-        console.log("In-memory MongoDB started at:", memoryUri);
-        const conn = await mongoose.connect(memoryUri, opts);
-        // Auto-seed demo data so the platform is functional out of the box
+        const conn = await mongoose.connect(uri, {
+          ...opts,
+          serverSelectionTimeoutMS: 15000,
+          connectTimeoutMS: 15000,
+          socketTimeoutMS: 30000,
+        });
+        console.log("✅ Connected successfully to MongoDB Atlas database!");
+        // Only auto-seed if the DB is empty (first-time setup without running npm run seed)
         await autoSeedInMemory();
         return conn;
-      } catch (memErr: any) {
-        console.error("Failed to start MongoMemoryServer:", memErr.message);
-        throw memErr;
+        // ^ If connect() throws, the error propagates up — NO silent fallback.
+        // This ensures registration data always goes to Atlas and never to an
+        // ephemeral in-memory database.
       }
+
+      // ── No URI configured: local in-memory DB for zero-config development ──
+      console.warn(
+        "⚠️  MONGODB_URI is not set. Starting in-memory MongoDB. " +
+        "Data will be LOST on server restart. Set MONGODB_URI in .env.local for persistence."
+      );
+      const { MongoMemoryServer } = await import("mongodb-memory-server");
+      if (!cached.memoryServer) {
+        cached.memoryServer = await MongoMemoryServer.create({
+          instance: { dbName: "drone_marketplace" },
+        });
+      }
+      const memoryUri = cached.memoryServer.getUri();
+      console.log("In-memory MongoDB started at:", memoryUri);
+      const conn = await mongoose.connect(memoryUri, opts);
+      await autoSeedInMemory();
+      return conn;
     })();
   }
 
   try {
     cached.conn = await cached.promise;
   } catch (e) {
+    // Reset so the next request can retry the connection
     cached.promise = null;
     throw e;
   }

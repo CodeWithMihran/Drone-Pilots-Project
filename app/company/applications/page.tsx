@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -15,15 +15,15 @@ import {
   User,
   Plane,
   Award,
-  Zap,
 } from "lucide-react";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { MatchScoreBadge } from "@/components/shared/MatchScoreBadge";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { StarRating } from "@/components/shared/StarRating";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
 
-export default function CompanyApplicationsPage() {
+function CompanyApplicationsContent() {
   const searchParams = useSearchParams();
   const initialJobId = searchParams.get("jobId") || "";
 
@@ -104,22 +104,37 @@ export default function CompanyApplicationsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Pilot Proposals & Applications</h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Compare pilot match scores, certifications, hardware fleet, and select your flight operator.
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Candidate Evaluation & Proposals
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Pilot Proposals & Flight Bids
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Compare pilot match scores, Part 107 certifications, sensor payloads, and award contract tenders.
           </p>
         </div>
 
         {/* Job Selector Dropdown */}
         {companyJobs.length > 0 && (
-          <div className="w-full sm:w-72">
+          <div className="w-full sm:w-80 shrink-0">
+            <label className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground block mb-1.5">
+              Select Mission Tender
+            </label>
             <select
               value={selectedJobId}
               onChange={(e) => setSelectedJobId(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#0c142b] border border-slate-700 text-white text-xs font-semibold focus:outline-none focus:border-cyan-500"
+              className="flex w-full h-10 rounded-control border border-border dark:border-zinc-800 bg-surface-2 dark:bg-zinc-900 px-3.5 py-1.5 text-xs text-foreground shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-colors hover:border-border-strong cursor-pointer"
             >
               {companyJobs.map((j) => (
                 <option key={j._id} value={j._id}>
@@ -134,7 +149,7 @@ export default function CompanyApplicationsPage() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2].map((i) => (
-            <div key={i} className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800 animate-pulse h-44" />
+            <div key={i} className="p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs animate-pulse h-44" />
           ))}
         </div>
       ) : applications.length === 0 ? (
@@ -152,51 +167,51 @@ export default function CompanyApplicationsPage() {
             return (
               <div
                 key={app._id}
-                className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-xl space-y-4 hover:border-slate-700 transition"
+                className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300"
               >
                 {/* Header: Pilot Info + Match Score + Bid */}
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-600 to-teal-400 p-0.5 shadow-md shrink-0">
-                      <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center font-bold text-cyan-300 text-base">
+                    <div className="w-12 h-12 rounded-control bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0">
+                      <span className="font-bold text-lg">
                         {pilot?.name ? pilot.name.charAt(0).toUpperCase() : "P"}
-                      </div>
+                      </span>
                     </div>
 
-                    <div className="space-y-1">
-                      <div className="flex flex-wrap items-center gap-2">
+                    <div className="space-y-1.5">
+                      <div className="flex flex-wrap items-center gap-2.5">
                         <Link href={`/pilots/${pilot?._id}`}>
-                          <h3 className="text-base font-bold text-white hover:text-cyan-300 transition">
+                          <h3 className="text-base sm:text-lg font-semibold text-foreground hover:text-primary transition-colors">
                             {pilot?.name || "Pilot"}
                           </h3>
                         </Link>
                         {app.isVerified ? (
-                          <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-300 flex items-center gap-1">
-                            <ShieldCheck className="w-3 h-3" />
-                            ✓ VERIFIED PILOT
+                          <span className="px-2.5 py-0.5 rounded-control bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                            <ShieldCheck className="w-3.5 h-3.5" />
+                            PART 107 VERIFIED
                           </span>
                         ) : (
-                          <span className="px-2 py-0.5 rounded-full bg-slate-800 text-[10px] text-slate-400">
-                            Unverified
+                          <span className="px-2.5 py-0.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-[11px] font-medium text-muted-foreground">
+                            Standard
                           </span>
                         )}
                         <StatusBadge status={app.status} type="application" />
                       </div>
 
-                      <div className="flex items-center gap-3 text-xs text-slate-400">
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                         <StarRating rating={profile?.rating || 5.0} totalReviews={profile?.totalReviews || 0} size="sm" />
-                        <span>•</span>
+                        <span className="hidden sm:inline">•</span>
                         <span>{profile?.experience || 1}+ Years Commercial Exp</span>
-                        <span>•</span>
+                        <span className="hidden sm:inline">•</span>
                         <span>{pilot?.location?.city}, {pilot?.location?.state}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
-                    <div className="text-right">
-                      <span className="text-xs text-slate-400 block">Proposed Bid</span>
-                      <span className="text-xl font-bold text-emerald-400">
+                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2.5 shrink-0 bg-surface-2 dark:bg-zinc-900/60 sm:bg-transparent p-3.5 sm:p-0 rounded-control border border-border/40 sm:border-0">
+                    <div className="text-left sm:text-right">
+                      <span className="text-[11px] text-muted-foreground block mb-0.5">Proposed Bid</span>
+                      <span className="text-xl sm:text-2xl font-semibold text-foreground font-mono">
                         {formatCurrency(app.bidAmount)}
                       </span>
                     </div>
@@ -207,26 +222,26 @@ export default function CompanyApplicationsPage() {
                 </div>
 
                 {/* Proposal Text */}
-                <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-xs text-slate-300 space-y-1.5">
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 font-semibold">
-                    <span>Flight Proposal & Methodology</span>
-                    <span className="text-cyan-400">Availability: {app.availability}</span>
+                <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900/50 border border-border dark:border-zinc-800 text-xs space-y-2">
+                  <div className="flex items-center justify-between text-[11px] font-medium">
+                    <span className="text-muted-foreground uppercase tracking-wider">Flight Proposal & Methodology</span>
+                    <span className="text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-control">Availability: {app.availability}</span>
                   </div>
-                  <p className="leading-relaxed whitespace-pre-line italic">
+                  <p className="leading-relaxed whitespace-pre-line text-foreground italic">
                     "{app.proposal}"
                   </p>
                 </div>
 
                 {/* Equipment Fleet Tags */}
                 {profile?.equipment && profile.equipment.length > 0 && (
-                  <div className="flex items-center gap-2 text-xs">
-                    <span className="text-slate-400 shrink-0 flex items-center gap-1">
-                      <Plane className="w-3.5 h-3.5 text-cyan-400" />
+                  <div className="flex items-center gap-3 text-xs">
+                    <span className="text-muted-foreground shrink-0 flex items-center gap-1.5 font-medium">
+                      <Plane className="w-3.5 h-3.5 text-primary" />
                       Fleet:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {profile.equipment.map((eq: string, idx: number) => (
-                        <span key={idx} className="px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-700 text-[11px] text-cyan-300">
+                        <span key={idx} className="px-2.5 py-0.5 rounded bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-[11px] text-muted-foreground font-medium">
                           {eq}
                         </span>
                       ))}
@@ -235,54 +250,61 @@ export default function CompanyApplicationsPage() {
                 )}
 
                 {/* Decision Actions Bar */}
-                <div className="pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
-                  <span className="text-slate-500">Submitted {formatDate(app.createdAt)}</span>
+                <div className="pt-4 border-t border-border dark:border-zinc-800/80 flex flex-wrap items-center justify-between gap-4">
+                  <span className="text-xs text-muted-foreground font-medium">
+                    Submitted on {formatDate(app.createdAt)}
+                  </span>
 
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href={`/pilots/${pilot?._id}`}
-                      className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold"
-                    >
-                      View Full Profile
-                    </Link>
+                  <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+                    <Button variant="secondary" size="sm" asChild className="w-full sm:w-auto active:scale-[0.98]">
+                      <Link href={`/pilots/${pilot?._id}`}>
+                        View Pilot Profile
+                      </Link>
+                    </Button>
 
                     {app.status === "PENDING" && (
-                      <button
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => handleUpdateStatus(app._id, "SHORTLISTED")}
                         disabled={actionLoading === app._id}
-                        className="px-3.5 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 hover:bg-amber-500/30 font-bold"
+                        className="w-full sm:w-auto active:scale-[0.98]"
                       >
                         Shortlist
-                      </button>
+                      </Button>
                     )}
 
                     {(app.status === "PENDING" || app.status === "SHORTLISTED") && (
                       <>
-                        <button
+                        <Button
+                          variant="destructive"
+                          size="sm"
                           onClick={() => handleUpdateStatus(app._id, "REJECTED")}
                           disabled={actionLoading === app._id}
-                          className="px-3.5 py-1.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 font-semibold"
+                          className="w-full sm:w-auto active:scale-[0.98]"
                         >
                           Decline
-                        </button>
+                        </Button>
 
-                        <button
+                        <Button
                           id={`accept-applicant-btn-${app._id}`}
+                          variant="primary"
+                          size="sm"
                           onClick={() => handleUpdateStatus(app._id, "ACCEPTED")}
                           disabled={actionLoading === app._id}
-                          className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:opacity-95 text-slate-950 font-bold shadow-md flex items-center gap-1.5"
+                          className="w-full sm:w-auto active:scale-[0.98]"
                         >
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span>Accept & Assign Pilot</span>
-                        </button>
+                          <CheckCircle2 className="w-4 h-4 mr-1.5" />
+                          Accept & Assign Pilot
+                        </Button>
                       </>
                     )}
 
                     {app.status === "ACCEPTED" && (
-                      <span className="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
+                      <div className="px-3.5 py-1.5 rounded-control bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1.5 text-xs w-full sm:w-auto justify-center">
+                        <CheckCircle2 className="w-4 h-4" />
                         Assigned Pilot for this Project
-                      </span>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -292,5 +314,13 @@ export default function CompanyApplicationsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function CompanyApplicationsPage() {
+  return (
+    <Suspense fallback={<div className="p-6 text-muted-foreground text-sm">Loading applications...</div>}>
+      <CompanyApplicationsContent />
+    </Suspense>
   );
 }

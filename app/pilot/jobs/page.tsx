@@ -8,7 +8,6 @@ import {
   MapPin,
   Calendar,
   Briefcase,
-  Zap,
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
@@ -16,6 +15,10 @@ import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { MatchScoreBadge } from "@/components/shared/MatchScoreBadge";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 
 export default function PilotJobsFinderPage() {
   const [jobs, setJobs] = useState<any[]>([]);
@@ -47,74 +50,97 @@ export default function PilotJobsFinderPage() {
   }, [service]);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">Find Drone Projects</h1>
-        <p className="text-xs text-slate-400 mt-1">
-          Explore open commercial flight contracts tailored to your equipment and credentials.
-        </p>
+    <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      {/* Header Banner */}
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
+              Commercial Flight Tender Dispatch
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            Available Flight Contracts
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            Explore open commercial missions calibrated to your fleet airframes, sensor payloads, and Part 107 verification.
+          </p>
+        </div>
+
+        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+          <Briefcase className="w-4 h-4 text-primary" />
+          <span>Active Opportunities: {jobs.length}</span>
+        </div>
       </div>
 
       {/* Filter bar */}
-      <div className="p-4 rounded-2xl bg-[#0c142b] border border-slate-800/80 shadow-lg flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && fetchJobs()}
-            placeholder="Search keywords, locations, or sensor requirements..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500"
-          />
+      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
+            <Input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && fetchJobs()}
+              placeholder="Search missions, site location, or sensor payload..."
+              className="pl-9 h-10 bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+            />
+          </div>
+
+          <select
+            value={service}
+            onChange={(e) => setService(e.target.value)}
+            className="px-3 py-2 h-10 rounded-control bg-surface dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary sm:w-56"
+          >
+            <option value="">All Industrial Sectors</option>
+            <option value="AGRICULTURAL_SPRAYING">Agricultural Spraying</option>
+            <option value="INFRASTRUCTURE_INSPECTION">Infrastructure Inspection</option>
+            <option value="REAL_ESTATE_MAPPING">Real Estate & 3D Mapping</option>
+            <option value="CONSTRUCTION_MONITORING">Construction Monitoring</option>
+            <option value="LAND_SURVEYING">Land Surveying & LiDAR</option>
+            <option value="AERIAL_PHOTOGRAPHY">Commercial Aerial Media</option>
+          </select>
+
+          <Button
+            onClick={fetchJobs}
+            variant="primary"
+            size="sm"
+            className="px-5 shrink-0 h-10"
+          >
+            Filter
+          </Button>
         </div>
-
-        <select
-          value={service}
-          onChange={(e) => setService(e.target.value)}
-          className="px-3 py-2.5 rounded-xl bg-[#070e22] border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-500"
-        >
-          <option value="">All Industry Sectors</option>
-          <option value="AGRICULTURAL_SPRAYING">Agricultural Spraying</option>
-          <option value="INFRASTRUCTURE_INSPECTION">Infrastructure Inspection</option>
-          <option value="REAL_ESTATE_MAPPING">Real Estate Mapping</option>
-          <option value="CONSTRUCTION_MONITORING">Construction Monitoring</option>
-          <option value="LAND_SURVEYING">Land Surveying</option>
-          <option value="AERIAL_PHOTOGRAPHY">Aerial Photography</option>
-        </select>
-
-        <button
-          onClick={fetchJobs}
-          className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-md transition"
-        >
-          Search
-        </button>
       </div>
 
       {/* Job listings */}
       {loading ? (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-6 rounded-2xl bg-[#0c142b] border border-slate-800 animate-pulse h-28" />
+            <div key={i} className="p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 animate-pulse h-32" />
           ))}
         </div>
       ) : jobs.length === 0 ? (
         <EmptyState
           icon={Briefcase}
-          title="No Matching Jobs Found"
-          description="Try broadening your search query or removing industry filters."
+          title="No matching missions found"
+          description="Try broadening your search query or removing industry category filters."
         />
       ) : (
         <div className="space-y-4">
           {jobs.map((job) => (
             <div
               key={job._id}
-              className="p-6 rounded-3xl bg-[#0c142b] border border-slate-800/80 shadow-lg hover:border-cyan-500/40 transition group"
+              className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="space-y-2 flex-1">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+                <div className="space-y-2.5 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[11px] font-semibold">
+                    <span className="px-2.5 py-0.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-[11px] font-medium text-foreground">
                       {formatServiceType(job.serviceType)}
                     </span>
                     <StatusBadge status={job.status} type="job" />
@@ -124,37 +150,36 @@ export default function PilotJobsFinderPage() {
                   </div>
 
                   <Link href={`/jobs/${job._id}`}>
-                    <h2 className="text-base font-bold text-white group-hover:text-cyan-300 transition">
+                    <h2 className="text-base sm:text-lg font-semibold text-foreground hover:text-primary transition-colors tracking-tight">
                       {job.title}
                     </h2>
                   </Link>
 
-                  <p className="text-xs text-slate-400 flex items-center gap-2">
-                    <span>Client: <strong className="text-slate-300">{job.companyId?.name || "Client"}</strong></span>
+                  <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-2.5 pt-0.5">
+                    <span>Client: <strong className="text-foreground">{job.companyId?.name || "Client"}</strong></span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+                      <MapPin className="w-3.5 h-3.5 text-primary" />
                       {job.location?.city}, {job.location?.state}
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-teal-400" />
-                      {formatDate(job.date)}
+                      <Calendar className="w-3.5 h-3.5 text-subtle" />
+                      Flight Date: {formatDate(job.date)}
                     </span>
-                  </p>
+                  </div>
                 </div>
 
-                <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
-                  <div className="text-xl font-bold text-cyan-400">
+                <div className="flex sm:flex-col items-center sm:items-end justify-between gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-border dark:border-zinc-800">
+                  <div className="text-xl font-bold text-foreground font-mono">
                     {formatCurrency(job.budget)}
                   </div>
-                  <Link
-                    href={`/jobs/${job._id}`}
-                    className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-md transition flex items-center gap-1"
-                  >
-                    <span>View & Apply</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+                  <Button asChild variant="primary" size="sm" className="h-9 px-4">
+                    <Link href={`/jobs/${job._id}`} className="gap-1.5 font-semibold text-xs">
+                      <span>Review Scope</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </div>

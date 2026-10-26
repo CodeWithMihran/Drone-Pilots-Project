@@ -29,6 +29,7 @@ export default withAuth(
     return NextResponse.next();
   },
   {
+    secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || "super_secret_jwt_encryption_key_change_in_production_32char",
     callbacks: {
       authorized: ({ token, req }) => {
         const path = req.nextUrl.pathname;
