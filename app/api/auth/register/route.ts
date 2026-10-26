@@ -124,7 +124,29 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error: any) {
-    console.error("Registration error:", error);
+    console.error("[/api/auth/register] Registration error:", {
+      message: error.message,
+      code: error.code,
+      name: error.name,
+      stack: error.stack?.split("\n")[0],
+    });
+
+    // MongoDB duplicate key error (e.g. email already exists from a race condition)
+    if (error.code === 11000) {
+      return NextResponse.json(
+        { error: "An account with this email already exists. Please sign in." },
+        { status: 409 }
+      );
+    }
+
+    // Connection error - Atlas unreachable
+    if (error.name === "MongooseServerSelectionError" || error.name === "MongoNetworkError") {
+      return NextResponse.json(
+        { error: "Database connection failed. Please try again in a moment." },
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json(
       { error: error.message || "Failed to register account. Please try again." },
       { status: 500 }
