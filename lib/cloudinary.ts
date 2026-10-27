@@ -1,15 +1,26 @@
 import { v2 as cloudinary } from "cloudinary";
 
+function getCleanCloudName(): string | undefined {
+  const raw = process.env.CLOUDINARY_CLOUD_NAME?.trim();
+  if (!raw) return undefined;
+  if (raw.includes("@")) {
+    return raw.split("@").pop()?.replace(/\/$/, "");
+  }
+  return raw;
+}
+
+const cloudName = getCleanCloudName();
+
 if (
-  process.env.CLOUDINARY_CLOUD_NAME &&
+  cloudName &&
   process.env.CLOUDINARY_API_KEY &&
   process.env.CLOUDINARY_API_SECRET &&
-  process.env.CLOUDINARY_CLOUD_NAME !== "demo_cloud"
+  cloudName !== "demo_cloud"
 ) {
   cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: cloudName,
+    api_key: process.env.CLOUDINARY_API_KEY.trim(),
+    api_secret: process.env.CLOUDINARY_API_SECRET.trim(),
     secure: true,
   });
 }
@@ -23,11 +34,12 @@ export async function uploadDocument(
   fileBuffer: Buffer | string,
   folder = "drone_certifications"
 ): Promise<UploadResult> {
+  const activeCloudName = getCleanCloudName();
   const isCloudinaryConfigured =
-    process.env.CLOUDINARY_CLOUD_NAME &&
+    activeCloudName &&
     process.env.CLOUDINARY_API_KEY &&
     process.env.CLOUDINARY_API_SECRET &&
-    process.env.CLOUDINARY_CLOUD_NAME !== "demo_cloud";
+    activeCloudName !== "demo_cloud";
 
   if (isCloudinaryConfigured) {
     try {
