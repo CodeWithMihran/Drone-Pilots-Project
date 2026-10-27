@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -18,12 +18,55 @@ import { Logo } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { NotificationBell } from "../notifications/NotificationBell";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const { data: session } = useSession();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Auto-hide navbar on scroll down, reveal on scroll up
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Always show near the very top of the page
+      if (currentScrollY <= 40) {
+        setIsVisible(true);
+        lastScrollY = currentScrollY;
+        return;
+      }
+
+      // Small threshold to prevent jitter on trackpads
+      const diff = currentScrollY - lastScrollY;
+      if (Math.abs(diff) < 8) return;
+
+      if (diff > 0 && currentScrollY > 64) {
+        // Scrolling down -> hide navbar
+        setIsVisible(false);
+        setProfileDropdownOpen(false);
+      } else if (diff < 0) {
+        // Scrolling up -> show navbar
+        setIsVisible(true);
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Ensure navbar is visible and menus closed on route navigation
+  useEffect(() => {
+    setIsVisible(true);
+    setMobileMenuOpen(false);
+    setProfileDropdownOpen(false);
+  }, [pathname]);
 
   const role = (session?.user as any)?.role;
 
@@ -49,7 +92,12 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border dark:border-zinc-800/80 bg-background/85 dark:bg-black/80 backdrop-blur-xl transition-all duration-200">
+    <header
+      className={cn(
+        "sticky top-0 z-40 w-full border-b border-border dark:border-zinc-800/80 bg-background/85 dark:bg-black/80 backdrop-blur-xl transition-transform duration-300 ease-in-out",
+        isVisible || mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
+      )}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between">
         {/* Brand Logo */}
         <Logo size="sm" />

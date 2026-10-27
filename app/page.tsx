@@ -106,13 +106,13 @@ export default function LandingPage() {
   return (
     <div className="flex-1 flex flex-col bg-background text-foreground transition-colors duration-200">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-24 sm:pt-32 sm:pb-36 lg:pt-36 lg:pb-40 border-b border-border dark:border-zinc-800 overflow-hidden">
+      <section className="relative pt-6 pb-16 sm:pt-8 sm:pb-20 lg:pt-8 lg:pb-20 border-b border-border dark:border-zinc-800 overflow-hidden">
         {/* Subtle engineering grid & atmospheric radial glow backdrop */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-15%,rgba(59,130,246,0.18),rgba(0,0,0,0))] pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center animate-fade-in-up">
           {/* Compliance Pill with live beacon */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-surface/90 dark:bg-zinc-900/90 border border-border dark:border-zinc-800 shadow-xs text-xs font-medium text-foreground mb-8 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-surface/90 dark:bg-zinc-900/90 border border-border dark:border-zinc-800 shadow-xs text-xs font-medium text-foreground mb-6 backdrop-blur-md">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
@@ -126,12 +126,12 @@ export default function LandingPage() {
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-7 text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-normal">
+          <p className="mt-5 sm:mt-6 text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-normal">
             The dedicated operations marketplace connecting verified, credentialed drone pilots with enterprise leaders in infrastructure, agriculture, surveying, and energy.
           </p>
 
           {/* CTAs */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild size="lg" variant="primary" className="h-12 px-6 text-sm font-semibold">
               <Link href="/pilots" className="gap-2 font-semibold">
                 <span>Find a Verified Pilot</span>
@@ -148,7 +148,7 @@ export default function LandingPage() {
           </div>
 
           {/* Operational Metrics Bar */}
-          <div className="mt-16 max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-panel bg-surface dark:bg-zinc-950/80 border border-border dark:border-zinc-800 shadow-sm backdrop-blur-md">
+          <div className="mt-10 sm:mt-12 max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-panel bg-surface dark:bg-zinc-950/80 border border-border dark:border-zinc-800 shadow-sm backdrop-blur-md">
             <div className="text-center p-2.5">
               <p className="text-xl sm:text-2xl font-bold text-foreground">100%</p>
               <p className="text-xs text-muted-foreground mt-0.5">FAA Part 107 Verified</p>
