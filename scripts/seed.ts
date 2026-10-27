@@ -25,22 +25,62 @@ if (!process.env.MONGODB_URI) {
   }
 }
 
+const DEMO_EMAILS = [
+  "admin@example.com",
+  "company@example.com",
+  "chen@agrigrowth.com",
+  "elena@vertexmapping.com",
+  "marcus@sterlingrealty.com",
+  "rachel@horizonbuilt.com",
+  "pilot@example.com",
+  "jordan@dronepilot.io",
+  "maya@skysurvey.com",
+  "derrick@flightpros.com",
+  "tyler@aeroinspect.net",
+];
+
 async function seed() {
   console.log("Connecting to database for seeding...");
   await connectToDatabase();
 
-  console.log("Cleaning existing database collections...");
-  await Promise.all([
-    User.deleteMany({}),
-    PilotProfile.deleteMany({}),
-    CompanyProfile.deleteMany({}),
-    Certification.deleteMany({}),
-    Job.deleteMany({}),
-    Application.deleteMany({}),
-    Payment.deleteMany({}),
-    Review.deleteMany({}),
-    Notification.deleteMany({}),
-  ]);
+  const wipeAll = process.argv.includes("--wipe-all");
+
+  if (wipeAll) {
+    console.log("⚠️ --wipe-all flag detected: Cleaning all database collections...");
+    await Promise.all([
+      User.deleteMany({}),
+      PilotProfile.deleteMany({}),
+      CompanyProfile.deleteMany({}),
+      Certification.deleteMany({}),
+      Job.deleteMany({}),
+      Application.deleteMany({}),
+      Payment.deleteMany({}),
+      Review.deleteMany({}),
+      Notification.deleteMany({}),
+    ]);
+  } else {
+    // Preserve custom signed-up accounts
+    const customUsers = await User.find({ email: { $nin: DEMO_EMAILS } }).select("name email role").lean();
+    if (customUsers.length > 0) {
+      console.log(`🛡️  Preserving ${customUsers.length} custom registered user(s): ${customUsers.map((u: any) => u.email).join(", ")}`);
+    }
+
+    const demoUsers = await User.find({ email: { $in: DEMO_EMAILS } }).select("_id").lean();
+    const demoUserIds = demoUsers.map((u: any) => u._id);
+
+    console.log("Cleaning demo accounts and records (custom sign-ups remain intact)...");
+    await Promise.all([
+      User.deleteMany({ email: { $in: DEMO_EMAILS } }),
+      PilotProfile.deleteMany({ userId: { $in: demoUserIds } }),
+      CompanyProfile.deleteMany({ userId: { $in: demoUserIds } }),
+      Certification.deleteMany({ pilotId: { $in: demoUserIds } }),
+      Job.deleteMany({ companyId: { $in: demoUserIds } }),
+      Application.deleteMany({ pilotId: { $in: demoUserIds } }),
+      Payment.deleteMany({ $or: [{ pilotId: { $in: demoUserIds } }, { companyId: { $in: demoUserIds } }] }),
+      Review.deleteMany({ $or: [{ reviewerId: { $in: demoUserIds } }, { revieweeId: { $in: demoUserIds } }] }),
+      Notification.deleteMany({ userId: { $in: demoUserIds } }),
+    ]);
+  }
 
   const defaultPassword = "password123";
   const passwordHash = await bcrypt.hash(defaultPassword, 10);
@@ -538,10 +578,11 @@ async function seed() {
     read: false,
   });
 
+  const totalUsers = await User.countDocuments();
   console.log("\n============================================================");
-  console.log("✅ SEED DATA COMPLETED SUCCESSFULLY!");
+  console.log(`✅ SEED DATA COMPLETED SUCCESSFULLY! Total Users in DB: ${totalUsers}`);
   console.log("============================================================");
-  console.log("DEMO ACCOUNTS:");
+  console.log("DEMO ACCOUNTS (11 default accounts):");
   console.log("1. ADMIN:   admin@example.com   / admin123");
   console.log("2. PILOT:   pilot@example.com   / pilot123 (Verified Part 107)");
   console.log("3. COMPANY: company@example.com / company123");

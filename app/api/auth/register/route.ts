@@ -54,12 +54,20 @@ export async function POST(req: NextRequest) {
 
     const passwordHash = await bcrypt.hash(password, 12);
 
+    // Format phone with +91 without duplication if provided
+    let formattedPhone = "";
+    if (phone && phone.trim()) {
+      const digits = phone.replace(/\D/g, "");
+      const tenDigits = digits.length === 12 && digits.startsWith("91") ? digits.slice(2) : digits;
+      formattedPhone = tenDigits ? `+91${tenDigits}` : "";
+    }
+
     const newUser = await User.create({
-      name,
+      name: name.trim(),
       email: email.toLowerCase().trim(),
       passwordHash,
       role,
-      phone: phone || "",
+      phone: formattedPhone,
       location: {
         city,
         state,

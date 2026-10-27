@@ -32,13 +32,99 @@ function RegisterForm() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
+  const validateFullName = (val: string): string => {
+    const trimmed = val.trim();
+    if (!trimmed) {
+      return "Enter your full name.";
+    }
+    if (!/^[a-zA-Z\s]+$/.test(trimmed) || !/^[a-zA-Z]+(?:\s+[a-zA-Z]+)*$/.test(trimmed)) {
+      return "Full name can contain only letters and spaces.";
+    }
+    if (trimmed.length < 2) {
+      return "Name must be at least 2 characters.";
+    }
+    return "";
+  };
+
+  const validatePassword = (pass: string): string => {
+    if (!pass) return "Password is required.";
+    if (pass.length < 6) return "Password must be at least 6 characters.";
+    if (pass.length > 12) return "Password cannot exceed 12 characters.";
+    if (!/[A-Z]/.test(pass)) return "Password must contain at least one uppercase letter (A–Z).";
+    if (!/[0-9]/.test(pass)) return "Password must contain at least one number (0–9).";
+    if (!/[^A-Za-z0-9]/.test(pass)) {
+      return "Password must contain at least one special character (e.g. @, #, $, %, &, !, *).";
+    }
+    return "";
+  };
+
+  const validatePhone = (val: string): string => {
+    const trimmed = val.trim();
+    if (!trimmed) return ""; // Optional field
+    if (trimmed.length !== 10 || !/^\d{10}$/.test(trimmed)) {
+      return "Enter a valid 10-digit mobile number.";
+    }
+    return "";
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setName(val);
+    if (val && /[^a-zA-Z\s]/.test(val)) {
+      setFieldErrors((prev) => ({ ...prev, name: "Full name can contain only letters and spaces." }));
+    } else if (fieldErrors.name) {
+      const err = validateFullName(val);
+      setFieldErrors((prev) => {
+        const copy = { ...prev };
+        if (err) copy.name = err;
+        else delete copy.name;
+        return copy;
+      });
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setPassword(val);
+    if (fieldErrors.password) {
+      const err = validatePassword(val);
+      setFieldErrors((prev) => {
+        const copy = { ...prev };
+        if (err) copy.password = err;
+        else delete copy.password;
+        return copy;
+      });
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Strip non-digits and cap at 10 digits
+    const digitsOnly = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setPhone(digitsOnly);
+    if (digitsOnly.length > 0 && digitsOnly.length !== 10) {
+      setFieldErrors((prev) => ({ ...prev, phone: "Enter a valid 10-digit mobile number." }));
+    } else {
+      setFieldErrors((prev) => {
+        const copy = { ...prev };
+        delete copy.phone;
+        return copy;
+      });
+    }
+  };
+
   const goToDetails = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     const next: Record<string, string> = {};
-    if (name.trim().length < 2) next.name = "Enter your full name.";
+
+    const nameErr = validateFullName(name);
+    if (nameErr) next.name = nameErr;
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = "Enter a valid email.";
-    if (password.length < 6) next.password = "Use at least 6 characters.";
+
+    const passErr = validatePassword(password);
+    if (passErr) next.password = passErr;
+
     setFieldErrors(next);
     if (Object.keys(next).length > 0) return;
     setStep(2);
@@ -49,30 +135,47 @@ function RegisterForm() {
     setError("");
 
     const next: Record<string, string> = {};
+    const nameErr = validateFullName(name);
+    if (nameErr) next.name = nameErr;
+
+    const passErr = validatePassword(password);
+    if (passErr) next.password = passErr;
+
+    const phoneErr = validatePhone(phone);
+    if (phoneErr) next.phone = phoneErr;
+
     if (!city.trim()) next.city = "Enter your city.";
     if (!state.trim()) next.state = "Enter your state.";
     if (role === "COMPANY" && companyName.trim().length < 2) {
       next.companyName = "Enter the company name.";
     }
     setFieldErrors(next);
-    if (Object.keys(next).length > 0) return;
+    if (Object.keys(next).length > 0) {
+      if (next.name || next.password || next.email) {
+        setStep(1);
+      }
+      return;
+    }
 
     setLoading(true);
 
     try {
+      const cleanDigits = phone.replace(/\D/g, "");
+      const submittedPhone = cleanDigits ? `+91${cleanDigits}` : "";
+
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name,
-          email,
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
           password,
           role,
-          phone,
-          city,
-          state,
+          phone: submittedPhone,
+          city: city.trim(),
+          state: state.trim(),
           country: "United States",
-          companyName: role === "COMPANY" ? companyName : undefined,
+          companyName: role === "COMPANY" ? companyName.trim() : undefined,
           industry: role === "COMPANY" ? industry : undefined,
         }),
       });
@@ -84,7 +187,7 @@ function RegisterForm() {
       }
 
       const signInRes = await signIn("credentials", {
-        email,
+        email: email.trim().toLowerCase(),
         password,
         redirect: false,
       });
@@ -101,10 +204,21 @@ function RegisterForm() {
       }
     } catch (err: any) {
       const msg = err.message || "Something went wrong.";
-      // Automatically bounce user back to Step 1 if the error is about the email
-      if (msg.toLowerCase().includes("email") || msg.toLowerCase().includes("exists")) {
+      // Automatically bounce user back to Step 1 if the error is about name, password, or email
+      if (
+        msg.toLowerCase().includes("email") ||
+        msg.toLowerCase().includes("exists") ||
+        msg.toLowerCase().includes("name") ||
+        msg.toLowerCase().includes("password")
+      ) {
         setStep(1);
-        setFieldErrors({ email: msg });
+        if (msg.toLowerCase().includes("name")) {
+          setFieldErrors({ name: msg });
+        } else if (msg.toLowerCase().includes("password")) {
+          setFieldErrors({ password: msg });
+        } else {
+          setFieldErrors({ email: msg });
+        }
       } else {
         setError(msg);
       }
@@ -173,7 +287,7 @@ function RegisterForm() {
               id="register-name-input"
               autoComplete="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleNameChange}
               placeholder={role === "PILOT" ? "Alex Rivera" : "Sarah Jenkins"}
               error={fieldErrors.name}
             />
@@ -194,14 +308,14 @@ function RegisterForm() {
           <Field
             label="Password"
             htmlFor="register-password-input"
-            hint="At least 6 characters."
+            hint="6–12 characters with at least 1 uppercase letter, 1 number, and 1 special character."
             error={fieldErrors.password}
           >
             <PasswordInput
               id="register-password-input"
               autoComplete="new-password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
               placeholder="Create a password"
               error={fieldErrors.password}
             />
@@ -242,15 +356,35 @@ function RegisterForm() {
             </>
           )}
 
-          <Field label="Phone" htmlFor="register-phone-input" hint="Optional">
-            <Input
-              id="register-phone-input"
-              type="tel"
-              autoComplete="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+1 (555) 019-2834"
-            />
+          <Field label="Phone" htmlFor="register-phone-input" error={fieldErrors.phone}>
+            <div
+              className={cn(
+                "flex h-11 w-full rounded-control border bg-background text-[15px] shadow-sm transition-colors duration-150",
+                "focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary focus-within:ring-offset-1 focus-within:ring-offset-background",
+                fieldErrors.phone
+                  ? "border-destructive focus-within:ring-destructive/40 focus-within:border-destructive"
+                  : "border-border hover:border-border-strong"
+              )}
+            >
+              <div
+                className="flex items-center justify-center border-r border-border bg-surface-2 px-3.5 text-[15px] font-medium text-muted-foreground select-none"
+                aria-hidden="true"
+              >
+                +91
+              </div>
+              <input
+                id="register-phone-input"
+                type="tel"
+                inputMode="numeric"
+                autoComplete="tel-national"
+                maxLength={10}
+                value={phone}
+                onChange={handlePhoneChange}
+                placeholder="Enter 10-digit mobile number"
+                className="flex-1 bg-transparent px-3.5 py-2 text-[15px] text-foreground placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                aria-invalid={!!fieldErrors.phone}
+              />
+            </div>
           </Field>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -260,7 +394,7 @@ function RegisterForm() {
                 autoComplete="address-level2"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                placeholder="Austin"
+                placeholder="Pune"
                 error={fieldErrors.city}
               />
             </Field>
@@ -270,7 +404,7 @@ function RegisterForm() {
                 autoComplete="address-level1"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                placeholder="Texas"
+                placeholder="Maharashtra"
                 error={fieldErrors.state}
               />
             </Field>

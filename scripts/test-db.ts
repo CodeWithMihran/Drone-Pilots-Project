@@ -48,13 +48,27 @@ async function testConnection() {
     const ping = await conn.connection.db?.admin().ping();
     console.log(`✅ Ping response:`, ping);
 
-    // 4. Check collections
+    // 4. Check collections and document counts (read-only verification)
     const collections = await conn.connection.db?.listCollections().toArray();
     console.log(`\n📊 Collections in database: ${collections?.length ?? 0}`);
     if (collections && collections.length > 0) {
       collections.forEach((c) => console.log(`   - ${c.name}`));
     } else {
       console.log("   (Database is currently empty - ready for initial data or seed)");
+    }
+
+    // 5. Check actual record counts (100% read-only — data is never modified)
+    if (conn.connection.db) {
+      const userCount = await conn.connection.db.collection("users").countDocuments();
+      const jobCount = await conn.connection.db.collection("jobs").countDocuments();
+      const pilotCount = await conn.connection.db.collection("pilotprofiles").countDocuments();
+      const companyCount = await conn.connection.db.collection("companyprofiles").countDocuments();
+      
+      console.log(`\n🔒 Data Integrity (Read-Only Check):`);
+      console.log(`   • Total Users:       ${userCount}`);
+      console.log(`   • Total Jobs:        ${jobCount}`);
+      console.log(`   • Pilot Profiles:    ${pilotCount}`);
+      console.log(`   • Company Profiles:  ${companyCount}`);
     }
 
     await mongoose.disconnect();
