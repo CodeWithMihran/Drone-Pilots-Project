@@ -108,6 +108,39 @@ function JobsMarketplaceContent() {
         </Link>
       </div>
 
+      {/* Quick-Filter Sector Pills */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
+        <span className="text-[11px] font-mono uppercase text-muted-foreground shrink-0 pr-1">
+          Filter By Sector:
+        </span>
+        {[
+          { label: "All Missions", val: "" },
+          { label: "LiDAR Surveying", val: "LAND_SURVEYING" },
+          { label: "Thermal Radiometric", val: "INFRASTRUCTURE_INSPECTION" },
+          { label: "3D Orthomosaics", val: "REAL_ESTATE_MAPPING" },
+          { label: "Agricultural Spray", val: "AGRICULTURAL_SPRAYING" },
+          { label: "Construction BIM", val: "CONSTRUCTION_MONITORING" },
+          { label: "Commercial Media", val: "AERIAL_PHOTOGRAPHY" },
+        ].map((pill) => {
+          const isActive = serviceType === pill.val;
+          return (
+            <button
+              key={pill.val}
+              type="button"
+              onClick={() => setServiceType(pill.val)}
+              className={
+                "px-3 py-1.5 rounded-full border text-xs font-medium whitespace-nowrap transition-all duration-150 " +
+                (isActive
+                  ? "bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-white shadow-xs"
+                  : "bg-surface dark:bg-zinc-900/60 border-border dark:border-zinc-800 text-muted-foreground hover:text-foreground hover:border-border-strong dark:hover:border-zinc-700")
+              }
+            >
+              {pill.label}
+            </button>
+          );
+        })}
+      </div>
+
       {/* Search Bar */}
       <div className="p-4 sm:p-5 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-3">

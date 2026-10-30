@@ -111,7 +111,7 @@ export function DashboardSidebar({ role }: { role: "PILOT" | "COMPANY" | "ADMIN"
               className={`flex items-center justify-between px-3 py-2 rounded-control text-xs font-medium transition-colors ${
                 isActive
                   ? "bg-primary/10 text-primary font-semibold border border-primary/20"
-                  : "text-muted-foreground hover:text-foreground hover:bg-surface-2"
+                  : "text-muted-foreground hover:text-foreground hover:bg-surface-2 dark:hover:bg-zinc-900"
               }`}
             >
               <div className="flex items-center gap-2.5">
@@ -129,7 +129,7 @@ export function DashboardSidebar({ role }: { role: "PILOT" | "COMPANY" | "ADMIN"
       </div>
 
       {/* Logout & Footer */}
-      <div className="pt-4 border-t border-border mt-auto space-y-2">
+      <div className="pt-4 border-t border-border dark:border-zinc-800 mt-auto space-y-2">
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
           className="w-full flex items-center gap-2.5 px-3 py-2 rounded-control text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors"

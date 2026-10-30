@@ -96,7 +96,7 @@ export function NotificationBell() {
       <button
         id="notification-bell-btn"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-9 h-9 rounded-control border border-border bg-surface text-foreground hover:bg-surface-2 hover:border-border-strong flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="relative w-9 h-9 rounded-control border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-900 text-foreground hover:bg-surface-2 dark:hover:bg-zinc-800 hover:border-border-strong dark:hover:border-zinc-700 flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="View notifications"
       >
         <Bell className="w-4 h-4" />
@@ -108,8 +108,8 @@ export function NotificationBell() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-panel bg-surface border border-border shadow-xl z-50 overflow-hidden animate-fade-in text-foreground">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-surface-2">
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-xl z-50 overflow-hidden animate-fade-in text-foreground">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border dark:border-zinc-800 bg-surface-2 dark:bg-zinc-900">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-xs tracking-wide uppercase text-foreground">Notifications</span>
               {unreadCount > 0 && (
@@ -130,7 +130,7 @@ export function NotificationBell() {
             )}
           </div>
 
-          <div className="max-h-96 overflow-y-auto divide-y divide-border">
+          <div className="max-h-96 overflow-y-auto divide-y divide-border dark:divide-zinc-800">
             {notifications.length === 0 ? (
               <div className="py-8 text-center text-muted-foreground text-xs">
                 <Bell className="w-8 h-8 mx-auto mb-2 text-subtle opacity-40" />
@@ -141,12 +141,12 @@ export function NotificationBell() {
                 <div
                   key={n._id}
                   onClick={() => !n.read && markAsRead(n._id)}
-                  className={`p-3.5 transition-colors cursor-pointer hover:bg-surface-2 ${
-                    !n.read ? "bg-primary/5" : ""
+                  className={`p-3.5 transition-colors cursor-pointer hover:bg-surface-2 dark:hover:bg-zinc-900/60 ${
+                    !n.read ? "bg-primary/5 dark:bg-primary/10" : ""
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-control bg-surface border border-border mt-0.5 shrink-0">
+                    <div className="p-2 rounded-control bg-surface dark:bg-zinc-900 border border-border dark:border-zinc-800 mt-0.5 shrink-0">
                       {getIcon(n.type)}
                     </div>
                     <div className="flex-1 min-w-0">

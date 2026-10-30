@@ -142,7 +142,7 @@ export function Navbar() {
                 <button
                   id="user-profile-menu-btn"
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                  className="flex items-center gap-2 p-1.5 rounded-control border border-border bg-surface hover:bg-surface-2 text-foreground transition-colors"
+                  className="flex items-center gap-2 p-1.5 rounded-control border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-900 hover:bg-surface-2 dark:hover:bg-zinc-800 text-foreground transition-colors"
                 >
                   <div className="w-7 h-7 rounded-md bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
                     {session.user?.name ? session.user.name.charAt(0).toUpperCase() : "U"}
@@ -159,12 +159,12 @@ export function Navbar() {
                 </button>
 
                 {profileDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-panel bg-surface border border-border shadow-xl py-2 z-50 animate-fade-in text-foreground">
-                    <div className="px-4 py-2.5 border-b border-border">
+                  <div className="absolute right-0 mt-2 w-56 rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-xl py-2 z-50 animate-fade-in text-foreground">
+                    <div className="px-4 py-2.5 border-b border-border dark:border-zinc-800">
                       <p className="text-xs font-semibold text-foreground">{session.user?.name}</p>
                       <p className="text-[11px] text-muted-foreground truncate">{session.user?.email}</p>
                       <div className="mt-1">
-                        <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded bg-surface-2 text-muted-foreground border border-border">
+                        <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded bg-surface-2 dark:bg-zinc-900 text-muted-foreground border border-border dark:border-zinc-800">
                           {getRoleLabel(role)}
                         </span>
                       </div>
@@ -173,7 +173,7 @@ export function Navbar() {
                     <Link
                       href={getDashboardLink()}
                       onClick={() => setProfileDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 transition-colors"
+                      className="flex items-center gap-2.5 px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors"
                     >
                       <LayoutDashboard className="w-4 h-4 text-primary" />
                       Role Dashboard
@@ -183,7 +183,7 @@ export function Navbar() {
                       <Link
                         href="/pilot/certification"
                         onClick={() => setProfileDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors"
                       >
                         <ShieldCheck className="w-4 h-4 text-success" />
                         FAA Certifications
@@ -194,14 +194,14 @@ export function Navbar() {
                       <Link
                         href="/company/post-job"
                         onClick={() => setProfileDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors"
                       >
                         <Briefcase className="w-4 h-4 text-primary" />
                         Post a Job
                       </Link>
                     )}
 
-                    <div className="border-t border-border my-1"></div>
+                    <div className="border-t border-border dark:border-zinc-800 my-1"></div>
 
                     <button
                       onClick={() => signOut({ callbackUrl: "/" })}
@@ -232,7 +232,7 @@ export function Navbar() {
           {session && <NotificationBell />}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-control border border-border bg-surface text-foreground hover:bg-surface-2"
+            className="p-2 rounded-control border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-900 text-foreground hover:bg-surface-2 dark:hover:bg-zinc-800"
             aria-label="Toggle navigation"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -242,7 +242,7 @@ export function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-border bg-surface px-4 py-4 space-y-3 animate-fade-in shadow-lg">
+        <div className="md:hidden border-b border-border dark:border-zinc-800 bg-surface dark:bg-zinc-950 px-4 py-4 space-y-3 animate-fade-in shadow-lg">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -254,7 +254,7 @@ export function Navbar() {
             </Link>
           ))}
 
-          <div className="border-t border-border pt-3">
+          <div className="border-t border-border dark:border-zinc-800 pt-3">
             {session ? (
               <div className="space-y-2">
                 <Button asChild variant="secondary" block size="md">

@@ -84,6 +84,9 @@ const config: Config = {
         "fade-in-up": "fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "scale-in": "scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "float": "float 5s ease-in-out infinite",
+        "radar-sweep": "radarSweep 4s linear infinite",
+        "radar-ping": "radarPing 2.5s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "spin-slow": "spin 30s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -101,6 +104,14 @@ const config: Config = {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-6px)" },
+        },
+        radarSweep: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        radarPing: {
+          "0%": { transform: "scale(0.8)", opacity: "1" },
+          "70%, 100%": { transform: "scale(2.2)", opacity: "0" },
         },
       },
     },

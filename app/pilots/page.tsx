@@ -86,6 +86,38 @@ export default function PilotsDirectoryPage() {
           </div>
         </div>
 
+        {/* Quick-Filter Payload Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
+          <span className="text-[11px] font-mono uppercase text-muted-foreground shrink-0 pr-1">
+            Certified Hardware:
+          </span>
+          {[
+            { label: "All Fleets", val: "" },
+            { label: "DJI Matrice 350 RTK", val: "Matrice" },
+            { label: "Radiometric Thermal", val: "Thermal" },
+            { label: "Aerial LiDAR", val: "LiDAR" },
+            { label: "DJI Agras Spray", val: "Agras" },
+            { label: "Mavic 3 Enterprise", val: "Mavic" },
+          ].map((pill) => {
+            const isActive = search === pill.val;
+            return (
+              <button
+                key={pill.val}
+                type="button"
+                onClick={() => setSearch(pill.val)}
+                className={
+                  "px-3 py-1.5 rounded-full border text-xs font-medium whitespace-nowrap transition-all duration-150 " +
+                  (isActive
+                    ? "bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-white shadow-xs"
+                    : "bg-surface dark:bg-zinc-950 border-border dark:border-zinc-800 text-muted-foreground hover:text-foreground hover:border-border-strong dark:hover:border-zinc-700")
+                }
+              >
+                {pill.label}
+              </button>
+            );
+          })}
+        </div>
+
         {/* Search Bar */}
         <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 shadow-xs">
           <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center gap-3">

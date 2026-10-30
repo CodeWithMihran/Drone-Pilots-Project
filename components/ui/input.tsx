@@ -18,7 +18,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           "disabled:cursor-not-allowed disabled:opacity-50",
           error 
             ? "border-destructive focus-visible:ring-destructive/40 focus-visible:border-destructive" 
-            : "border-border hover:border-border-strong",
+            : "border-border dark:border-zinc-800 hover:border-border-strong dark:hover:border-zinc-700",
           className
         )}
         ref={ref}

@@ -22,7 +22,7 @@ export function AuthShell({
 }) {
   return (
     <div className="flex min-h-screen bg-background">
-      <aside className="relative hidden w-[44%] flex-col justify-between border-r border-border bg-surface-2 px-12 py-10 lg:flex">
+      <aside className="relative hidden w-[44%] flex-col justify-between border-r border-border dark:border-zinc-800 bg-surface-2 dark:bg-zinc-950/80 px-12 py-10 lg:flex">
         <Logo />
 
         <div className="max-w-md">
@@ -48,7 +48,7 @@ export function AuthShell({
       </aside>
 
       <div className="flex flex-1 flex-col relative">
-        <div className="flex items-center justify-between border-b border-border px-5 py-4 lg:hidden">
+        <div className="flex items-center justify-between border-b border-border dark:border-zinc-800 px-5 py-4 lg:hidden">
           <Logo size="sm" />
           <ThemeToggle />
         </div>

@@ -11,10 +11,10 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
       <select
         ref={ref}
         className={cn(
-          "h-11 w-full rounded-control border bg-surface-2 px-3.5 text-body text-foreground",
+          "h-11 w-full rounded-control border bg-surface-2 dark:bg-zinc-900 px-3.5 text-body text-foreground",
           "transition-colors duration-150",
           "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40",
-          error ? "border-destructive" : "border-border",
+          error ? "border-destructive" : "border-border dark:border-zinc-800 hover:border-border-strong dark:hover:border-zinc-700",
           "disabled:cursor-not-allowed disabled:opacity-50",
           className
         )}

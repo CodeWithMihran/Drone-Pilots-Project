@@ -17,7 +17,7 @@ export function ThemeToggle({ className }: { className?: string }) {
     return (
       <div
         className={cn(
-          "w-9 h-9 rounded-control border border-border bg-surface flex items-center justify-center opacity-60",
+          "w-9 h-9 rounded-control border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-900 flex items-center justify-center opacity-60",
           className
         )}
         aria-hidden="true"
@@ -34,7 +34,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
-        "relative w-9 h-9 rounded-control border border-border bg-surface text-foreground hover:bg-surface-2 hover:border-border-strong flex items-center justify-center transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "relative w-9 h-9 rounded-control border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-900 text-foreground hover:bg-surface-2 dark:hover:bg-zinc-800 hover:border-border-strong dark:hover:border-zinc-700 flex items-center justify-center transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className
       )}
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
