@@ -4,9 +4,9 @@ import { Logo } from "@/components/brand/Logo";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 const points = [
-  "Part 107 certificates checked before you hire",
-  "Jobs for inspection, mapping, spraying, and survey",
-  "Clear proposals, payouts, and reviews in one place",
+  "FAA Part 107 airmen registry verified operators",
+  "AI candidate matching in minutes, not days",
+  "Underwritten milestone escrow payment protection",
 ];
 
 export function AuthShell({
@@ -22,21 +22,27 @@ export function AuthShell({
 }) {
   return (
     <div className="flex min-h-screen bg-background">
-      <aside className="relative hidden w-[44%] flex-col justify-between border-r border-border dark:border-zinc-800 bg-surface-2 dark:bg-zinc-950/80 px-12 py-10 lg:flex">
+      <aside className="relative hidden w-[44%] flex-col justify-between border-r border-zinc-200/80 dark:border-zinc-800/80 bg-[#faf8f5] dark:bg-[#070709] px-12 py-10 lg:flex select-none">
         <Logo />
 
         <div className="max-w-md">
-          <h2 className="text-[2rem] font-semibold leading-tight tracking-[-0.03em] text-foreground">
-            Hire verified pilots for industrial drone work.
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              OPERATIONS-GRADE FLIGHT NETWORK
+            </span>
+          </div>
+          <h2 className="text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-foreground">
+            Connecting industries with certified drone pilots.
           </h2>
-          <p className="mt-4 text-body text-muted-foreground">
-            Built for companies that need certified operators — and pilots who want serious commercial jobs.
+          <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+            The platform built for asset owners who need verified operators — and pilots who want to fly for a living.
           </p>
-          <ul className="mt-8 space-y-3">
+          <ul className="mt-8 space-y-3.5">
             {points.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-body text-foreground">
-                <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
-                  <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
+              <li key={item} className="flex items-center gap-3 text-xs font-semibold text-foreground">
+                <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#fabf28] text-zinc-950 font-bold shadow-2xs">
+                  <Check className="h-3 w-3 stroke-[3]" />
                 </span>
                 {item}
               </li>
@@ -44,11 +50,13 @@ export function AuthShell({
           </ul>
         </div>
 
-        <p className="text-caption text-subtle">Aether — Certified Drone Pilots</p>
+        <p className="text-xs text-muted-foreground font-mono">
+          © {new Date().getFullYear()} AeroLink Inc.
+        </p>
       </aside>
 
-      <div className="flex flex-1 flex-col relative">
-        <div className="flex items-center justify-between border-b border-border dark:border-zinc-800 px-5 py-4 lg:hidden">
+      <div className="flex flex-1 flex-col relative bg-white dark:bg-black">
+        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 px-5 py-4 lg:hidden">
           <Logo size="sm" />
           <ThemeToggle />
         </div>
@@ -58,13 +66,19 @@ export function AuthShell({
 
         <div className="flex flex-1 items-center justify-center px-5 py-10 sm:px-8">
           <div className="w-full max-w-[420px] animate-fade-in">
-            <h1 className="text-heading-1 tracking-[-0.03em] text-foreground">{title}</h1>
-            <p className="mt-2 text-body text-muted-foreground">{subtitle}</p>
-            <div className="mt-8">{children}</div>
-            {footer ? <div className="mt-8 text-body text-muted-foreground">{footer}</div> : null}
+            <div className="mb-8 text-center sm:text-left">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">{title}</h1>
+              <p className="mt-2 text-xs sm:text-sm text-muted-foreground">{subtitle}</p>
+            </div>
+
+            {children}
+
+            {footer && <div className="mt-6 text-center text-xs text-muted-foreground">{footer}</div>}
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+export default AuthShell;

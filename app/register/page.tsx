@@ -411,10 +411,10 @@ function RegisterForm() {
           </div>
 
           <div className="flex gap-2 pt-1">
-            <Button type="button" variant="secondary" className="flex-1" onClick={() => setStep(1)}>
+            <Button type="button" variant="secondary" className="flex-1 rounded-full" onClick={() => setStep(1)}>
               Back
             </Button>
-            <Button id="register-submit-btn" type="submit" className="flex-1" size="lg" disabled={loading}>
+            <Button id="register-submit-btn" type="submit" className="flex-1 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold shadow-xs transition-all active:scale-[0.98]" size="lg" disabled={loading}>
               {loading
                 ? "Creating account…"
                 : role === "PILOT"
@@ -432,7 +432,7 @@ export default function RegisterPage() {
   return (
     <AuthShell
       title="Create an account"
-      subtitle="Join Certified Drone Pilots as a pilot looking for work, or as a company hiring one."
+      subtitle="Join AeroLink as a verified pilot looking for missions, or as a company hiring one."
       footer={
         <>
           Already have an account?{" "}

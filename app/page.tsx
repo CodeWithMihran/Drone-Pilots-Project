@@ -18,6 +18,30 @@ import {
   Lock,
   ArrowRight,
   ChevronRight,
+  ArrowUpRight,
+  FileText,
+  CalendarCheck,
+  CreditCard,
+  UserCheck,
+  Briefcase,
+  Send,
+  Clock,
+  Sparkles,
+  Zap,
+  Wallet,
+  Headphones,
+  HelpCircle,
+  Plus,
+  Minus,
+  Volume2,
+  VolumeX,
+  Heart,
+  Building,
+  Film,
+  Sprout,
+  Map,
+  Compass,
+  Palmtree,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,61 +50,67 @@ import { Footer } from "@/components/layout/Footer";
 
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [faqCategory, setFaqCategory] = useState<string>("all");
+  const [isVideoMuted, setIsVideoMuted] = useState(true);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
-  const sectors = [
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isVideoMuted;
+      setIsVideoMuted(!isVideoMuted);
+    }
+  };
+
+  // Exact 7 visual category cards + 1 yellow custom brief card matching Pilotbase reference
+  const categories = [
     {
-      id: "AGRICULTURAL_SPRAYING",
-      code: "AG-107",
-      title: "Agricultural Dispersal",
-      icon: Droplets,
-      payload: "DJI Agras T40 / 40L Spray Grid",
-      metric: "500 acres/day",
-      desc: "Variable rate chemical application, multispectral NDVI plant stress indexing, and automated acreage distribution.",
-    },
-    {
-      id: "INFRASTRUCTURE_INSPECTION",
-      code: "IN-204",
-      title: "Utility & Grid Inspection",
-      icon: Flame,
-      payload: "Radiometric Thermal / 640×512 NETD",
-      metric: "Sub-mm precision",
-      desc: "Thermal anomaly detection for high-voltage substations, wind turbine blade composites, and cell transmission arrays.",
+      id: "AERIAL_PHOTOGRAPHY",
+      title: "Weddings & Events",
+      icon: Heart,
+      bgImage: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+      href: "/jobs?service=AERIAL_PHOTOGRAPHY",
     },
     {
       id: "REAL_ESTATE_MAPPING",
-      code: "MP-301",
-      title: "3D Photogrammetry & Orthomosaics",
-      icon: Layers,
-      payload: "Full-Frame 45MP / RTK Ground Base",
-      metric: "< 1.5 cm GSD",
-      desc: "Survey-grade orthophotos, digital elevation models, volumetric stockpile quantification, and geo-referenced point clouds.",
+      title: "Real Estate",
+      icon: Building,
+      bgImage: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+      href: "/jobs?service=REAL_ESTATE_MAPPING",
     },
     {
-      id: "CONSTRUCTION_MONITORING",
-      code: "CM-408",
-      title: "Construction Progression",
-      icon: HardHat,
-      payload: "Weekly BIM Overlay / Cut & Fill",
-      metric: "Weekly Cadence",
-      desc: "Scheduled jobsite progression flights, earthwork audits, civil contractor compliance documentation, and BIM overlay integration.",
+      id: "FILM_PRODUCTION",
+      title: "Film & Production",
+      icon: Film,
+      bgImage: "https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=800&q=80",
+      href: "/jobs?service=AERIAL_PHOTOGRAPHY",
+    },
+    {
+      id: "AGRICULTURAL_SPRAYING",
+      title: "Agriculture",
+      icon: Sprout,
+      bgImage: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80",
+      href: "/jobs?service=AGRICULTURAL_SPRAYING",
     },
     {
       id: "LAND_SURVEYING",
-      code: "SV-502",
-      title: "Topographic Land Surveying",
-      icon: Crosshair,
-      payload: "Aerial LiDAR / PPK Georeferenced",
-      metric: "Civil 3D Ready",
-      desc: "Boundary contouring, canopy-penetrating terrain mapping, GIS shapefile export, and state-plane coordinate benchmarks.",
+      title: "Surveying & Mapping",
+      icon: Map,
+      bgImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+      href: "/jobs?service=LAND_SURVEYING",
     },
     {
-      id: "AERIAL_PHOTOGRAPHY",
-      code: "MD-605",
-      title: "Commercial Aerial Media",
-      icon: Aperture,
-      payload: "ProRes 8K / 3-Axis Gimbal Cine",
-      metric: "Cinema DCI 8K",
-      desc: "Broadcast-grade industrial marketing cinematography, stabilized tracking sequences, and executive investor presentations.",
+      id: "INFRASTRUCTURE_INSPECTION",
+      title: "Inspection",
+      icon: Compass,
+      bgImage: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80",
+      href: "/jobs?service=INFRASTRUCTURE_INSPECTION",
+    },
+    {
+      id: "TOURISM_RESORTS",
+      title: "Tourism & Resorts",
+      icon: Palmtree,
+      bgImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+      href: "/jobs?service=AERIAL_PHOTOGRAPHY",
     },
   ];
 
@@ -94,450 +124,705 @@ export default function LandingPage() {
 
   const faqs = [
     {
-      q: "How does pilot credential verification work?",
-      a: "Every pilot submits their official FAA Part 107 Commercial Remote Pilot License and current Certificate of Insurance (COI). License numbers are verified directly against the FAA Airmen Certification Registry before commercial bids can be placed.",
+      category: "clients",
+      q: "How does pilot credential & license verification work?",
+      a: "Every pilot on AeroLink undergoes strict credential verification. We validate their official FAA Part 107 Commercial Remote Pilot License against federal airmen registries, confirm active Certificate of Insurance (COI) coverage, and verify government-issued ID before they can accept bookings.",
     },
     {
-      q: "Can unverified pilots apply to enterprise projects?",
-      a: "No. Enterprise jobs with compliance requirements are restricted exclusively to pilots with verified, active Part 107 credentials and validated equipment specs.",
+      category: "escrow",
+      q: "How does milestone escrow protect my payment?",
+      a: "When you book a shoot, your payment is held securely in an underwritten escrow account. Funds are never released to the pilot until you have reviewed and approved the delivered footage or sensor data, eliminating financial risk for both parties.",
     },
     {
-      q: "How are candidate match scores calculated?",
-      a: "Our matching engine weights five operational factors: Active Part 107 credential validity (30%), operating radius to flight site (20%), verified hardware and payload sensors (20%), demonstrated industry track record (20%), and mission calendar availability (10%).",
+      category: "clients",
+      q: "How quickly will I receive proposals after posting a brief?",
+      a: "Most briefs receive qualified pilot matches within minutes. Our automated matching algorithm immediately notifies certified pilots in your target city matching your required camera or payload specifications, with full proposals typically arriving in under 2 hours.",
     },
     {
-      q: "How does milestone escrow security work?",
-      a: "When an enterprise awards a mission, project capital is funded into escrow. Funds are released directly to the pilot once raw flight deliverables and inspection reports pass quality control review.",
+      category: "pilots",
+      q: "How do pilots get paid and what are the payout timelines?",
+      a: "Once the client reviews and accepts your uploaded deliverables, escrow funds are automatically initiated for disbursement directly to your verified bank account within 24 to 48 hours. Zero chasing invoices or late client payments.",
+    },
+    {
+      category: "pilots",
+      q: "What equipment, airframes, and sensor payloads are supported?",
+      a: "AeroLink supports everything from high-end cinematography setups (Inspire 3, RED, ARRI, Sony FX) and standard commercial rigs (DJI Mavic 3 Pro/Enterprise) to specialized industrial hardware including radiometric thermal cameras, LiDAR sensors, and agricultural dispersal airframes (DJI Agras T40).",
+    },
+    {
+      category: "clients",
+      q: "What happens if adverse weather prevents flying on the shoot date?",
+      a: "If weather conditions exceed legal flight minimums or safety thresholds (such as high winds or rain), the shoot can be rescheduled without penalty with your pilot. Both parties coordinate alternative dates directly through our booking calendar, and escrow funds remain safeguarded.",
+    },
+    {
+      category: "pilots",
+      q: "Is it free to join AeroLink as a pilot?",
+      a: "Yes, joining AeroLink and listing your pilot profile, gear kit, flight reel, and certifications is 100% free. You only pay a competitive platform fee when you successfully win and complete paid missions.",
     },
   ];
+
+  const filteredFaqs = faqCategory === "all" ? faqs : faqs.filter((f) => f.category === faqCategory);
 
   return (
     <div className="flex-1 flex flex-col bg-background text-foreground transition-colors duration-150">
       
-      {/* Institutional Top Trust Bar */}
-      <div className="border-b border-border/80 dark:border-zinc-800/80 bg-surface dark:bg-zinc-950/60 py-2.5 px-4 sm:px-6 lg:px-8 text-xs">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-500" />
-            <span className="font-medium text-foreground">FAA Part 107 Airmen Registry Connected</span>
-            <span className="text-border dark:text-zinc-700">|</span>
-            <span>\$5,000,000 Policy Coverage Supported</span>
-          </div>
-          <div className="flex items-center gap-4 text-[11px] font-mono">
-            <span>DISPATCH NETWORK: N. AMERICA</span>
-            <span className="hidden md:inline text-border dark:text-zinc-700">|</span>
-            <span className="hidden md:inline">SYSTEM HEALTH: NOMINAL</span>
-          </div>
-        </div>
-      </div>
+      {/* Split-Screen Hero Section (Text Left, Video Right) */}
+      <section className="relative pt-12 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28 border-b border-border dark:border-zinc-800 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            
+            {/* Left Column: Narrative, CTAs, Metrics */}
+            <div className="lg:col-span-6 space-y-6 text-left">
+              
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs font-medium text-foreground">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Enterprise UAV Dispatch Platform
+                </span>
+              </div>
 
-      {/* Hero Section */}
-      <section className="relative pt-16 pb-20 sm:pt-24 sm:pb-28 lg:pt-28 lg:pb-32 border-b border-border dark:border-zinc-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-7">
-          
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs font-medium text-foreground mx-auto transition-colors duration-150 hover:border-border-strong dark:hover:border-zinc-700">
-            <ShieldCheck className="w-3.5 h-3.5 text-zinc-900 dark:text-zinc-100" />
-            <span>Enterprise Commercial UAV Dispatch Platform</span>
-          </div>
+              {/* Display Heading */}
+              <h1 className="text-3xl sm:text-5xl lg:text-[52px] font-bold tracking-[-0.03em] text-foreground leading-[1.1]">
+                Connecting Industries with Certified Drone Pilots.
+              </h1>
 
-          {/* Classical Monolithic Heading */}
-          <h1 className="text-4xl sm:text-6xl lg:text-[62px] font-semibold tracking-[-0.035em] text-foreground leading-[1.08] max-w-3xl mx-auto">
-            Commercial drone infrastructure for critical operations.
-          </h1>
+              {/* Sub-narrative */}
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl">
+                Discover verified commercial drone pilots for infrastructure inspections, precision agriculture, construction monitoring, and aerial surveying. One platform. Every mission.
+              </p>
 
-          {/* Crisp Institutional Narrative */}
-          <p className="text-base sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Aether connects enterprise asset owners with vetted, insured commercial remote pilots. Scoped for utility grids, agricultural acreage, heavy civil engineering, and survey-grade orthomosaics.
-          </p>
+              {/* Action Buttons */}
+              <div className="pt-2 flex flex-wrap items-center gap-3">
+                <Button asChild size="lg" variant="primary" className="group h-12 px-7 rounded-full shadow-md font-semibold text-sm">
+                  <Link href="/company/post-job" className="gap-2">
+                    <span>Post a Mission</span>
+                    <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
+                  </Link>
+                </Button>
 
-          {/* Action Strip: Primary & Secondary with smooth arrow slide */}
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Button asChild size="lg" variant="primary" className="group h-11 px-6 shadow-xs hover:shadow-sm">
-              <Link href="/company/post-job" className="gap-2">
-                <span>Deploy a Mission</span>
-                <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
-              </Link>
-            </Button>
+                <Button asChild size="lg" variant="secondary" className="group h-12 px-7 rounded-full border border-border dark:border-zinc-800 font-semibold text-sm">
+                  <Link href="/pilots" className="gap-2">
+                    <span>Explore Pilots</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-muted-foreground transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
+                  </Link>
+                </Button>
+              </div>
 
-            <Button asChild size="lg" variant="secondary" className="group h-11 px-6">
-              <Link href="/pilots" className="gap-2">
-                <span>Explore Vetted Pilots</span>
-                <ChevronRight className="w-3.5 h-3.5 text-muted-foreground transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
-              </Link>
-            </Button>
-          </div>
+              {/* Trust Metrics Row */}
+              <div className="grid grid-cols-3 gap-3 pt-6 border-t border-border/80 dark:border-zinc-800/80 mt-4 max-w-lg">
+                <div className="space-y-0.5">
+                  <p className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-mono">100%</p>
+                  <p className="text-[11px] text-muted-foreground uppercase font-mono tracking-wider">FAA Part 107</p>
+                </div>
+                <div className="space-y-0.5 border-l border-border dark:border-zinc-800 pl-3 sm:pl-4">
+                  <p className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-mono">&lt; 1.5 cm</p>
+                  <p className="text-[11px] text-muted-foreground uppercase font-mono tracking-wider">RTK Accuracy</p>
+                </div>
+                <div className="space-y-0.5 border-l border-border dark:border-zinc-800 pl-3 sm:pl-4">
+                  <p className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-mono">$5.0M</p>
+                  <p className="text-[11px] text-muted-foreground uppercase font-mono tracking-wider">COI Insured</p>
+                </div>
+              </div>
 
-          {/* Underwritten Metrics Row with hover highlight */}
-          <div className="max-w-2xl mx-auto grid grid-cols-3 gap-4 pt-10 border-t border-border dark:border-zinc-800 mt-6">
-            <div className="group space-y-0.5 text-center p-2 rounded-control transition-colors duration-150 hover:bg-surface-2/60 dark:hover:bg-zinc-900/40">
-              <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground font-mono transition-transform duration-150 group-hover:-translate-y-0.5">100%</p>
-              <p className="text-xs text-muted-foreground mt-1">Part 107 Airmen Verified</p>
             </div>
-            <div className="group space-y-0.5 border-l border-border dark:border-zinc-800 text-center pl-2 sm:pl-4 p-2 rounded-control transition-colors duration-150 hover:bg-surface-2/60 dark:hover:bg-zinc-900/40">
-              <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground font-mono transition-transform duration-150 group-hover:-translate-y-0.5">&lt; 1.5 cm</p>
-              <p className="text-xs text-muted-foreground mt-1">RTK Survey Accuracy</p>
-            </div>
-            <div className="group space-y-0.5 border-l border-border dark:border-zinc-800 text-center pl-2 sm:pl-4 p-2 rounded-control transition-colors duration-150 hover:bg-surface-2/60 dark:hover:bg-zinc-900/40">
-              <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground font-mono transition-transform duration-150 group-hover:-translate-y-0.5">\$5.0M</p>
-              <p className="text-xs text-muted-foreground mt-1">COI Insurance Underwritten</p>
-            </div>
-          </div>
 
+            {/* Right Column: Split-Screen Hero Video Container */}
+            <div className="lg:col-span-6">
+              <div className="relative rounded-3xl overflow-hidden border border-zinc-200/90 dark:border-zinc-800 bg-zinc-950 shadow-2xl aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] w-full group">
+                
+                {/* Background Video */}
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  loop
+                  muted={isVideoMuted}
+                  playsInline
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                >
+                  <source src="/hero-video.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+
+                {/* Subtle Cinematic Vignette Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none" />
+
+                {/* Floating Top Badge */}
+                <div className="absolute top-4 left-4 z-10">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white text-xs font-medium shadow-md">
+                    <span className="w-2 h-2 rounded-full bg-[#fabf28] animate-pulse" />
+                    <span className="font-mono text-[10px] uppercase tracking-wider">
+                      Live UAV Operations
+                    </span>
+                  </div>
+                </div>
+
+                {/* Floating Bottom Metadata & Audio Toggle */}
+                <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between gap-3">
+                  <div className="px-3.5 py-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 text-white/90 text-xs">
+                    <p className="font-semibold text-[11px] text-white">4K Commercial Flight Reel</p>
+                    <p className="text-[10px] text-zinc-300 font-mono">Aerial Survey • Thermography • Production</p>
+                  </div>
+
+                  {/* Audio Mute/Unmute Toggle Button */}
+                  <button
+                    type="button"
+                    onClick={toggleMute}
+                    aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
+                    className="w-9 h-9 rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-150 active:scale-95 shadow-md"
+                  >
+                    {isVideoMuted ? (
+                      <VolumeX className="w-4 h-4 text-zinc-300" />
+                    ) : (
+                      <Volume2 className="w-4 h-4 text-[#fabf28]" />
+                    )}
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
-      {/* Institutional Enterprise Social Proof */}
-      <section className="py-7 border-b border-border dark:border-zinc-800 bg-surface-2/40 dark:bg-zinc-950/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-[11px] font-mono uppercase tracking-wider text-muted-foreground mb-4">
-            Operations deployed across North American industrial corridors
+      {/* Pilotbase-Style Trusted By Strip */}
+      <section className="py-7 sm:py-9 border-b border-border/80 dark:border-zinc-850 bg-[#faf8f5]/60 dark:bg-[#070709]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-muted-foreground mb-4">
+            TRUSTED BY ENTERPRISES, BRANDS &amp; ASSET MANAGERS
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-            {enterpriseClients.map((client) => (
+          <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-8 gap-y-3">
+            {[
+              { name: "Apex Energy Holdings", tag: "Energy Grid" },
+              { name: "Vanguard Infrastructure", tag: "DOT & Rail" },
+              { name: "Pacific Civil Engineering", tag: "Civil BIM" },
+              { name: "Discovery Channel Media", tag: "Broadcast" },
+              { name: "Stewardship Ag Partners", tag: "Precision Ag" },
+            ].map((client) => (
               <div
                 key={client.name}
-                className="group flex items-center gap-2 text-xs text-muted-foreground px-2 py-1 rounded transition-colors duration-150 hover:text-foreground hover:bg-surface dark:hover:bg-zinc-900"
+                className="flex items-center gap-2 text-xs font-semibold text-foreground/85 hover:text-foreground px-3.5 py-1.5 rounded-full bg-surface dark:bg-zinc-900/60 border border-border/70 dark:border-zinc-800 transition-colors shadow-2xs"
               >
-                <span className="w-1 h-1 rounded-full bg-zinc-400 dark:bg-zinc-600 transition-colors group-hover:bg-primary" />
-                <span className="font-semibold text-foreground/90 group-hover:text-foreground">{client.name}</span>
-                <span className="text-[11px] text-muted-foreground font-mono">({client.region})</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#fabf28]" />
+                <span>{client.name}</span>
+                <span className="text-[10px] text-muted-foreground font-mono">({client.tag})</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Industrial Commercial Sectors */}
-      <section id="services" className="py-20 sm:py-28 bg-surface-2 dark:bg-[#060608] border-b border-border dark:border-zinc-800">
+      {/* Reference Section: Find pilots for every shoot */}
+      <section id="services" className="py-16 sm:py-24 bg-background border-b border-border dark:border-zinc-800 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mb-12">
-            <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-              Operational Scope
-            </p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground">
-              Industrial mission capabilities
+          
+          {/* Section Header */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
+            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold tracking-[-0.03em] text-foreground leading-tight">
+              Find pilots for every shoot
             </h2>
-            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-              Standardized airframes equipped with dual thermal radiometric sensors, RTK base stations, aerial LiDAR, and heavy-lift agricultural systems.
+            <Link
+              href="/jobs"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors shrink-0"
+            >
+              <span>Browse all categories</span>
+              <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          </div>
+
+          {/* 8-Card Grid: 7 Visual Image Cards + 1 Yellow Custom Brief Card */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+            {categories.map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <Link
+                  key={cat.title}
+                  href={cat.href}
+                  className="group relative h-72 sm:h-80 rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-end p-5 select-none"
+                >
+                  {/* Photo Background with subtle scale zoom */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
+                    style={{ backgroundImage: `url(${cat.bgImage})` }}
+                  />
+                  
+                  {/* Cinematic dark scrim overlays for text readability in both dark and light themes */}
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+
+                  {/* Content Pill at Bottom */}
+                  <div className="relative z-10 flex items-center gap-2 text-white">
+                    <div className="w-7 h-7 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 group-hover:border-white/50 transition-colors">
+                      <Icon className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="text-[15px] font-semibold tracking-[-0.01em] text-white drop-shadow-sm">
+                      {cat.title}
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
+
+            {/* 8th Card: Bold Yellow 'Post a custom brief' Card matching the reference exactly */}
+            <Link
+              href="/company/post-job"
+              className="group relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-[#fabf28] text-zinc-950 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:brightness-105 shadow-xs select-none"
+            >
+              {/* Top 'NOT SURE?' Tag */}
+              <div>
+                <span className="inline-block px-2.5 py-1 rounded-md bg-black/15 text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-900">
+                  NOT SURE?
+                </span>
+              </div>
+
+              {/* Bottom Content & Arrow */}
+              <div className="space-y-3">
+                <div className="space-y-1.5">
+                  <h3 className="text-xl font-bold tracking-tight text-zinc-950 leading-tight">
+                    Post a custom brief
+                  </h3>
+                  <p className="text-xs text-zinc-800 leading-relaxed font-medium">
+                    Describe your shoot. We&apos;ll match pilots in 2 hours.
+                  </p>
+                </div>
+
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-950 pt-1">
+                  <span>Start brief</span>
+                  <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </div>
+              </div>
+            </Link>
+          </div>
+
+        </div>
+      </section>
+
+      {/* How it works - Two paths, one platform */}
+      <section id="how-it-works" className="py-20 sm:py-28 bg-background border-b border-border dark:border-zinc-800 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Section Header */}
+          <div className="max-w-2xl mb-12 sm:mb-14">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-4 h-[2px] bg-[#fabf28]" />
+              <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#fabf28]">
+                HOW IT WORKS
+              </span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-semibold tracking-[-0.035em] text-foreground leading-[1.08]">
+              Two paths, one platform.
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
+              Whether you need footage flown or you&apos;re the one flying it — we handle the boring stuff so the right people find each other faster.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {sectors.map((sector) => {
-              const Icon = sector.icon;
-              return (
-                <div
-                  key={sector.id}
-                  className="group rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 p-6 flex flex-col justify-between transition-all duration-200 ease-out hover:border-zinc-400 dark:hover:border-zinc-600 hover:shadow-xs"
-                >
-                  <div>
-                    <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-border/80 dark:border-zinc-800">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 flex items-center justify-center text-foreground transition-colors duration-150 group-hover:border-zinc-400 dark:group-hover:border-zinc-600 group-hover:text-primary">
-                          <Icon className="w-4 h-4 transition-transform duration-200 group-hover:scale-105" />
-                        </div>
-                        <span className="text-xs font-mono font-medium text-muted-foreground uppercase">
-                          {sector.code}
-                        </span>
-                      </div>
-                      <span className="text-[11px] font-mono font-medium text-muted-foreground px-2 py-0.5 rounded bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 transition-colors duration-150 group-hover:border-border-strong">
-                        {sector.metric}
-                      </span>
+          {/* Two-Column Cards Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+            
+            {/* Left Card: FOR CLIENTS (Bold Pilotbase Yellow Theme) */}
+            <div className="rounded-3xl bg-[#fabf28] text-zinc-950 p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none">
+              <div>
+                <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-zinc-800 block mb-2">
+                  FOR CLIENTS
+                </span>
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-zinc-950 leading-tight mb-8">
+                  Need a shoot? Brief us.
+                </h3>
+
+                {/* 2x2 Steps Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
+                  
+                  {/* Step 1 */}
+                  <div className="p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
+                    <div className="w-8 h-8 rounded-xl bg-zinc-950 text-[#fabf28] flex items-center justify-center shrink-0 shadow-xs">
+                      <FileText className="w-4 h-4" />
                     </div>
-
-                    <h3 className="text-base font-semibold text-foreground transition-colors duration-150 group-hover:text-primary">
-                      {sector.title}
-                    </h3>
-
-                    <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                      {sector.desc}
-                    </p>
-
-                    <div className="mt-4 pt-3 border-t border-border/60 dark:border-zinc-800/80">
-                      <p className="text-[11px] font-mono text-muted-foreground">
-                        Payload: <span className="font-sans font-medium text-foreground">{sector.payload}</span>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-700 block">
+                        STEP 1
+                      </span>
+                      <h4 className="text-sm font-bold text-zinc-950 leading-tight mt-0.5">
+                        Post a brief
+                      </h4>
+                      <p className="text-[11px] text-zinc-800 leading-snug mt-1 font-medium">
+                        Describe the shoot, date, and budget — 60 seconds.
                       </p>
                     </div>
                   </div>
 
-                  <div className="pt-4 mt-4 border-t border-border dark:border-zinc-800 flex items-center justify-between">
-                    <Link
-                      href={`/jobs?service=${sector.id}`}
-                      className="text-xs font-medium text-foreground group-hover:text-primary inline-flex items-center gap-1 transition-colors duration-150"
-                    >
-                      <span>Explore missions</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-transform duration-150 ease-out group-hover:translate-x-1" />
-                    </Link>
-                    <span className="text-[10px] uppercase font-mono text-muted-foreground">
-                      Part 107
-                    </span>
+                  {/* Step 2 */}
+                  <div className="p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
+                    <div className="w-8 h-8 rounded-xl bg-zinc-950 text-[#fabf28] flex items-center justify-center shrink-0 shadow-xs">
+                      <Sparkles className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-700 block">
+                        STEP 2
+                      </span>
+                      <h4 className="text-sm font-bold text-zinc-950 leading-tight mt-0.5">
+                        Get matched
+                      </h4>
+                      <p className="text-[11px] text-zinc-800 leading-snug mt-1 font-medium">
+                        AI ranks pilots by city, kit, and category in minutes.
+                      </p>
+                    </div>
                   </div>
+
+                  {/* Step 3 */}
+                  <div className="p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
+                    <div className="w-8 h-8 rounded-xl bg-zinc-950 text-[#fabf28] flex items-center justify-center shrink-0 shadow-xs">
+                      <CalendarCheck className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-700 block">
+                        STEP 3
+                      </span>
+                      <h4 className="text-sm font-bold text-zinc-950 leading-tight mt-0.5">
+                        Book & brief
+                      </h4>
+                      <p className="text-[11px] text-zinc-800 leading-snug mt-1 font-medium">
+                        Confirm a date, share refs, sign with one tap.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 4 */}
+                  <div className="p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
+                    <div className="w-8 h-8 rounded-xl bg-zinc-950 text-[#fabf28] flex items-center justify-center shrink-0 shadow-xs">
+                      <CreditCard className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-700 block">
+                        STEP 4
+                      </span>
+                      <h4 className="text-sm font-bold text-zinc-950 leading-tight mt-0.5">
+                        Pay on delivery
+                      </h4>
+                      <p className="text-[11px] text-zinc-800 leading-snug mt-1 font-medium">
+                        Escrow protects you until you accept the footage.
+                      </p>
+                    </div>
+                  </div>
+
                 </div>
-              );
-            })}
+              </div>
+
+              {/* Action Button */}
+              <div>
+                <Link
+                  href="/company/post-job"
+                  className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-950 text-white hover:bg-zinc-900 text-xs font-bold tracking-tight shadow-md transition-all active:scale-[0.98]"
+                >
+                  <span>Post a brief</span>
+                  <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Card: FOR PILOTS (Pitch Obsidian Charcoal Theme) */}
+            <div className="rounded-3xl bg-[#111111] dark:bg-[#0c0c0c] border border-zinc-800/80 text-white p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none">
+              <div>
+                <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-zinc-400 block mb-2">
+                  FOR PILOTS
+                </span>
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight mb-8">
+                  Fly for a living.
+                </h3>
+
+                {/* 2x2 Steps Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
+                  
+                  {/* Step 1 */}
+                  <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
+                    <div className="w-8 h-8 rounded-xl bg-zinc-800 text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <UserCheck className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400 block">
+                        STEP 1
+                      </span>
+                      <h4 className="text-sm font-bold text-white leading-tight mt-0.5">
+                        Apply free
+                      </h4>
+                      <p className="text-[11px] text-zinc-400 leading-snug mt-1 font-normal">
+                        Verify ID, DGCA, kit, and insurance. Takes 10 minutes.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
+                    <div className="w-8 h-8 rounded-xl bg-zinc-800 text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <Briefcase className="w-4 h-4 text-sky-400" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400 block">
+                        STEP 2
+                      </span>
+                      <h4 className="text-sm font-bold text-white leading-tight mt-0.5">
+                        Browse live jobs
+                      </h4>
+                      <p className="text-[11px] text-zinc-400 leading-snug mt-1 font-normal">
+                        Filter by city, day rate, and category — instant alerts.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
+                    <div className="w-8 h-8 rounded-xl bg-zinc-800 text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <Send className="w-4 h-4 text-amber-400" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400 block">
+                        STEP 3
+                      </span>
+                      <h4 className="text-sm font-bold text-white leading-tight mt-0.5">
+                        Pitch & win
+                      </h4>
+                      <p className="text-[11px] text-zinc-400 leading-snug mt-1 font-normal">
+                        Send a proposal with price, timeline, and reel.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 4 */}
+                  <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
+                    <div className="w-8 h-8 rounded-xl bg-zinc-800 text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <Clock className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400 block">
+                        STEP 4
+                      </span>
+                      <h4 className="text-sm font-bold text-white leading-tight mt-0.5">
+                        Get paid
+                      </h4>
+                      <p className="text-[11px] text-zinc-400 leading-snug mt-1 font-normal">
+                        Receive escrow payouts within 48 hours of delivery.
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div>
+                <Link
+                  href="/register?role=PILOT"
+                  className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#fabf28] text-zinc-950 hover:bg-[#e6ae22] text-xs font-bold tracking-tight shadow-md transition-all active:scale-[0.98]"
+                >
+                  <span>Join as a pilot</span>
+                  <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              </div>
+            </div>
+
           </div>
+
         </div>
       </section>
 
-      {/* Bilateral Workflow */}
-      <section id="how-it-works" className="py-20 sm:py-28 bg-background dark:bg-black border-b border-border dark:border-zinc-800">
+      {/* Why AeroLink / Core Value Proposition */}
+      <section className="py-20 sm:py-28 bg-[#faf8f5] dark:bg-[#070709] border-b border-border/80 dark:border-zinc-850">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mb-12">
-            <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-              Bilateral Architecture
-            </p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground">
-              Built for commercial compliance
-            </h2>
-            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-              Standardized contract scoping, algorithmic hardware-to-airspace matching, and milestone-secured escrow disbursements.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {/* For Companies */}
-            <div className="rounded-panel border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-950 p-7 sm:p-8 space-y-6 transition-colors duration-150 hover:border-border-strong dark:hover:border-zinc-700">
-              <div className="flex items-center gap-3 pb-5 border-b border-border dark:border-zinc-800">
-                <div className="w-9 h-9 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground flex items-center justify-center">
-                  <Building2 className="w-4 h-4" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+            
+            {/* Left Content Column */}
+            <div className="lg:col-span-5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
+                  <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+                    WHY AEROLINK
+                  </span>
                 </div>
-                <div>
-                  <h3 className="text-base font-semibold text-foreground">For Enterprise Asset Owners</h3>
-                  <p className="text-xs text-muted-foreground">Procure compliant flight operations with zero liability gaps</p>
-                </div>
+
+                <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-foreground leading-[1.12]">
+                  Built for serious work, <br className="hidden sm:inline" />
+                  from the air down.
+                </h2>
+
+                <p className="text-sm sm:text-base text-muted-foreground mt-5 leading-relaxed">
+                  We obsess over the boring stuff — permits, paperwork, insurance — so creators can focus on the frame, and clients can focus on the story.
+                </p>
               </div>
 
-              <div className="space-y-3">
-                {[
-                  {
-                    step: "01",
-                    title: "Define Flight Scope & Required Payloads",
-                    desc: "Specify site coordinates, required sensors (LiDAR, RTK, Thermal), and deliverables format.",
-                  },
-                  {
-                    step: "02",
-                    title: "Review Algorithmic Matches",
-                    desc: "Compare vetted pilots filtered by equipment payload, operating radius, and historical performance.",
-                  },
-                  {
-                    step: "03",
-                    title: "Fund Milestone Escrow",
-                    desc: "Deposit mission capital into escrow prior to wheels-up to protect operational timelines.",
-                  },
-                  {
-                    step: "04",
-                    title: "Accept Verified Deliverables",
-                    desc: "Audit raw sensor data, orthomosaic deliverables, or inspection reports before releasing payouts.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.step}
-                    className="group flex items-start gap-3.5 p-3.5 rounded-control bg-surface-2/60 dark:bg-zinc-900/40 border border-border/80 dark:border-zinc-800/80 transition-all duration-150 hover:bg-surface-2 dark:hover:bg-zinc-900 hover:border-border-strong dark:hover:border-zinc-700 hover:translate-x-0.5"
-                  >
-                    <span className="font-mono text-xs font-semibold text-foreground px-2 py-0.5 rounded bg-surface dark:bg-zinc-900 border border-border dark:border-zinc-800 shrink-0 transition-colors group-hover:border-zinc-400 dark:group-hover:border-zinc-600">
-                      {item.step}
-                    </span>
-                    <div>
-                      <h4 className="text-xs sm:text-sm font-semibold text-foreground">{item.title}</h4>
-                      <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{item.desc}</p>
+              {/* Horizontal Divider and Metrics */}
+              <div className="border-t border-zinc-200 dark:border-zinc-800/80 pt-8 mt-10 sm:mt-12">
+                <div className="grid grid-cols-3 gap-4 sm:gap-6">
+                  <div>
+                    <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground font-sans">
+                      500+
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* For Pilots */}
-            <div className="rounded-panel border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-950 p-7 sm:p-8 space-y-6 transition-colors duration-150 hover:border-border-strong dark:hover:border-zinc-700">
-              <div className="flex items-center gap-3 pb-5 border-b border-border dark:border-zinc-800">
-                <div className="w-9 h-9 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground flex items-center justify-center">
-                  <Plane className="w-4 h-4" />
-                </div>
-                <div>
-                  <h3 className="text-base font-semibold text-foreground">For Commercial Flight Crews</h3>
-                  <p className="text-xs text-muted-foreground">Access qualified industrial flight briefs matched to your fleet</p>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                {[
-                  {
-                    step: "01",
-                    title: "Catalog Fleet & Specialized Sensors",
-                    desc: "Register certified airframes, optical payloads, thermal radiometers, and RTK equipment.",
-                  },
-                  {
-                    step: "02",
-                    title: "Submit Airmen Credentials & Insurance",
-                    desc: "Pass FAA Part 107 registry check and provide active Certificate of Insurance (COI).",
-                  },
-                  {
-                    step: "03",
-                    title: "Receive Targeted Dispatch Briefs",
-                    desc: "Bid on commercial missions scoped specifically for your equipment in your operational radius.",
-                  },
-                  {
-                    step: "04",
-                    title: "Execute Flights & Direct Escrow Release",
-                    desc: "Conduct operations safely, upload data files, and receive prompt settlement without chasing accounts.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.step}
-                    className="group flex items-start gap-3.5 p-3.5 rounded-control bg-surface-2/60 dark:bg-zinc-900/40 border border-border/80 dark:border-zinc-800/80 transition-all duration-150 hover:bg-surface-2 dark:hover:bg-zinc-900 hover:border-border-strong dark:hover:border-zinc-700 hover:translate-x-0.5"
-                  >
-                    <span className="font-mono text-xs font-semibold text-foreground px-2 py-0.5 rounded bg-surface dark:bg-zinc-900 border border-border dark:border-zinc-800 shrink-0 transition-colors group-hover:border-zinc-400 dark:group-hover:border-zinc-600">
-                      {item.step}
-                    </span>
-                    <div>
-                      <h4 className="text-xs sm:text-sm font-semibold text-foreground">{item.title}</h4>
-                      <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{item.desc}</p>
+                    <div className="text-[11px] font-mono font-bold uppercase tracking-widest text-muted-foreground mt-1.5">
+                      PILOTS
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Compliance & Standards */}
-      <section className="py-20 sm:py-28 bg-surface-2 dark:bg-[#060608] border-b border-border dark:border-zinc-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-            <div className="space-y-5">
-              <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-                Institutional Risk Mitigation
-              </p>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground leading-tight">
-                Rigorous compliance. Zero unvetted operations.
-              </h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Industrial flights introduce real site liabilities. Our protocol mandates automated credential audits before any remote pilot can place a proposal on an operational brief.
-              </p>
-
-              <div className="space-y-3 pt-2">
-                {[
-                  {
-                    title: "FAA Registry Cross-Referenced",
-                    desc: "Every certificate number is validated directly against current federal airmen databases.",
-                  },
-                  {
-                    title: "Payload-Specific Qualification",
-                    desc: "Matches missions only to operators with verified industrial-grade sensor payloads.",
-                  },
-                  {
-                    title: "Underwritten Escrow Architecture",
-                    desc: "Guarantees payment delivery for operators while ensuring quality data fulfillment for enterprises.",
-                  },
-                  {
-                    title: "Verified Transaction Records",
-                    desc: "Performance records are tethered strictly to completed, verified commercial contracts.",
-                  },
-                ].map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-1.5 rounded transition-colors duration-150 hover:bg-surface/60 dark:hover:bg-zinc-900/30">
-                    <div className="w-4 h-4 rounded-full bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-2.5 h-2.5" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs sm:text-sm font-semibold text-foreground">{item.title}</h4>
-                      <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Credential Card Showcase */}
-            <div className="rounded-panel border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-950 p-6 sm:p-7 space-y-5 transition-all duration-200 hover:border-zinc-400 dark:hover:border-zinc-600 hover:shadow-xs">
-              <div className="flex items-center justify-between pb-4 border-b border-border dark:border-zinc-800">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground flex items-center justify-center font-bold text-xs font-mono">
-                    MV
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-foreground">Marcus Vance</h4>
-                    <p className="text-xs text-muted-foreground">Remote Pilot #4892019 • Texas, USA</p>
+                    <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground font-sans">
+                      42
+                    </div>
+                    <div className="text-[11px] font-mono font-bold uppercase tracking-widest text-muted-foreground mt-1.5">
+                      CITIES
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground font-sans">
+                      12,000+
+                    </div>
+                    <div className="text-[11px] font-mono font-bold uppercase tracking-widest text-muted-foreground mt-1.5">
+                      SHOOTS
+                    </div>
                   </div>
                 </div>
-                <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground">
-                  AUDITED
-                </span>
-              </div>
-
-              <div className="space-y-2.5 text-xs">
-                <div className="flex justify-between py-1.5 border-b border-border/70 dark:border-zinc-800/80 transition-colors duration-150 hover:bg-surface-2/40 dark:hover:bg-zinc-900/30 px-1 rounded">
-                  <span className="text-muted-foreground">Certified Airframes</span>
-                  <span className="font-medium text-foreground">DJI Matrice 350 RTK, Mavic 3 Enterprise</span>
-                </div>
-                <div className="flex justify-between py-1.5 border-b border-border/70 dark:border-zinc-800/80 transition-colors duration-150 hover:bg-surface-2/40 dark:hover:bg-zinc-900/30 px-1 rounded">
-                  <span className="text-muted-foreground">Sensor Payloads</span>
-                  <span className="font-medium text-foreground">Zenmuse H20T Thermal, L2 LiDAR</span>
-                </div>
-                <div className="flex justify-between py-1.5 border-b border-border/70 dark:border-zinc-800/80 transition-colors duration-150 hover:bg-surface-2/40 dark:hover:bg-zinc-900/30 px-1 rounded">
-                  <span className="text-muted-foreground">Logged Flight Hours</span>
-                  <span className="font-medium text-foreground font-mono">1,840 Commercial Hours</span>
-                </div>
-                <div className="flex justify-between py-1.5 border-b border-border/70 dark:border-zinc-800/80 transition-colors duration-150 hover:bg-surface-2/40 dark:hover:bg-zinc-900/30 px-1 rounded">
-                  <span className="text-muted-foreground">COI Insurance</span>
-                  <span className="font-medium text-foreground font-mono">\$2,000,000 Verified</span>
-                </div>
-                <div className="flex justify-between py-1.5 transition-colors duration-150 hover:bg-surface-2/40 dark:hover:bg-zinc-900/30 px-1 rounded">
-                  <span className="text-muted-foreground">Client Rating</span>
-                  <span className="font-medium text-foreground font-mono">5.0 / 5.0 (42 missions)</span>
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <Button asChild block variant="secondary" size="md" className="group">
-                  <Link href="/pilots" className="gap-1.5">
-                    <span>View Verified Pilot Profiles</span>
-                    <ChevronRight className="w-3.5 h-3.5 text-muted-foreground transition-transform duration-150 group-hover:translate-x-1" />
-                  </Link>
-                </Button>
               </div>
             </div>
+
+            {/* Right 2x2 Feature Cards Grid */}
+            <div className="lg:col-span-7">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                
+                {/* Card 1: Verified & insured */}
+                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
+                  <div className="mb-4 text-[#fabf28]">
+                    <ShieldCheck className="w-6 h-6 stroke-[1.8]" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
+                    Verified & insured
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
+                    Every pilot is DGCA-aware, ID-verified, and insurance-backed.
+                  </p>
+                </div>
+
+                {/* Card 2: Fast matching */}
+                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
+                  <div className="mb-4 text-[#fabf28]">
+                    <Zap className="w-6 h-6 stroke-[1.8]" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
+                    Fast matching
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
+                    AI-matched to your brief in minutes, not days.
+                  </p>
+                </div>
+
+                {/* Card 3: Transparent pricing */}
+                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
+                  <div className="mb-4 text-[#fabf28]">
+                    <Wallet className="w-6 h-6 stroke-[1.8]" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
+                    Transparent pricing
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
+                    Flat day rates, milestone escrow, zero surprises.
+                  </p>
+                </div>
+
+                {/* Card 4: Concierge support */}
+                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
+                  <div className="mb-4 text-[#fabf28]">
+                    <Headphones className="w-6 h-6 stroke-[1.8]" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
+                    Concierge support
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
+                    A real human producer on every booking.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* FAQ Section with smooth accordion expand */}
+      {/* FAQ Section with Pilotbase Design Aesthetic */}
       <section className="py-20 sm:py-28 bg-background dark:bg-black border-b border-border dark:border-zinc-800">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-              Compliance & Protocols
-            </p>
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
-              Frequently asked questions
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Section Header */}
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
+            <div className="inline-flex items-center gap-2 mb-3">
+              <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
+              <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+                FREQUENTLY ASKED QUESTIONS
+              </span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.12]">
+              Got questions? <br className="hidden sm:inline" />
+              We&apos;ve got answers.
             </h2>
+            <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
+              Everything you need to know about booking shoots, pilot verification, equipment compliance, and milestone escrow protection.
+            </p>
+
+            {/* Quick Filter Categories */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-6">
+              {[
+                { id: "all", label: "All Questions" },
+                { id: "clients", label: "For Clients" },
+                { id: "pilots", label: "For Pilots" },
+                { id: "escrow", label: "Trust & Escrow" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => {
+                    setFaqCategory(tab.id);
+                    setOpenFaq(0);
+                  }}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-tight transition-all duration-200 ${
+                    faqCategory === tab.id
+                      ? "bg-[#fabf28] text-zinc-950 shadow-xs"
+                      : "bg-surface-2 dark:bg-zinc-900 text-muted-foreground hover:text-foreground border border-border/80 dark:border-zinc-800"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="space-y-3">
-            {faqs.map((faq, idx) => {
+          {/* Accordion List */}
+          <div className="space-y-3.5 sm:space-y-4">
+            {filteredFaqs.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
                 <div
                   key={idx}
-                  className={`rounded-panel border bg-surface dark:bg-zinc-950 overflow-hidden transition-colors duration-150 ${
+                  className={`rounded-2xl sm:rounded-3xl border transition-all duration-200 overflow-hidden ${
                     isOpen
-                      ? "border-zinc-400 dark:border-zinc-600 shadow-2xs"
-                      : "border-border dark:border-zinc-800 hover:border-border-strong dark:hover:border-zinc-700"
+                      ? "border-zinc-400 dark:border-zinc-650 bg-white dark:bg-[#121214] shadow-sm"
+                      : "border-zinc-200/90 dark:border-zinc-800/90 bg-white dark:bg-[#121214] hover:border-zinc-350 dark:hover:border-zinc-700"
                   }`}
                 >
                   <button
                     type="button"
                     onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full flex items-center justify-between p-4 sm:p-5 text-left text-xs sm:text-sm font-semibold text-foreground hover:bg-surface-2/60 dark:hover:bg-zinc-900/60 transition-colors duration-150"
+                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left group"
                   >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ease-out shrink-0 ml-4 ${
-                        isOpen ? "transform rotate-180 text-foreground" : ""
+                    <span className="font-bold text-sm sm:text-base text-foreground tracking-tight pr-4 leading-snug">
+                      {faq.q}
+                    </span>
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 ${
+                        isOpen
+                          ? "bg-[#fabf28] text-zinc-950 shadow-xs rotate-180"
+                          : "bg-zinc-100 dark:bg-zinc-800 text-muted-foreground group-hover:text-foreground group-hover:bg-zinc-200 dark:group-hover:bg-zinc-700"
                       }`}
-                    />
+                    >
+                      <ChevronDown className="w-4 h-4 stroke-[2.2]" />
+                    </div>
                   </button>
                   {isOpen && (
-                    <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-muted-foreground leading-relaxed border-t border-border/80 dark:border-zinc-800 pt-3 animate-fade-in">
+                    <div className="px-5 sm:px-6 pb-6 text-xs sm:text-sm text-muted-foreground leading-relaxed pt-2 border-t border-zinc-100 dark:border-zinc-800/80">
                       {faq.a}
                     </div>
                   )}
@@ -545,29 +830,62 @@ export default function LandingPage() {
               );
             })}
           </div>
+
+          {/* Concierge Help Card at Bottom */}
+          <div className="mt-12 sm:mt-16 rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-[#faf8f5] dark:bg-[#0c0c0e] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
+            <div className="flex items-center gap-4 text-center sm:text-left">
+              <div className="w-12 h-12 rounded-2xl bg-[#fabf28]/15 text-[#fabf28] flex items-center justify-center shrink-0">
+                <HelpCircle className="w-6 h-6 stroke-[1.8]" />
+              </div>
+              <div>
+                <h3 className="font-bold text-base text-foreground tracking-tight">
+                  Still have questions?
+                </h3>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 leading-relaxed">
+                  Our concierge team is available around the clock to help scope briefs or onboard your aircraft.
+                </p>
+              </div>
+            </div>
+            <div className="shrink-0 flex items-center gap-3">
+              <Link
+                href="/company/post-job"
+                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 hover:bg-zinc-850 dark:hover:bg-zinc-100 text-xs font-bold tracking-tight shadow-xs transition-all active:scale-[0.98]"
+              >
+                <span>Post a brief</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* Executive Call to Action */}
-      <section className="py-20 sm:py-24 bg-surface-2 dark:bg-[#060608] border-b border-border dark:border-zinc-800">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground">
-            Deploy your next commercial mission.
+      {/* Call to Action Section (Pilotbase Style) */}
+      <section className="py-20 sm:py-28 bg-[#faf8f5] dark:bg-[#070709] border-b border-border/80 dark:border-zinc-800">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+          <div className="inline-flex items-center gap-2 mb-1">
+            <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              GET STARTED TODAY
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-bold tracking-tight text-foreground leading-[1.08]">
+            Your next shoot is <br /><span className="italic font-light">a tap away.</span>
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            Connect with certified Part 107 pilots backed by verified airframes, radiometric payloads, and milestone escrow security.
+          <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto leading-relaxed">
+            Join 500+ verified pilots and the businesses they fly for. Free to list, free to brief.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            <Button asChild size="lg" variant="primary" className="group h-11 px-6 shadow-xs">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
+            <Button asChild size="lg" className="group h-12 px-8 rounded-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 hover:bg-zinc-850 dark:hover:bg-zinc-100 shadow-md font-semibold text-xs tracking-tight">
               <Link href="/company/post-job" className="gap-2">
-                <span>Post Commercial Mission</span>
+                <span>I&apos;m Hiring a Pilot</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="secondary" className="group h-11 px-6">
+            <Button asChild size="lg" className="group h-12 px-8 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 shadow-md font-bold text-xs tracking-tight">
               <Link href="/register?role=PILOT" className="gap-2">
-                <span>Apply as Verified Operator</span>
-                <ChevronRight className="w-3.5 h-3.5 text-muted-foreground transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
+                <span>I&apos;m a Drone Pilot</span>
+                <ChevronRight className="w-3.5 h-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
               </Link>
             </Button>
           </div>

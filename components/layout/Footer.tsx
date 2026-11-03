@@ -110,7 +110,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-subtle">
-          <p>© {new Date().getFullYear()} Aether — Certified Drone Pilots. Operations-grade flight network.</p>
+          <p>© {new Date().getFullYear()} AeroLink — Certified Drone Pilots. Operations-grade flight network.</p>
           <div className="flex gap-6">
             <Link href="/jobs" className="hover:text-foreground transition-colors">Open Marketplace</Link>
             <Link href="/pilots" className="hover:text-foreground transition-colors">Certified Roster</Link>

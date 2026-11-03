@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Certified Commercial Drone Pilots for Industry | Flight Operations Marketplace",
+  title: "AeroLink — Connecting Industries with Certified Drone Pilots",
   description:
     "Hire verified, FAA Part 107 certified commercial drone pilots for agricultural spraying, infrastructure inspection, real estate mapping, aerial surveys, and construction monitoring.",
   keywords: [

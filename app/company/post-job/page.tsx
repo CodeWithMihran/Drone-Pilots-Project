@@ -117,28 +117,25 @@ export default function CompanyPostJobPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-8 py-2 animate-fade-in">
       {/* Header Banner */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#0c0c0e] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-              Commercial Tender Publishing
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              POST A BRIEF
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
-            Post Industrial Drone Project
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            Post a shoot or mission brief.
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            Publish tender flight specifications to receive verified Part 107 bids with escrow protection.
+            Describe your mission requirements, dates, and budget — get matched with verified pilots in minutes.
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-          <ShieldCheck className="w-4 h-4 text-success" />
-          <span>FAA Verification Guaranteed</span>
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+          <span className="w-2 h-2 rounded-full bg-[#fabf28]" />
+          <span className="text-foreground">Underwritten Escrow Protected</span>
         </div>
       </div>
 
@@ -151,7 +148,7 @@ export default function CompanyPostJobPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Project Overview Card */}
-        <div className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
             <Briefcase className="w-4 h-4 text-primary" />
             Project Scope & Classification
@@ -230,7 +227,7 @@ export default function CompanyPostJobPage() {
         </div>
 
         {/* Location & Scheduling */}
-        <div className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
             <MapPin className="w-4 h-4 text-primary" />
             Location & Flight Schedule
@@ -339,7 +336,7 @@ export default function CompanyPostJobPage() {
         </div>
 
         {/* Requirements & Hardware Payloads */}
-        <div className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-success" />
             Pilot Certification & Equipment Prerequisites
@@ -489,10 +486,10 @@ export default function CompanyPostJobPage() {
           id="submit-post-job-btn"
           type="submit"
           disabled={submitting}
-          className="w-full h-11 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-xs transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+          className="w-full h-12 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
         >
           <Briefcase className="w-4 h-4" />
-          <span>{submitting ? "Publishing Project Tender..." : "Publish Drone Project Tender"}</span>
+          <span>{submitting ? "Publishing Brief..." : "Post Brief & Get Matched ↗"}</span>
         </button>
       </form>
     </div>

@@ -35,6 +35,7 @@ export default function PilotProfileDetailPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!id) return;
     const fetchPilot = async () => {
       try {
         setLoading(true);

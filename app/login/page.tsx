@@ -124,7 +124,7 @@ function LoginForm() {
           </Link>
         </div>
 
-        <Button id="login-submit-btn" type="submit" block size="lg" disabled={loading}>
+        <Button id="login-submit-btn" type="submit" block size="lg" disabled={loading} className="rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold shadow-xs transition-all active:scale-[0.98]">
           {loading ? "Signing in…" : "Sign in"}
         </Button>
       </form>

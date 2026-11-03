@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthUser } from "@/lib/permissions";
 import { uploadDocument } from "@/lib/cloudinary";
