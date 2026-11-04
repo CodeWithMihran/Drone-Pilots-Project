@@ -17,10 +17,12 @@ const badgeVariants = cva(
       variant: {
         success: 
           "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
+        // "Open / Available" → golden/amber instead of cyan
         info: 
-          "bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/30",
+          "bg-[#FFBD24]/15 text-[#8B6600] dark:text-[#FFBD24] border-[#FFBD24]/30",
+        // "In Progress / Pilot Selected / Shortlisted" → neutral dark
         primary: 
-          "bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30",
+          "bg-zinc-500/15 text-zinc-700 dark:text-zinc-300 border-zinc-500/30",
         warning: 
           "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30",
         destructive: 
@@ -99,7 +101,6 @@ export function StatusBadge({
   };
 
   const getLabel = () => {
-    // Replaced the hardcoded '✓' since we now have proper Lucide icons
     if (normalized === "VERIFIED" && type === "user") return "Verified Pilot";
     if (normalized === "VERIFIED") return "Verified";
     

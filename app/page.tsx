@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   ShieldCheck,
@@ -30,7 +30,6 @@ import {
   Zap,
   Wallet,
   Headphones,
-  HelpCircle,
   Plus,
   Minus,
   Volume2,
@@ -47,12 +46,76 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Footer } from "@/components/layout/Footer";
+import { cn } from "@/lib/utils";
+
+/**
+ * Reusable animated scroll section with natural, content-adaptive height,
+ * compact vertical spacing, and repeatable smooth entrance transitions
+ * on both scroll down and scroll up.
+ */
+function ScrollSection({
+  children,
+  className = "",
+  id,
+  initialVisible = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+  initialVisible?: boolean;
+}) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(initialVisible);
+
+  useEffect(() => {
+    const element = sectionRef.current;
+    if (!element) return;
+
+    // Respect reduced motion accessibility
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Toggle visibility repeatedly on both downward and upward scrolls
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.08,
+        rootMargin: "0px 0px -30px 0px",
+      }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      id={id}
+      ref={sectionRef}
+      className={cn(
+        "relative w-full transition-all duration-700 ease-out",
+        isVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-[20px]",
+        "motion-reduce:opacity-100 motion-reduce:translate-y-0 motion-reduce:transition-none",
+        className
+      )}
+    >
+      {children}
+    </section>
+  );
+}
 
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [faqCategory, setFaqCategory] = useState<string>("all");
   const [isVideoMuted, setIsVideoMuted] = useState(true);
-  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -61,7 +124,7 @@ export default function LandingPage() {
     }
   };
 
-  // Exact 7 visual category cards + 1 yellow custom brief card matching Pilotbase reference
+  // 7 visual category cards + 1 yellow industrial solutions card
   const categories = [
     {
       id: "AERIAL_PHOTOGRAPHY",
@@ -81,7 +144,7 @@ export default function LandingPage() {
       id: "FILM_PRODUCTION",
       title: "Film & Production",
       icon: Film,
-      bgImage: "https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=800&q=80",
+      bgImage: "https://plus.unsplash.com/premium_photo-1710961232986-36cead00da3c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
       href: "/jobs?service=AERIAL_PHOTOGRAPHY",
     },
     {
@@ -112,14 +175,6 @@ export default function LandingPage() {
       bgImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
       href: "/jobs?service=AERIAL_PHOTOGRAPHY",
     },
-  ];
-
-  const enterpriseClients = [
-    { name: "Apex Energy Holdings", region: "Texas ERCOT Grid" },
-    { name: "Vanguard Infrastructure", region: "Midwest Corridor" },
-    { name: "Pacific Civil Engineering", region: "California DOT" },
-    { name: "Borealis Wind Systems", region: "Great Plains" },
-    { name: "Stewardship Ag Partners", region: "Central Valley" },
   ];
 
   const faqs = [
@@ -165,23 +220,20 @@ export default function LandingPage() {
   return (
     <div className="flex-1 flex flex-col bg-background text-foreground transition-colors duration-150">
       
-      {/* Split-Screen Hero Section (Text Left, Video Right) */}
-      <section className="relative pt-12 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28 border-b border-border dark:border-zinc-800 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      {/* 1. Split-Screen Hero Section (Text Left, Video Right) — Compact & Balanced */}
+      <ScrollSection
+        id="hero"
+        initialVisible={true}
+        className="py-10 sm:py-12 lg:py-16 border-b border-border dark:border-zinc-800 overflow-hidden"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             {/* Left Column: Narrative, CTAs, Metrics */}
-            <div className="lg:col-span-6 space-y-6 text-left">
+            <div className="lg:col-span-6 space-y-5 text-left">
               
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs font-medium text-foreground">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Enterprise UAV Dispatch Platform
-                </span>
-              </div>
-
               {/* Display Heading */}
-              <h1 className="text-3xl sm:text-5xl lg:text-[52px] font-bold tracking-[-0.03em] text-foreground leading-[1.1]">
+              <h1 className="text-3xl sm:text-5xl lg:text-[50px] font-bold tracking-[-0.03em] text-foreground leading-[1.1]">
                 Connecting Industries with Certified Drone Pilots.
               </h1>
 
@@ -191,15 +243,15 @@ export default function LandingPage() {
               </p>
 
               {/* Action Buttons */}
-              <div className="pt-2 flex flex-wrap items-center gap-3">
-                <Button asChild size="lg" variant="primary" className="group h-12 px-7 rounded-full shadow-md font-semibold text-sm">
+              <div className="pt-1 flex flex-wrap items-center gap-3">
+                <Button asChild size="lg" variant="primary" className="group h-11 sm:h-12 px-6 sm:px-7 rounded-full shadow-md font-semibold text-sm">
                   <Link href="/company/post-job" className="gap-2">
                     <span>Post a Mission</span>
                     <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
                   </Link>
                 </Button>
 
-                <Button asChild size="lg" variant="secondary" className="group h-12 px-7 rounded-full border border-border dark:border-zinc-800 font-semibold text-sm">
+                <Button asChild size="lg" variant="secondary" className="group h-11 sm:h-12 px-6 sm:px-7 rounded-full border border-border dark:border-zinc-800 font-semibold text-sm">
                   <Link href="/pilots" className="gap-2">
                     <span>Explore Pilots</span>
                     <ChevronRight className="w-3.5 h-3.5 text-muted-foreground transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
@@ -208,7 +260,7 @@ export default function LandingPage() {
               </div>
 
               {/* Trust Metrics Row */}
-              <div className="grid grid-cols-3 gap-3 pt-6 border-t border-border/80 dark:border-zinc-800/80 mt-4 max-w-lg">
+              <div className="grid grid-cols-3 gap-3 pt-5 border-t border-border/80 dark:border-zinc-800/80 mt-3 max-w-lg">
                 <div className="space-y-0.5">
                   <p className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-mono">100%</p>
                   <p className="text-[11px] text-muted-foreground uppercase font-mono tracking-wider">FAA Part 107</p>
@@ -245,24 +297,8 @@ export default function LandingPage() {
                 {/* Subtle Cinematic Vignette Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none" />
 
-                {/* Floating Top Badge */}
-                <div className="absolute top-4 left-4 z-10">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white text-xs font-medium shadow-md">
-                    <span className="w-2 h-2 rounded-full bg-[#fabf28] animate-pulse" />
-                    <span className="font-mono text-[10px] uppercase tracking-wider">
-                      Live UAV Operations
-                    </span>
-                  </div>
-                </div>
-
-                {/* Floating Bottom Metadata & Audio Toggle */}
-                <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between gap-3">
-                  <div className="px-3.5 py-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 text-white/90 text-xs">
-                    <p className="font-semibold text-[11px] text-white">4K Commercial Flight Reel</p>
-                    <p className="text-[10px] text-zinc-300 font-mono">Aerial Survey • Thermography • Production</p>
-                  </div>
-
-                  {/* Audio Mute/Unmute Toggle Button */}
+                {/* Audio Mute/Unmute Toggle Button */}
+                <div className="absolute bottom-4 right-4 z-10">
                   <button
                     type="button"
                     onClick={toggleMute}
@@ -282,42 +318,18 @@ export default function LandingPage() {
 
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
-      {/* Pilotbase-Style Trusted By Strip */}
-      <section className="py-7 sm:py-9 border-b border-border/80 dark:border-zinc-850 bg-[#faf8f5]/60 dark:bg-[#070709]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-muted-foreground mb-4">
-            TRUSTED BY ENTERPRISES, BRANDS &amp; ASSET MANAGERS
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-8 gap-y-3">
-            {[
-              { name: "Apex Energy Holdings", tag: "Energy Grid" },
-              { name: "Vanguard Infrastructure", tag: "DOT & Rail" },
-              { name: "Pacific Civil Engineering", tag: "Civil BIM" },
-              { name: "Discovery Channel Media", tag: "Broadcast" },
-              { name: "Stewardship Ag Partners", tag: "Precision Ag" },
-            ].map((client) => (
-              <div
-                key={client.name}
-                className="flex items-center gap-2 text-xs font-semibold text-foreground/85 hover:text-foreground px-3.5 py-1.5 rounded-full bg-surface dark:bg-zinc-900/60 border border-border/70 dark:border-zinc-800 transition-colors shadow-2xs"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#fabf28]" />
-                <span>{client.name}</span>
-                <span className="text-[10px] text-muted-foreground font-mono">({client.tag})</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Reference Section: Find pilots for every shoot */}
-      <section id="services" className="py-16 sm:py-24 bg-background border-b border-border dark:border-zinc-800 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 2. Find pilots for every shoot */}
+      <ScrollSection
+        id="services"
+        className="py-12 sm:py-14 lg:py-16 bg-background border-b border-border dark:border-zinc-800"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           
           {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
-            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold tracking-[-0.03em] text-foreground leading-tight">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-[-0.03em] text-foreground leading-tight">
               Find pilots for every shoot
             </h2>
             <Link
@@ -329,7 +341,7 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          {/* 8-Card Grid: 7 Visual Image Cards + 1 Yellow Custom Brief Card */}
+          {/* 8-Card Grid: 7 Visual Image Cards + 1 Yellow Industrial Solutions Card */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {categories.map((cat) => {
               const Icon = cat.icon;
@@ -362,31 +374,31 @@ export default function LandingPage() {
               );
             })}
 
-            {/* 8th Card: Bold Yellow 'Post a custom brief' Card matching the reference exactly */}
+            {/* 8th Card: Bold Yellow 'Industrial Drone Solutions' Card */}
             <Link
-              href="/company/post-job"
+              href="/jobs"
               className="group relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-[#fabf28] text-zinc-950 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:brightness-105 shadow-xs select-none"
             >
-              {/* Top 'NOT SURE?' Tag */}
+              {/* Top 'INDUSTRIAL DRONE SOLUTIONS' Tag */}
               <div>
-                <span className="inline-block px-2.5 py-1 rounded-md bg-black/15 text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-900">
-                  NOT SURE?
+                <span className="inline-block px-2.5 py-1 rounded-md bg-black/15 text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-900">
+                  INDUSTRIAL DRONE SOLUTIONS
                 </span>
               </div>
 
               {/* Bottom Content & Arrow */}
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <h3 className="text-xl font-bold tracking-tight text-zinc-950 leading-tight">
-                    Post a custom brief
+                  <h3 className="text-xl sm:text-[22px] font-bold tracking-tight text-zinc-950 leading-tight">
+                    Explore What&apos;s Possible with Drones
                   </h3>
                   <p className="text-xs text-zinc-800 leading-relaxed font-medium">
-                    Describe your shoot. We&apos;ll match pilots in 2 hours.
+                    Discover professional drone services for agricultural spraying, real-estate mapping, aerial photography, land surveying, and infrastructure inspection.
                   </p>
                 </div>
 
                 <div className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-950 pt-1">
-                  <span>Start brief</span>
+                  <span>Explore Our Services</span>
                   <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
@@ -394,24 +406,27 @@ export default function LandingPage() {
           </div>
 
         </div>
-      </section>
+      </ScrollSection>
 
-      {/* How it works - Two paths, one platform */}
-      <section id="how-it-works" className="py-20 sm:py-28 bg-background border-b border-border dark:border-zinc-800 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 3. How it works - Two paths, one platform */}
+      <ScrollSection
+        id="how-it-works"
+        className="py-12 sm:py-14 lg:py-16 bg-background border-b border-border dark:border-zinc-800"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           
           {/* Section Header */}
-          <div className="max-w-2xl mb-12 sm:mb-14">
-            <div className="flex items-center gap-2 mb-3">
+          <div className="max-w-2xl mb-8 sm:mb-10">
+            <div className="flex items-center gap-2 mb-2.5">
               <span className="w-4 h-[2px] bg-[#fabf28]" />
               <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#fabf28]">
                 HOW IT WORKS
               </span>
             </div>
-            <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-semibold tracking-[-0.035em] text-foreground leading-[1.08]">
+            <h2 className="text-3xl sm:text-5xl lg:text-[52px] font-semibold tracking-[-0.035em] text-foreground leading-[1.08]">
               Two paths, one platform.
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground mt-3 sm:mt-4 leading-relaxed">
               Whether you need footage flown or you&apos;re the one flying it — we handle the boring stuff so the right people find each other faster.
             </p>
           </div>
@@ -420,20 +435,20 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
             
             {/* Left Card: FOR CLIENTS (Bold Pilotbase Yellow Theme) */}
-            <div className="rounded-3xl bg-[#fabf28] text-zinc-950 p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none">
+            <div className="rounded-3xl bg-[#fabf28] text-zinc-950 p-6 sm:p-8 flex flex-col justify-between shadow-lg select-none">
               <div>
                 <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-zinc-800 block mb-2">
                   FOR CLIENTS
                 </span>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-zinc-950 leading-tight mb-8">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-zinc-950 leading-tight mb-6 sm:mb-7">
                   Need a shoot? Brief us.
                 </h3>
 
                 {/* 2x2 Steps Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 sm:mb-7">
                   
                   {/* Step 1 */}
-                  <div className="p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
                     <div className="w-8 h-8 rounded-xl bg-zinc-950 text-[#fabf28] flex items-center justify-center shrink-0 shadow-xs">
                       <FileText className="w-4 h-4" />
                     </div>
@@ -451,7 +466,7 @@ export default function LandingPage() {
                   </div>
 
                   {/* Step 2 */}
-                  <div className="p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
                     <div className="w-8 h-8 rounded-xl bg-zinc-950 text-[#fabf28] flex items-center justify-center shrink-0 shadow-xs">
                       <Sparkles className="w-4 h-4" />
                     </div>
@@ -469,7 +484,7 @@ export default function LandingPage() {
                   </div>
 
                   {/* Step 3 */}
-                  <div className="p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
                     <div className="w-8 h-8 rounded-xl bg-zinc-950 text-[#fabf28] flex items-center justify-center shrink-0 shadow-xs">
                       <CalendarCheck className="w-4 h-4" />
                     </div>
@@ -487,7 +502,7 @@ export default function LandingPage() {
                   </div>
 
                   {/* Step 4 */}
-                  <div className="p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-black/[0.07] border border-black/[0.08] flex items-start gap-3 transition-colors hover:bg-black/[0.1]">
                     <div className="w-8 h-8 rounded-xl bg-zinc-950 text-[#fabf28] flex items-center justify-center shrink-0 shadow-xs">
                       <CreditCard className="w-4 h-4" />
                     </div>
@@ -520,20 +535,20 @@ export default function LandingPage() {
             </div>
 
             {/* Right Card: FOR PILOTS (Pitch Obsidian Charcoal Theme) */}
-            <div className="rounded-3xl bg-[#111111] dark:bg-[#0c0c0c] border border-zinc-800/80 text-white p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none">
+            <div className="rounded-3xl bg-[#111111] dark:bg-[#0c0c0c] border border-zinc-800/80 text-white p-6 sm:p-8 flex flex-col justify-between shadow-lg select-none">
               <div>
                 <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-zinc-400 block mb-2">
                   FOR PILOTS
                 </span>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight mb-8">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight mb-6 sm:mb-7">
                   Fly for a living.
                 </h3>
 
                 {/* 2x2 Steps Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 sm:mb-7">
                   
                   {/* Step 1 */}
-                  <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
                     <div className="w-8 h-8 rounded-xl bg-zinc-800 text-white flex items-center justify-center shrink-0 shadow-xs">
                       <UserCheck className="w-4 h-4 text-emerald-400" />
                     </div>
@@ -551,9 +566,9 @@ export default function LandingPage() {
                   </div>
 
                   {/* Step 2 */}
-                  <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
                     <div className="w-8 h-8 rounded-xl bg-zinc-800 text-white flex items-center justify-center shrink-0 shadow-xs">
-                      <Briefcase className="w-4 h-4 text-sky-400" />
+                      <Briefcase className="w-4 h-4 text-[#FFBD24]" />
                     </div>
                     <div>
                       <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400 block">
@@ -569,7 +584,7 @@ export default function LandingPage() {
                   </div>
 
                   {/* Step 3 */}
-                  <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
                     <div className="w-8 h-8 rounded-xl bg-zinc-800 text-white flex items-center justify-center shrink-0 shadow-xs">
                       <Send className="w-4 h-4 text-amber-400" />
                     </div>
@@ -587,7 +602,7 @@ export default function LandingPage() {
                   </div>
 
                   {/* Step 4 */}
-                  <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3 transition-colors hover:bg-zinc-850 hover:border-zinc-700">
                     <div className="w-8 h-8 rounded-xl bg-zinc-800 text-white flex items-center justify-center shrink-0 shadow-xs">
                       <Clock className="w-4 h-4 text-emerald-400" />
                     </div>
@@ -622,35 +637,38 @@ export default function LandingPage() {
           </div>
 
         </div>
-      </section>
+      </ScrollSection>
 
-      {/* Why AeroLink / Core Value Proposition */}
-      <section className="py-20 sm:py-28 bg-[#faf8f5] dark:bg-[#070709] border-b border-border/80 dark:border-zinc-850">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+      {/* 4. Why AeroLink / Core Value Proposition */}
+      <ScrollSection
+        id="why-aerolink"
+        className="py-12 sm:py-14 lg:py-16 bg-[#faf8f5] dark:bg-[#070709] border-b border-border/80 dark:border-zinc-850"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             
             {/* Left Content Column */}
             <div className="lg:col-span-5 flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-3">
                   <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
                   <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
                     WHY AEROLINK
                   </span>
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-foreground leading-[1.12]">
+                <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-foreground leading-[1.12]">
                   Built for serious work, <br className="hidden sm:inline" />
                   from the air down.
                 </h2>
 
-                <p className="text-sm sm:text-base text-muted-foreground mt-5 leading-relaxed">
+                <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
                   We obsess over the boring stuff — permits, paperwork, insurance — so creators can focus on the frame, and clients can focus on the story.
                 </p>
               </div>
 
               {/* Horizontal Divider and Metrics */}
-              <div className="border-t border-zinc-200 dark:border-zinc-800/80 pt-8 mt-10 sm:mt-12">
+              <div className="border-t border-zinc-200 dark:border-zinc-800/80 pt-6 mt-6 sm:pt-8 sm:mt-8">
                 <div className="grid grid-cols-3 gap-4 sm:gap-6">
                   <div>
                     <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground font-sans">
@@ -685,8 +703,8 @@ export default function LandingPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 
                 {/* Card 1: Verified & insured */}
-                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
-                  <div className="mb-4 text-[#fabf28]">
+                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-6 sm:p-7 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
+                  <div className="mb-3.5 text-[#fabf28]">
                     <ShieldCheck className="w-6 h-6 stroke-[1.8]" />
                   </div>
                   <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
@@ -698,8 +716,8 @@ export default function LandingPage() {
                 </div>
 
                 {/* Card 2: Fast matching */}
-                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
-                  <div className="mb-4 text-[#fabf28]">
+                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-6 sm:p-7 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
+                  <div className="mb-3.5 text-[#fabf28]">
                     <Zap className="w-6 h-6 stroke-[1.8]" />
                   </div>
                   <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
@@ -711,8 +729,8 @@ export default function LandingPage() {
                 </div>
 
                 {/* Card 3: Transparent pricing */}
-                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
-                  <div className="mb-4 text-[#fabf28]">
+                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-6 sm:p-7 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
+                  <div className="mb-3.5 text-[#fabf28]">
                     <Wallet className="w-6 h-6 stroke-[1.8]" />
                   </div>
                   <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
@@ -724,8 +742,8 @@ export default function LandingPage() {
                 </div>
 
                 {/* Card 4: Concierge support */}
-                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
-                  <div className="mb-4 text-[#fabf28]">
+                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#121214] p-6 sm:p-7 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
+                  <div className="mb-3.5 text-[#fabf28]">
                     <Headphones className="w-6 h-6 stroke-[1.8]" />
                   </div>
                   <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
@@ -741,15 +759,18 @@ export default function LandingPage() {
 
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
-      {/* FAQ Section with Pilotbase Design Aesthetic */}
-      <section className="py-20 sm:py-28 bg-background dark:bg-black border-b border-border dark:border-zinc-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 5. FAQ Section with Pilotbase Design Aesthetic */}
+      <ScrollSection
+        id="faq"
+        className="py-12 sm:py-14 lg:py-16 bg-background dark:bg-black border-b border-border dark:border-zinc-800"
+      >
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           
           {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
-            <div className="inline-flex items-center gap-2 mb-3">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+            <div className="inline-flex items-center gap-2 mb-2.5">
               <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
               <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
                 FREQUENTLY ASKED QUESTIONS
@@ -759,12 +780,12 @@ export default function LandingPage() {
               Got questions? <br className="hidden sm:inline" />
               We&apos;ve got answers.
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground mt-3 sm:mt-4 leading-relaxed">
               Everything you need to know about booking shoots, pilot verification, equipment compliance, and milestone escrow protection.
             </p>
 
             {/* Quick Filter Categories */}
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-6">
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-5">
               {[
                 { id: "all", label: "All Questions" },
                 { id: "clients", label: "For Clients" },
@@ -791,7 +812,7 @@ export default function LandingPage() {
           </div>
 
           {/* Accordion List */}
-          <div className="space-y-3.5 sm:space-y-4">
+          <div className="space-y-3 sm:space-y-3.5 max-w-3xl mx-auto">
             {filteredFaqs.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
@@ -806,13 +827,13 @@ export default function LandingPage() {
                   <button
                     type="button"
                     onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left group"
+                    className="w-full flex items-center justify-between p-4 sm:p-5 text-left group"
                   >
                     <span className="font-bold text-sm sm:text-base text-foreground tracking-tight pr-4 leading-snug">
                       {faq.q}
                     </span>
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 ${
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 ${
                         isOpen
                           ? "bg-[#fabf28] text-zinc-950 shadow-xs rotate-180"
                           : "bg-zinc-100 dark:bg-zinc-800 text-muted-foreground group-hover:text-foreground group-hover:bg-zinc-200 dark:group-hover:bg-zinc-700"
@@ -822,7 +843,7 @@ export default function LandingPage() {
                     </div>
                   </button>
                   {isOpen && (
-                    <div className="px-5 sm:px-6 pb-6 text-xs sm:text-sm text-muted-foreground leading-relaxed pt-2 border-t border-zinc-100 dark:border-zinc-800/80">
+                    <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-muted-foreground leading-relaxed pt-2 border-t border-zinc-100 dark:border-zinc-800/80">
                       {faq.a}
                     </div>
                   )}
@@ -830,59 +851,35 @@ export default function LandingPage() {
               );
             })}
           </div>
-
-          {/* Concierge Help Card at Bottom */}
-          <div className="mt-12 sm:mt-16 rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-[#faf8f5] dark:bg-[#0c0c0e] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
-            <div className="flex items-center gap-4 text-center sm:text-left">
-              <div className="w-12 h-12 rounded-2xl bg-[#fabf28]/15 text-[#fabf28] flex items-center justify-center shrink-0">
-                <HelpCircle className="w-6 h-6 stroke-[1.8]" />
-              </div>
-              <div>
-                <h3 className="font-bold text-base text-foreground tracking-tight">
-                  Still have questions?
-                </h3>
-                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 leading-relaxed">
-                  Our concierge team is available around the clock to help scope briefs or onboard your aircraft.
-                </p>
-              </div>
-            </div>
-            <div className="shrink-0 flex items-center gap-3">
-              <Link
-                href="/company/post-job"
-                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 hover:bg-zinc-850 dark:hover:bg-zinc-100 text-xs font-bold tracking-tight shadow-xs transition-all active:scale-[0.98]"
-              >
-                <span>Post a brief</span>
-                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Link>
-            </div>
-          </div>
-
         </div>
-      </section>
+      </ScrollSection>
 
-      {/* Call to Action Section (Pilotbase Style) */}
-      <section className="py-20 sm:py-28 bg-[#faf8f5] dark:bg-[#070709] border-b border-border/80 dark:border-zinc-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+      {/* 6. Call to Action Section (Pilotbase Style) */}
+      <ScrollSection
+        id="get-started"
+        className="py-14 sm:py-16 lg:py-20 bg-[#faf8f5] dark:bg-[#070709] border-b border-border/80 dark:border-zinc-800"
+      >
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center space-y-5 sm:space-y-6">
           <div className="inline-flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
             <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
               GET STARTED TODAY
             </span>
           </div>
-          <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-bold tracking-tight text-foreground leading-[1.08]">
+          <h2 className="text-3xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-foreground leading-[1.08]">
             Your next shoot is <br /><span className="italic font-light">a tap away.</span>
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto leading-relaxed">
             Join 500+ verified pilots and the businesses they fly for. Free to list, free to brief.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
-            <Button asChild size="lg" className="group h-12 px-8 rounded-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 hover:bg-zinc-850 dark:hover:bg-zinc-100 shadow-md font-semibold text-xs tracking-tight">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-3">
+            <Button asChild size="lg" className="group h-11 sm:h-12 px-7 sm:px-8 rounded-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 hover:bg-zinc-850 dark:hover:bg-zinc-100 shadow-md font-semibold text-xs tracking-tight">
               <Link href="/company/post-job" className="gap-2">
                 <span>I&apos;m Hiring a Pilot</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button asChild size="lg" className="group h-12 px-8 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 shadow-md font-bold text-xs tracking-tight">
+            <Button asChild size="lg" className="group h-11 sm:h-12 px-7 sm:px-8 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 shadow-md font-bold text-xs tracking-tight">
               <Link href="/register?role=PILOT" className="gap-2">
                 <span>I&apos;m a Drone Pilot</span>
                 <ChevronRight className="w-3.5 h-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
@@ -890,7 +887,7 @@ export default function LandingPage() {
             </Button>
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
       <Footer />
     </div>

@@ -288,7 +288,7 @@ export default function JobDetailPage() {
                 </span>
                 <span>•</span>
                 <span className="flex items-center gap-1.5 text-foreground">
-                  <Calendar className="w-4 h-4 text-info" />
+                  <Calendar className="w-4 h-4 text-muted-foreground" />
                   Mission Date: {formatDate(job.date)}
                 </span>
               </div>
@@ -355,7 +355,7 @@ export default function JobDetailPage() {
                   <ul className="space-y-2 text-body text-muted-foreground">
                     {job.requirements.map((req: string, idx: number) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-info shrink-0 mt-1" />
+                        <CheckCircle2 className="w-4 h-4 text-success shrink-0 mt-1" />
                         <span>{req}</span>
                       </li>
                     ))}
@@ -503,7 +503,7 @@ export default function JobDetailPage() {
                     {job.status === "PILOT_SELECTED" && (
                       <button
                         onClick={() => handleUpdateStatus("IN_PROGRESS")}
-                        className="w-full h-10 rounded-control bg-info hover:bg-info/90 text-foreground font-medium text-caption transition-colors"
+                        className="w-full h-10 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-caption transition-colors"
                       >
                         Mark Mission In-Progress
                       </button>

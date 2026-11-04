@@ -9,8 +9,8 @@ export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   icon: LucideIcon;
   trend?: string;
   trendPositive?: boolean;
-  color?: "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success";
-  variant?: "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success";
+  color?: "golden" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success" | "cyan";
+  variant?: "golden" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success" | "cyan";
 }
 
 export function StatCard({
@@ -25,16 +25,20 @@ export function StatCard({
   className,
   ...props
 }: StatCardProps) {
-  const chosenColor = (variant || color || "cyan") as string;
-  const mappedColor = chosenColor === "warning" ? "amber" : chosenColor === "success" ? "emerald" : chosenColor;
-
+  // Map legacy color names to new golden palette
+  const chosenColor = (variant || color || "golden") as string;
+  const mappedColor =
+    chosenColor === "warning" ? "amber"
+    : chosenColor === "success" ? "emerald"
+    : chosenColor === "cyan" ? "golden"
+    : chosenColor === "purple" ? "golden"
+    : chosenColor === "blue" ? "golden"
+    : chosenColor;
 
   const iconBgMap: Record<string, string> = {
-    cyan: "bg-primary/10 text-primary border-primary/20",
+    golden: "bg-[#FFBD24]/15 text-[#8B6600] dark:text-[#FFBD24] border-[#FFBD24]/30",
     emerald: "bg-success/10 text-success border-success/20",
     amber: "bg-warning/10 text-warning border-warning/20",
-    blue: "bg-info/10 text-info border-info/20",
-    purple: "bg-primary/10 text-primary border-primary/20",
     default: "bg-surface-2 dark:bg-zinc-900 text-muted-foreground border-border dark:border-zinc-800",
   };
 
@@ -79,7 +83,7 @@ export function StatCard({
           )}
         </div>
 
-        <div className={cn("w-9 h-9 rounded-control border flex items-center justify-center shrink-0", iconBgMap[mappedColor] || iconBgMap.cyan)}>
+        <div className={cn("w-9 h-9 rounded-control border flex items-center justify-center shrink-0", iconBgMap[mappedColor] || iconBgMap.golden)}>
           <Icon className="w-4 h-4" />
         </div>
       </div>
