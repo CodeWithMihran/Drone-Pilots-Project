@@ -58,7 +58,7 @@ export function MatchScoreBadge({
           role="tooltip"
           onMouseEnter={() => setOpen(true)}
           onMouseLeave={() => setOpen(false)}
-          className="absolute left-0 sm:left-auto sm:right-0 top-full mt-1.5 z-50 w-72 p-3.5 rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-xl text-left animate-fade-in"
+          className="absolute left-0 sm:left-auto sm:right-0 top-full mt-1.5 z-50 w-72 p-4 rounded-2xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xl text-left animate-fade-in"
         >
           <div className="flex items-center justify-between pb-2 border-b border-border/80 dark:border-zinc-800 text-xs">
             <div className="flex items-center gap-1.5 font-semibold text-foreground">

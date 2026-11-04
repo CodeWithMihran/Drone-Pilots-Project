@@ -114,14 +114,6 @@ export default function LandingPage() {
     },
   ];
 
-  const enterpriseClients = [
-    { name: "Apex Energy Holdings", region: "Texas ERCOT Grid" },
-    { name: "Vanguard Infrastructure", region: "Midwest Corridor" },
-    { name: "Pacific Civil Engineering", region: "California DOT" },
-    { name: "Borealis Wind Systems", region: "Great Plains" },
-    { name: "Stewardship Ag Partners", region: "Central Valley" },
-  ];
-
   const faqs = [
     {
       category: "clients",
@@ -173,10 +165,10 @@ export default function LandingPage() {
             {/* Left Column: Narrative, CTAs, Metrics */}
             <div className="lg:col-span-6 space-y-6 text-left">
               
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs font-medium text-foreground">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 text-xs font-medium text-foreground shadow-2xs">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Enterprise UAV Dispatch Platform
+                <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
+                  FAA Part 107 Certified
                 </span>
               </div>
 
@@ -284,36 +276,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pilotbase-Style Trusted By Strip */}
-      <section className="py-7 sm:py-9 border-b border-border/80 dark:border-zinc-850 bg-[#faf8f5]/60 dark:bg-[#070709]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-muted-foreground mb-4">
-            TRUSTED BY ENTERPRISES, BRANDS &amp; ASSET MANAGERS
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-8 gap-y-3">
-            {[
-              { name: "Apex Energy Holdings", tag: "Energy Grid" },
-              { name: "Vanguard Infrastructure", tag: "DOT & Rail" },
-              { name: "Pacific Civil Engineering", tag: "Civil BIM" },
-              { name: "Discovery Channel Media", tag: "Broadcast" },
-              { name: "Stewardship Ag Partners", tag: "Precision Ag" },
-            ].map((client) => (
-              <div
-                key={client.name}
-                className="flex items-center gap-2 text-xs font-semibold text-foreground/85 hover:text-foreground px-3.5 py-1.5 rounded-full bg-surface dark:bg-zinc-900/60 border border-border/70 dark:border-zinc-800 transition-colors shadow-2xs"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#fabf28]" />
-                <span>{client.name}</span>
-                <span className="text-[10px] text-muted-foreground font-mono">({client.tag})</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Reference Section: Find pilots for every shoot */}
       <section id="services" className="py-16 sm:py-24 bg-background border-b border-border dark:border-zinc-800 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
           
           {/* Section Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
@@ -330,14 +295,14 @@ export default function LandingPage() {
           </div>
 
           {/* 8-Card Grid: 7 Visual Image Cards + 1 Yellow Custom Brief Card */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
             {categories.map((cat) => {
               const Icon = cat.icon;
               return (
                 <Link
                   key={cat.title}
                   href={cat.href}
-                  className="group relative h-72 sm:h-80 rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-end p-5 select-none"
+                  className="group relative h-80 sm:h-[360px] lg:h-[390px] rounded-3xl overflow-hidden shadow-xs hover:shadow-2xl transition-all duration-300 flex flex-col justify-end p-6 select-none"
                 >
                   {/* Photo Background with subtle scale zoom */}
                   <div
@@ -350,11 +315,11 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
                   {/* Content Pill at Bottom */}
-                  <div className="relative z-10 flex items-center gap-2 text-white">
-                    <div className="w-7 h-7 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 group-hover:border-white/50 transition-colors">
-                      <Icon className="w-3.5 h-3.5" />
+                  <div className="relative z-10 flex items-center gap-2.5 text-white">
+                    <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 group-hover:border-white/50 group-hover:scale-105 transition-all">
+                      <Icon className="w-4 h-4" />
                     </div>
-                    <span className="text-[15px] font-semibold tracking-[-0.01em] text-white drop-shadow-sm">
+                    <span className="text-base sm:text-[17px] font-bold tracking-tight text-white drop-shadow-sm">
                       {cat.title}
                     </span>
                   </div>
@@ -365,27 +330,27 @@ export default function LandingPage() {
             {/* 8th Card: Bold Yellow 'Post a custom brief' Card matching the reference exactly */}
             <Link
               href="/company/post-job"
-              className="group relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-[#fabf28] text-zinc-950 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:brightness-105 shadow-xs select-none"
+              className="group relative h-80 sm:h-[360px] lg:h-[390px] rounded-3xl overflow-hidden bg-[#fabf28] text-zinc-950 p-7 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:brightness-105 shadow-xs select-none"
             >
               {/* Top 'NOT SURE?' Tag */}
               <div>
-                <span className="inline-block px-2.5 py-1 rounded-md bg-black/15 text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-900">
+                <span className="inline-block px-3 py-1 rounded-full bg-black/10 text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-950 border border-black/10">
                   NOT SURE?
                 </span>
               </div>
 
               {/* Bottom Content & Arrow */}
-              <div className="space-y-3">
-                <div className="space-y-1.5">
-                  <h3 className="text-xl font-bold tracking-tight text-zinc-950 leading-tight">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold tracking-tight text-zinc-950 leading-tight">
                     Post a custom brief
                   </h3>
-                  <p className="text-xs text-zinc-800 leading-relaxed font-medium">
-                    Describe your shoot. We&apos;ll match pilots in 2 hours.
+                  <p className="text-sm text-zinc-850 leading-relaxed font-medium">
+                    Describe your shoot or mission. We&apos;ll match verified pilots in 2 hours.
                   </p>
                 </div>
 
-                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-950 pt-1">
+                <div className="inline-flex items-center gap-2 text-xs font-bold text-zinc-950 pt-1 group-hover:gap-2.5 transition-all">
                   <span>Start brief</span>
                   <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>

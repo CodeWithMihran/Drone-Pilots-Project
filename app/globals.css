@@ -3,36 +3,36 @@
 @tailwind utilities;
 
 :root {
-  /* LIGHT MODE - Crisp, Architectural, Clean Aviation Surface */
-  --bg: #f8fafc;
+  /* LIGHT MODE - AeroLink Warm Minimalist Pilotbase Design System */
+  --bg: #faf8f5;
   --surface: #ffffff;
-  --surface-2: #f1f5f9;
+  --surface-2: #f4f1ea;
   
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
+  --border: #e8e4dc;
+  --border-strong: #d4cebe;
   
-  --text: #0f172a;
-  --text-muted: #475569;
-  --text-subtle: #64748b;
+  --text: #09090b;
+  --text-muted: #52525b;
+  --text-subtle: #71717a;
   
-  --primary: #0284c7;
-  --primary-hover: #0369a1;
-  --primary-fg: #ffffff;
-  --primary-rgb: 2 132 199;
+  --primary: #fabf28;
+  --primary-hover: #e6ae22;
+  --primary-fg: #09090b;
+  --primary-rgb: 250 191 40;
 
-  --success: #16a34a;
-  --success-rgb: 22 163 74;
-  --warning: #d97706;
-  --warning-rgb: 217 119 6;
-  --danger: #dc2626;
-  --danger-rgb: 220 38 38;
-  --info: #2563eb;
-  --info-rgb: 37 99 235;
+  --success: #10b981;
+  --success-rgb: 16 185 129;
+  --warning: #f59e0b;
+  --warning-rgb: 245 158 11;
+  --danger: #ef4444;
+  --danger-rgb: 239 68 68;
+  --info: #0284c7;
+  --info-rgb: 2 132 199;
 
-  --ring: rgba(2, 132, 199, 0.35);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --ring: rgba(250, 191, 40, 0.45);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
 
   /* Legacy aliases */
   --background: var(--bg);
@@ -55,22 +55,22 @@
 }
 
 .dark {
-  /* DARK MODE - The AcadeMIa Pitch Black & Obsidian Aerospace Theme */
-  --bg: #000000;
-  --surface: #0a0a0a;
-  --surface-2: #121212;
+  /* DARK MODE - The Obsidian & Gold Aerospace Theme */
+  --bg: #070709;
+  --surface: #0e0e11;
+  --surface-2: #16161b;
   
-  --border: #27272a;
-  --border-strong: #3f3f46;
+  --border: #222228;
+  --border-strong: #33333c;
   
   --text: #f4f4f5;
   --text-muted: #a1a1aa;
   --text-subtle: #71717a;
   
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --primary-fg: #ffffff;
-  --primary-rgb: 59 130 246;
+  --primary: #fabf28;
+  --primary-hover: #fcd34d;
+  --primary-fg: #09090b;
+  --primary-rgb: 250 191 40;
 
   --success: #10b981;
   --success-rgb: 16 185 129;
@@ -78,10 +78,10 @@
   --warning-rgb: 245 158 11;
   --danger: #ef4444;
   --danger-rgb: 239 68 68;
-  --info: #3b82f6;
-  --info-rgb: 59 130 246;
+  --info: #38bdf8;
+  --info-rgb: 56 189 248;
 
-  --ring: rgba(59, 130, 246, 0.4);
+  --ring: rgba(250, 191, 40, 0.4);
 
   --background: var(--bg);
   --foreground: var(--text);

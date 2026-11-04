@@ -254,9 +254,9 @@ function RegisterForm() {
                 aria-pressed={role === "PILOT"}
                 onClick={() => setRole("PILOT")}
                 className={cn(
-                  "h-11 rounded-control border text-body font-medium transition-colors",
+                  "h-11 rounded-xl border text-body font-medium transition-colors",
                   role === "PILOT"
-                    ? "border-primary bg-primary/10 text-foreground"
+                    ? "border-[#fabf28] bg-[#fabf28]/15 text-foreground font-bold"
                     : "border-border text-muted-foreground hover:border-border-strong"
                 )}
               >
@@ -267,9 +267,9 @@ function RegisterForm() {
                 aria-pressed={role === "COMPANY"}
                 onClick={() => setRole("COMPANY")}
                 className={cn(
-                  "h-11 rounded-control border text-body font-medium transition-colors",
+                  "h-11 rounded-xl border text-body font-medium transition-colors",
                   role === "COMPANY"
-                    ? "border-primary bg-primary/10 text-foreground"
+                    ? "border-[#fabf28] bg-[#fabf28]/15 text-foreground font-bold"
                     : "border-border text-muted-foreground hover:border-border-strong"
                 )}
               >
@@ -359,7 +359,7 @@ function RegisterForm() {
           <Field label="Phone" htmlFor="register-phone-input" error={fieldErrors.phone}>
             <div
               className={cn(
-                "flex h-11 w-full rounded-control border bg-background text-[15px] shadow-sm transition-colors duration-150",
+                "flex h-11 w-full rounded-xl border bg-background text-[15px] shadow-sm transition-colors duration-150",
                 "focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary focus-within:ring-offset-1 focus-within:ring-offset-background",
                 fieldErrors.phone
                   ? "border-destructive focus-within:ring-destructive/40 focus-within:border-destructive"

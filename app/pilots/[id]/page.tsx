@@ -94,7 +94,7 @@ export default function PilotProfileDetailPage() {
               <CardContent className="p-6 sm:p-7 space-y-5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-control bg-primary/15 text-primary flex items-center justify-center font-bold text-xl shrink-0">
+                    <div className="w-14 h-14 rounded-2xl bg-primary/15 text-primary flex items-center justify-center font-bold text-xl shrink-0">
                       {pilot.name ? pilot.name.charAt(0).toUpperCase() : "P"}
                     </div>
                     <div>
@@ -159,7 +159,7 @@ export default function PilotProfileDetailPage() {
                     {pilot.certifications.map((cert: any) => (
                       <div
                         key={cert._id}
-                        className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                        className="p-4 rounded-2xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                       >
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
@@ -209,7 +209,7 @@ export default function PilotProfileDetailPage() {
                     (eq: string, idx: number) => (
                       <span
                         key={idx}
-                        className="px-3 py-1 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs font-medium text-foreground"
+                        className="px-3 py-1 rounded-2xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs font-medium text-foreground"
                       >
                         {eq}
                       </span>
@@ -233,7 +233,7 @@ export default function PilotProfileDetailPage() {
                     {pilot.reviews.map((rev: any) => (
                       <div
                         key={rev._id}
-                        className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 space-y-2"
+                        className="p-4 rounded-2xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 space-y-2"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">

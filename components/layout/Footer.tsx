@@ -5,7 +5,7 @@ import { Logo } from "@/components/brand/Logo";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border dark:border-zinc-800 bg-surface dark:bg-black text-muted-foreground transition-colors">
+    <footer className="border-t border-zinc-200/80 dark:border-zinc-800 bg-[#faf8f5] dark:bg-[#070709] text-muted-foreground transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Info */}
@@ -14,15 +14,15 @@ export function Footer() {
             <p className="text-sm leading-relaxed max-w-sm text-muted-foreground">
               A specialized operations marketplace connecting verified, Part 107 commercial drone pilots with industrial teams in agriculture, energy, infrastructure, and surveying.
             </p>
-            <div className="inline-flex items-center gap-2 text-xs font-medium text-success bg-success/10 border border-success/20 px-3 py-1.5 rounded-control">
-              <ShieldCheck className="w-4 h-4 shrink-0" />
-              100% Admin Verified Pilot Credentials
+            <div className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 px-3.5 py-1.5 rounded-full shadow-2xs">
+              <ShieldCheck className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+              100% FAA Part 107 Airmen Verified
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-4">
               Marketplace
             </h4>
             <ul className="space-y-2.5 text-sm">
@@ -33,17 +33,17 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/pilots" className="hover:text-foreground transition-colors">
-                  Find Verified Pilots
+                  Explore Pilots
                 </Link>
               </li>
               <li>
                 <Link href="/company/post-job" className="hover:text-foreground transition-colors">
-                  Post a Project
+                  Post a Mission
                 </Link>
               </li>
               <li>
                 <Link href="/register?role=PILOT" className="hover:text-foreground transition-colors">
-                  Apply as a Pilot
+                  I&apos;m a Drone Pilot
                 </Link>
               </li>
             </ul>
@@ -51,7 +51,7 @@ export function Footer() {
 
           {/* Industries */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-4">
               Sectors
             </h4>
             <ul className="space-y-2.5 text-sm">
@@ -85,31 +85,31 @@ export function Footer() {
 
           {/* Compliance & Standards */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-4">
               Operational Standards
             </h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#fabf28] shrink-0" />
                 <span>FAA Part 107 Verification</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#fabf28] shrink-0" />
                 <span>COI Liability Insurance</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#fabf28] shrink-0" />
                 <span>Escrow Milestone Security</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#fabf28] shrink-0" />
                 <span>Verified Telemetry Logs</span>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-border mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-subtle">
+        <div className="border-t border-zinc-200/80 dark:border-zinc-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} AeroLink — Certified Drone Pilots. Operations-grade flight network.</p>
           <div className="flex gap-6">
             <Link href="/jobs" className="hover:text-foreground transition-colors">Open Marketplace</Link>

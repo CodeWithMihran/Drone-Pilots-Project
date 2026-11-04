@@ -14,11 +14,12 @@ import {
   ChevronRight,
   ArrowRight,
   MapPin,
-  Radio,
   SlidersHorizontal,
   Compass,
   FileText,
   BadgeCheck,
+  ArrowUpRight,
+  Sparkles,
 } from "lucide-react";
 import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { MatchScoreBadge } from "@/components/shared/MatchScoreBadge";
@@ -26,7 +27,6 @@ import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 
 export default function PilotDashboardPage() {
   const [user, setUser] = useState<any>(null);
@@ -122,75 +122,74 @@ export default function PilotDashboardPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* ============================================================ */}
-      {/* BENTO ROW 1: Flight Readiness Hero & Financial Overview */}
+      {/* BENTO ROW 1: Hero Header & Payout Overview */}
       {/* ============================================================ */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
         {/* Bento Tile 1: Pilot Status & Mission Readiness (Span 2) */}
-        <div className="lg:col-span-2 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="lg:col-span-2 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
             <div className="space-y-2">
-              <div className="flex items-center gap-2.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
-                </span>
-                <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-                  Flight Operations Console
+              <div className="flex items-center gap-2">
+                <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+                <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+                  PILOT WORKSPACE
                 </span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+              <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
                 Welcome back, {pilotName}
               </h1>
               <p className="text-xs sm:text-sm text-muted-foreground max-w-xl leading-relaxed">
-                Review your active field assignments, open enterprise mission tenders, and verified Part 107 credential status.
+                Review your active assignments, open missions tailored to your kit, and verified Part 107 flight credentials.
               </p>
             </div>
 
             {/* Credential Badge */}
             <div className="shrink-0">
               {stats.isVerified ? (
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-control bg-success/10 border border-success/20 text-success text-xs font-medium">
-                  <BadgeCheck className="w-4 h-4 text-success" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
+                  <BadgeCheck className="w-4 h-4 text-emerald-500" />
                   <span>FAA Part 107 Verified</span>
                 </div>
               ) : (
                 <Link
                   href="/pilot/certification"
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-control bg-warning/10 border border-warning/20 text-warning text-xs font-medium hover:bg-warning/15 transition-colors"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fabf28]/15 border border-[#fabf28]/30 text-zinc-900 dark:text-[#fabf28] text-xs font-bold hover:bg-[#fabf28]/25 transition-colors"
                 >
-                  <AlertCircle className="w-4 h-4 text-warning" />
+                  <AlertCircle className="w-4 h-4 text-[#fabf28]" />
                   <span>Verification Pending</span>
                 </Link>
               )}
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-border dark:border-zinc-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div className="mt-8 pt-6 border-t border-border/80 dark:border-zinc-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
             {/* Profile completion bar */}
             <div className="flex-1 max-w-sm space-y-2">
-              <div className="flex items-center justify-between text-xs font-medium">
-                <span className="text-muted-foreground">Operational Profile</span>
-                <span className="text-foreground font-semibold">{stats.profileCompletion}%</span>
+              <div className="flex items-center justify-between text-xs font-semibold">
+                <span className="text-muted-foreground">Profile Readiness</span>
+                <span className="text-foreground">{stats.profileCompletion}%</span>
               </div>
-              <div className="w-full h-1.5 rounded-full bg-surface-2 dark:bg-zinc-900 overflow-hidden border border-border/50 dark:border-zinc-800">
+              <div className="w-full h-2 rounded-full bg-surface-2 dark:bg-zinc-850 overflow-hidden border border-border/50 dark:border-zinc-800">
                 <div
-                  className="h-full bg-primary transition-all duration-500 rounded-full"
+                  className="h-full bg-[#fabf28] transition-all duration-500 rounded-full"
                   style={{ width: `${stats.profileCompletion}%` }}
                 />
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <Button asChild size="sm" variant="primary">
+              <Button asChild className="h-10 px-5 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs">
                 <Link href="/pilot/jobs" className="gap-1.5">
-                  <Compass className="w-3.5 h-3.5" />
+                  <Compass className="w-4 h-4" />
                   <span>Find Missions</span>
                 </Link>
               </Button>
-              <Button asChild size="sm" variant="secondary">
+              <Button asChild variant="secondary" className="h-10 px-5 rounded-full border border-border dark:border-zinc-800 text-xs font-semibold">
                 <Link href="/pilot/profile" className="gap-1.5">
-                  <SlidersHorizontal className="w-3.5 h-3.5" />
+                  <SlidersHorizontal className="w-4 h-4" />
                   <span>Edit Profile</span>
                 </Link>
               </Button>
@@ -198,99 +197,108 @@ export default function PilotDashboardPage() {
           </div>
         </div>
 
-        {/* Bento Tile 2: Escrow Earnings & Financial Settlement (Span 1) */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        {/* Bento Tile 2: Escrow Earnings (Span 1) */}
+        <div className="rounded-3xl bg-zinc-950 text-white dark:bg-[#121214] border border-zinc-850 p-7 sm:p-8 flex flex-col justify-between shadow-xs select-none">
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                Escrow Earnings
+              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-400">
+                ESCROW EARNINGS
               </span>
-              <div className="w-8 h-8 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 flex items-center justify-center text-muted-foreground">
-                <DollarSign className="w-4 h-4 text-primary" />
+              <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-[#fabf28]">
+                <DollarSign className="w-4 h-4" />
               </div>
             </div>
 
-            <div className="mt-5">
-              <div className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+            <div className="mt-6">
+              <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans">
                 {formatCurrency(stats.totalEarnings)}
               </div>
-              <p className="text-xs text-muted-foreground mt-1.5">
-                Total disbursed from completed operations
+              <p className="text-xs text-zinc-400 mt-2">
+                Total disbursed from completed shoots
               </p>
             </div>
           </div>
 
-          <div className="mt-8 pt-5 border-t border-border dark:border-zinc-800/80 flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">Direct Bank Payout</span>
+          <div className="mt-8 pt-5 border-t border-white/10 flex items-center justify-between">
+            <span className="text-xs text-zinc-400 font-medium">Direct Bank Payout</span>
             <Link
               href="/pilot/earnings"
-              className="text-xs font-medium text-primary hover:underline inline-flex items-center gap-1"
+              className="text-xs font-bold text-[#fabf28] hover:underline inline-flex items-center gap-1"
             >
               <span>View ledger</span>
-              <ArrowRight className="w-3 h-3" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>
       </div>
 
       {/* ============================================================ */}
-      {/* BENTO ROW 2: Core Operational Metric Cards */}
+      {/* BENTO ROW 2: Core Metrics */}
       {/* ============================================================ */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-        {/* Metric 1: Available Missions */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
+        
+        {/* Metric 1 */}
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-medium uppercase tracking-wider">Open Missions</span>
-            <Compass className="w-4 h-4 text-primary" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider">Open Missions</span>
+            <div className="w-8 h-8 rounded-full bg-[#fabf28]/15 text-[#fabf28] flex items-center justify-center">
+              <Compass className="w-4 h-4" />
+            </div>
           </div>
           <div className="mt-4">
-            <div className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
               {stats.availableJobs}
             </div>
             <p className="text-[11px] text-muted-foreground mt-1">Accepting pilot bids</p>
           </div>
         </div>
 
-        {/* Metric 2: Applications / Bids Submitted */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300">
+        {/* Metric 2 */}
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-medium uppercase tracking-wider">Submitted Bids</span>
-            <FileCheck2 className="w-4 h-4 text-primary" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider">Submitted Bids</span>
+            <div className="w-8 h-8 rounded-full bg-sky-500/15 text-sky-500 flex items-center justify-center">
+              <FileCheck2 className="w-4 h-4" />
+            </div>
           </div>
           <div className="mt-4">
-            <div className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
               {stats.applicationsCount}
             </div>
             <p className="text-[11px] text-muted-foreground mt-1">Active proposals in review</p>
           </div>
         </div>
 
-        {/* Metric 3: Active Field Operations */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300">
+        {/* Metric 3 */}
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-medium uppercase tracking-wider">Active Flights</span>
-            <Clock className="w-4 h-4 text-warning" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider">Active Flights</span>
+            <div className="w-8 h-8 rounded-full bg-amber-500/15 text-amber-500 flex items-center justify-center">
+              <Clock className="w-4 h-4" />
+            </div>
           </div>
           <div className="mt-4">
-            <div className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
               {stats.activeJobsCount}
             </div>
             <p className="text-[11px] text-muted-foreground mt-1">
-              {stats.activeJobsCount > 0 ? "Operations underway" : "Ready for deployment"}
+              {stats.activeJobsCount > 0 ? "Underway right now" : "Ready for deployment"}
             </p>
           </div>
         </div>
 
-        {/* Metric 4: Flight Quality & Rating */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300">
+        {/* Metric 4 */}
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-medium uppercase tracking-wider">Client Rating</span>
-            <Star className="w-4 h-4 text-warning fill-warning" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider">Client Rating</span>
+            <div className="w-8 h-8 rounded-full bg-[#fabf28]/15 text-[#fabf28] flex items-center justify-center">
+              <Star className="w-4 h-4 fill-[#fabf28]" />
+            </div>
           </div>
           <div className="mt-4">
-            <div className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight flex items-center gap-1.5">
+            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight flex items-center gap-1.5">
               <span>{stats.rating.toFixed(1)}</span>
-              <span className="text-xs font-normal text-muted-foreground">/ 5.0</span>
+              <span className="text-xs font-medium text-muted-foreground">/ 5.0</span>
             </div>
             <p className="text-[11px] text-muted-foreground mt-1">{stats.totalReviews} verified reviews</p>
           </div>
@@ -298,20 +306,20 @@ export default function PilotDashboardPage() {
       </div>
 
       {/* ============================================================ */}
-      {/* BENTO ROW 3: Active Assignments (Conditional) */}
+      {/* BENTO ROW 3: Active Deployments (Conditional) */}
       {/* ============================================================ */}
       {activeProjects.length > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 rounded-full bg-warning animate-pulse"></span>
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">
+              <span className="w-2 h-2 rounded-full bg-[#fabf28] animate-pulse" />
+              <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">
                 Active Mission Deployments
               </h2>
             </div>
-            <Button asChild variant="link" size="sm" className="h-auto p-0 text-xs">
+            <Button asChild variant="link" size="sm" className="h-auto p-0 text-xs font-bold text-foreground">
               <Link href="/pilot/active-jobs">
-                View all active ({activeProjects.length}) <ArrowRight className="w-3 h-3 ml-1" />
+                View all ({activeProjects.length}) <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </Link>
             </Button>
           </div>
@@ -320,34 +328,34 @@ export default function PilotDashboardPage() {
             {activeProjects.map((proj) => (
               <div
                 key={proj._id}
-                className="p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs flex flex-col justify-between hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300"
+                className="p-7 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200"
               >
                 <div>
                   <div className="flex justify-between items-start gap-2 mb-3">
-                    <span className="text-[11px] font-medium text-primary px-2.5 py-0.5 rounded-control bg-primary/10">
+                    <span className="text-[11px] font-bold text-zinc-950 dark:text-white px-3 py-1 rounded-full bg-[#fabf28]">
                       {formatServiceType(proj.serviceType)}
                     </span>
                     <StatusBadge status={proj.status} type="job" />
                   </div>
-                  <h3 className="text-base font-semibold text-foreground">{proj.title}</h3>
+                  <h3 className="text-base sm:text-lg font-bold text-foreground leading-snug">{proj.title}</h3>
                   <div className="flex items-center gap-3 text-xs text-muted-foreground mt-2">
-                    <span>Client: <strong className="font-medium text-foreground">{proj.companyId?.name || "Enterprise"}</strong></span>
+                    <span>Client: <strong className="font-semibold text-foreground">{proj.companyId?.name || "Enterprise"}</strong></span>
                     {proj.location?.city && (
                       <span className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
+                        <MapPin className="w-3.5 h-3.5 text-[#fabf28]" />
                         {proj.location.city}, {proj.location.state}
                       </span>
                     )}
                   </div>
                 </div>
 
-                <div className="pt-5 mt-5 border-t border-border dark:border-zinc-800/80 flex items-center justify-between">
+                <div className="pt-5 mt-5 border-t border-border/80 dark:border-zinc-800/80 flex items-center justify-between">
                   <div>
-                    <span className="text-xs text-muted-foreground block">Mission Escrow</span>
-                    <span className="text-sm font-semibold text-foreground">{formatCurrency(proj.budget)}</span>
+                    <span className="text-[11px] text-muted-foreground block font-mono">MISSION ESCROW</span>
+                    <span className="text-base font-extrabold text-foreground">{formatCurrency(proj.budget)}</span>
                   </div>
-                  <Button asChild size="sm" variant="secondary">
-                    <Link href={`/jobs/${proj._id}`}>Manage Operation</Link>
+                  <Button asChild size="sm" className="rounded-full px-5 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 font-semibold text-xs">
+                    <Link href={`/jobs/${proj._id}`}>Manage Shoot</Link>
                   </Button>
                 </div>
               </div>
@@ -357,29 +365,30 @@ export default function PilotDashboardPage() {
       )}
 
       {/* ============================================================ */}
-      {/* BENTO ROW 4: Matching Mission Postings & Operational Checklist */}
+      {/* BENTO ROW 4: Matching Mission Postings & Checklist */}
       {/* ============================================================ */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column (Span 2): Curated Matching Missions */}
+        
+        {/* Left Column (Span 2): Matching Missions */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">
+              <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">
                 Matching Mission Postings
               </h2>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Qualified tenders matching your Part 107 flight authorizations and equipment payload profile.
+                Targeted shoots matching your airframe equipment and location.
               </p>
             </div>
-            <Button asChild variant="link" size="sm" className="h-auto p-0 text-xs hidden sm:inline-flex">
+            <Button asChild variant="link" size="sm" className="h-auto p-0 text-xs font-bold text-foreground hidden sm:inline-flex">
               <Link href="/pilot/jobs">
-                Browse catalog <ArrowRight className="w-3 h-3 ml-1" />
+                Browse all <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </Link>
             </Button>
           </div>
 
           {matchingJobs.length === 0 ? (
-            <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-10">
+            <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-8">
               <EmptyState
                 icon={Briefcase}
                 title="No Open Tenders Currently"
@@ -393,24 +402,24 @@ export default function PilotDashboardPage() {
               {matchingJobs.map((job) => (
                 <div
                   key={job._id}
-                  className="p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 hover:border-border-strong dark:hover:border-zinc-700 shadow-xs hover:shadow-lg dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.6)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-5 group"
+                  className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-5 group"
                 >
                   <div className="space-y-2 flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[11px] font-medium text-primary px-2.5 py-0.5 rounded-control bg-primary/10">
+                      <span className="text-[11px] font-bold text-zinc-900 dark:text-white px-2.5 py-0.5 rounded-full bg-[#fabf28]/20 border border-[#fabf28]/30">
                         {formatServiceType(job.serviceType)}
                       </span>
                       {job.matchScore !== undefined && (
                         <MatchScoreBadge score={job.matchScore} size="sm" />
                       )}
                       <span className="text-xs text-muted-foreground flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
+                        <MapPin className="w-3.5 h-3.5 text-[#fabf28]" />
                         {job.location?.city || "Field Site"}, {job.location?.state || ""}
                       </span>
                     </div>
 
                     <Link href={`/jobs/${job._id}`}>
-                      <h3 className="text-sm sm:text-base font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                      <h3 className="text-base sm:text-lg font-bold text-foreground group-hover:text-[#fabf28] transition-colors line-clamp-1">
                         {job.title}
                       </h3>
                     </Link>
@@ -422,15 +431,15 @@ export default function PilotDashboardPage() {
 
                   <div className="sm:text-right shrink-0 flex sm:flex-col items-center sm:items-end justify-between gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-border dark:border-zinc-800">
                     <div>
-                      <span className="text-sm sm:text-base font-semibold text-foreground block">
+                      <span className="text-base sm:text-lg font-extrabold text-foreground block">
                         {formatCurrency(job.budget)}
                       </span>
-                      <span className="text-[11px] text-muted-foreground">Escrow Secured</span>
+                      <span className="text-[11px] text-muted-foreground font-mono">Escrow Secured</span>
                     </div>
 
-                    <Button asChild size="sm" variant="secondary" className="group-hover:border-primary/40">
+                    <Button asChild size="sm" className="rounded-full px-5 bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs">
                       <Link href={`/jobs/${job._id}`}>
-                        Apply <ChevronRight className="w-3 h-3 ml-1" />
+                        Apply <ChevronRight className="w-3.5 h-3.5 ml-1" />
                       </Link>
                     </Button>
                   </div>
@@ -440,48 +449,48 @@ export default function PilotDashboardPage() {
           )}
         </div>
 
-        {/* Right Column (Span 1): Operational Readiness & Checklist */}
+        {/* Right Column (Span 1): Compliance & Actions */}
         <div className="space-y-5">
-          <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+          <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-5">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground">
-                Flight Compliance Status
+              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
+                FLIGHT COMPLIANCE
               </h3>
-              <ShieldCheck className="w-4 h-4 text-muted-foreground" />
+              <ShieldCheck className="w-4 h-4 text-[#fabf28]" />
             </div>
 
-            <div className="space-y-3.5 divide-y divide-border dark:divide-zinc-800 text-xs">
+            <div className="space-y-3.5 divide-y divide-border/80 dark:divide-zinc-800/80 text-xs">
               <div className="pt-2 first:pt-0 flex items-center justify-between">
                 <span className="text-muted-foreground">FAA Part 107 Airman</span>
                 {stats.isVerified ? (
-                  <span className="font-medium text-success flex items-center gap-1">
+                  <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                     <CheckCircle2 className="w-3.5 h-3.5" /> Validated
                   </span>
                 ) : (
-                  <span className="font-medium text-warning flex items-center gap-1">
-                    <AlertCircle className="w-3.5 h-3.5" /> Action Required
+                  <span className="font-semibold text-[#fabf28] flex items-center gap-1">
+                    <AlertCircle className="w-3.5 h-3.5" /> Action Needed
                   </span>
                 )}
               </div>
 
               <div className="pt-2.5 flex items-center justify-between">
                 <span className="text-muted-foreground">COI Insurance</span>
-                <span className="font-medium text-foreground">Verified Policy</span>
+                <span className="font-semibold text-foreground">Verified Policy</span>
               </div>
 
               <div className="pt-2.5 flex items-center justify-between">
                 <span className="text-muted-foreground">Airframe Registration</span>
-                <span className="font-medium text-foreground">On File</span>
+                <span className="font-semibold text-foreground">On File</span>
               </div>
 
               <div className="pt-2.5 flex items-center justify-between">
                 <span className="text-muted-foreground">Safety Record</span>
-                <span className="font-medium text-success">Zero Incidents</span>
+                <span className="font-semibold text-emerald-600 dark:text-emerald-400">Zero Incidents</span>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-border dark:border-zinc-800">
-              <Button asChild variant="secondary" size="sm" className="w-full text-xs">
+            <div className="pt-4 border-t border-border/80 dark:border-zinc-800/80">
+              <Button asChild variant="secondary" size="sm" className="w-full rounded-full text-xs font-semibold h-10 border border-border dark:border-zinc-800">
                 <Link href="/pilot/certification">
                   Update Certifications & COI
                 </Link>
@@ -490,47 +499,48 @@ export default function PilotDashboardPage() {
           </div>
 
           {/* Quick Links Card */}
-          <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 shadow-xs space-y-4 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground">
-              Pilot Quick Actions
+          <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-4">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
+              QUICK SHORTCUTS
             </h3>
 
             <div className="space-y-2">
               <Link
                 href="/pilot/applications"
-                className="flex items-center justify-between p-3 rounded-control text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
-                  <FileText className="w-3.5 h-3.5 text-primary" />
-                  <span>Submitted Proposals</span>
+                  <FileText className="w-4 h-4 text-[#fabf28]" />
+                  <span className="font-semibold">Submitted Proposals</span>
                 </div>
-                <span className="font-semibold text-foreground">{stats.applicationsCount}</span>
+                <span className="font-bold text-foreground px-2 py-0.5 rounded-full bg-surface-2 dark:bg-zinc-850 text-[11px]">{stats.applicationsCount}</span>
               </Link>
 
               <Link
                 href="/pilot/reviews"
-                className="flex items-center justify-between p-3 rounded-control text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
-                  <Star className="w-3.5 h-3.5 text-warning" />
-                  <span>Client Ratings</span>
+                  <Star className="w-4 h-4 text-[#fabf28]" />
+                  <span className="font-semibold">Client Ratings</span>
                 </div>
-                <span className="font-semibold text-foreground">{stats.totalReviews}</span>
+                <span className="font-bold text-foreground px-2 py-0.5 rounded-full bg-surface-2 dark:bg-zinc-850 text-[11px]">{stats.totalReviews}</span>
               </Link>
 
               <Link
                 href="/pilot/settings"
-                className="flex items-center justify-between p-3 rounded-control text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-muted-foreground" />
-                  <span>Flight Preferences</span>
+                  <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
+                  <span className="font-semibold">Flight Preferences</span>
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </Link>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

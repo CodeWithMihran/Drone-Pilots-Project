@@ -17,6 +17,7 @@ import {
   Search,
   Users,
   MapPin,
+  ArrowUpRight,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -24,10 +25,6 @@ import {
   Pie,
   Cell,
   Tooltip,
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
 } from "recharts";
 import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -46,7 +43,6 @@ export default function CompanyDashboardPage() {
 
   const [myJobs, setMyJobs] = useState<any[]>([]);
   const [statusChartData, setStatusChartData] = useState<any[]>([]);
-  const [spendingChartData, setSpendingChartData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -81,21 +77,12 @@ export default function CompanyDashboardPage() {
             Cancelled: jobs.filter((j: any) => j.status === "CANCELLED").length,
           };
 
-          const COLORS = ["#0284c7", "#2563eb", "#10b981", "#64748b"];
+          const COLORS = ["#fabf28", "#10b981", "#3b82f6", "#71717a"];
           const pieData = Object.entries(statusCounts).map(([name, value], i) => ({
             name,
             value: Math.max(0, value),
             fill: COLORS[i % COLORS.length],
           }));
-
-          const monthly = [
-            { month: "Jan", spending: 3200 },
-            { month: "Feb", spending: 5400 },
-            { month: "Mar", spending: 7800 },
-            { month: "Apr", spending: 9200 },
-            { month: "May", spending: 12500 },
-            { month: "Jun", spending: Math.max(14000, paymentsData?.totalSpending || 14000) },
-          ];
 
           setStats({
             totalJobs: jobs.length,
@@ -107,7 +94,6 @@ export default function CompanyDashboardPage() {
           });
 
           setStatusChartData(pieData);
-          setSpendingChartData(monthly);
         }
       } catch (err) {
         console.error("Company dashboard fetch error:", err);
@@ -121,79 +107,78 @@ export default function CompanyDashboardPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* ============================================================ */}
-      {/* BENTO ROW 1: Enterprise Header & Spending Telemetry */}
+      {/* BENTO ROW 1: Header Banner & Escrow Telemetry */}
       {/* ============================================================ */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Bento Box 1: Enterprise Project Management (Span 2) */}
-        <div className="lg:col-span-2 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
-          <div className="space-y-2.5">
-            <div className="flex items-center gap-2.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-                Enterprise Flight Management
+        
+        {/* Bento Box 1: Company Project Management (Span 2) */}
+        <div className="lg:col-span-2 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+              <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+                COMPANY WORKSPACE
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+            <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
               Commercial Operations Dashboard
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-xl leading-relaxed">
-              Publish drone tender specifications, review verified Part 107 proposals, and oversee milestone delivery telemetry.
+              Post shoot briefs, review verified Part 107 pilot proposals, and release milestone escrow payments upon inspection.
             </p>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-border dark:border-zinc-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="mt-8 pt-6 border-t border-border/80 dark:border-zinc-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <ShieldCheck className="w-4 h-4 text-success" />
-              <span>All assigned pilots verified via FAA Airman Registry</span>
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              <span>All assigned pilots authenticated against official registries</span>
             </div>
 
             <div className="flex items-center gap-3">
-              <Button asChild size="sm" variant="primary">
+              <Button asChild className="h-10 px-5 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs">
                 <Link href="/company/post-job" className="gap-1.5">
-                  <PlusCircle className="w-3.5 h-3.5" />
-                  <span>Post Mission Tender</span>
+                  <PlusCircle className="w-4 h-4" />
+                  <span>Post a Mission</span>
                 </Link>
               </Button>
-              <Button asChild size="sm" variant="secondary">
+              <Button asChild variant="secondary" className="h-10 px-5 rounded-full border border-border dark:border-zinc-800 text-xs font-semibold">
                 <Link href="/company/pilots" className="gap-1.5">
-                  <Search className="w-3.5 h-3.5" />
-                  <span>Pilot Directory</span>
+                  <Search className="w-4 h-4" />
+                  <span>Find Pilots</span>
                 </Link>
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Bento Box 2: Total Escrow Disbursements (Span 1) */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        {/* Bento Box 2: Total Escrow Disbursed (Span 1) */}
+        <div className="rounded-3xl bg-zinc-950 text-white dark:bg-[#121214] border border-zinc-850 p-7 sm:p-8 flex flex-col justify-between shadow-xs select-none">
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                Total Escrow Disbursed
+              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-400">
+                TOTAL ESCROW DISBURSED
               </span>
-              <div className="w-8 h-8 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 flex items-center justify-center text-muted-foreground">
-                <DollarSign className="w-4 h-4 text-primary" />
+              <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-[#fabf28]">
+                <DollarSign className="w-4 h-4" />
               </div>
             </div>
 
-            <div className="mt-5">
-              <div className="text-3xl font-semibold tracking-tight text-foreground">
+            <div className="mt-6">
+              <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans">
                 {formatCurrency(stats.totalSpending)}
               </div>
-              <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-                Milestone payments released upon inspection acceptance
+              <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
+                Released safely upon deliverable approval
               </p>
             </div>
           </div>
 
-          <div className="mt-8 pt-5 border-t border-border dark:border-zinc-800/80 flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">Escrow Protection</span>
-            <span className="text-success font-medium flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5" /> 100% Secured
+          <div className="mt-8 pt-5 border-t border-white/10 flex items-center justify-between text-xs">
+            <span className="text-zinc-400 font-medium">Escrow Protection</span>
+            <span className="text-emerald-400 font-bold flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4" /> 100% Secured
             </span>
           </div>
         </div>
@@ -203,94 +188,103 @@ export default function CompanyDashboardPage() {
       {/* BENTO ROW 2: Key Operational Metrics */}
       {/* ============================================================ */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
-        {/* Metric 1: Total Postings */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300">
+        
+        {/* Metric 1: Total Missions */}
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-[11px] font-medium uppercase tracking-wider">Total Tenders</span>
-            <Briefcase className="w-4 h-4 text-primary" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider">Total Briefs</span>
+            <div className="w-8 h-8 rounded-full bg-[#fabf28]/15 text-[#fabf28] flex items-center justify-center">
+              <Briefcase className="w-4 h-4" />
+            </div>
           </div>
           <div className="mt-4">
-            <div className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
               {stats.totalJobs}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-1">All-time flight projects</p>
+            <p className="text-[11px] text-muted-foreground mt-1">All-time flight missions</p>
           </div>
         </div>
 
-        {/* Metric 2: Open Tenders */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300">
+        {/* Metric 2: Open Missions */}
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-[11px] font-medium uppercase tracking-wider">Open Tenders</span>
-            <Layers className="w-4 h-4 text-primary" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider">Open Missions</span>
+            <div className="w-8 h-8 rounded-full bg-emerald-500/15 text-emerald-500 flex items-center justify-center">
+              <Layers className="w-4 h-4" />
+            </div>
           </div>
           <div className="mt-4">
-            <div className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
               {stats.openJobs}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-1">Accepting pilot proposals</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Accepting pilot bids</p>
           </div>
         </div>
 
         {/* Metric 3: Pilot Proposals */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300">
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-[11px] font-medium uppercase tracking-wider">Proposals</span>
-            <FileCheck2 className="w-4 h-4 text-primary" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider">Proposals</span>
+            <div className="w-8 h-8 rounded-full bg-sky-500/15 text-sky-500 flex items-center justify-center">
+              <FileCheck2 className="w-4 h-4" />
+            </div>
           </div>
           <div className="mt-4">
-            <div className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
               {stats.applicationsCount}
             </div>
             <p className="text-[11px] text-muted-foreground mt-1">Submitted by verified pilots</p>
           </div>
         </div>
 
-        {/* Metric 4: Active Flight Missions */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 sm:p-6 flex flex-col justify-between shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300">
+        {/* Metric 4: Active Flights */}
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-[11px] font-medium uppercase tracking-wider">Active Operations</span>
-            <Clock className="w-4 h-4 text-warning" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider">Active Flights</span>
+            <div className="w-8 h-8 rounded-full bg-amber-500/15 text-amber-500 flex items-center justify-center">
+              <Clock className="w-4 h-4" />
+            </div>
           </div>
           <div className="mt-4">
-            <div className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
               {stats.activeJobsCount}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-1">Flights currently underway</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Underway in the field</p>
           </div>
         </div>
+
       </div>
 
       {/* ============================================================ */}
       {/* BENTO ROW 3: Active Tenders Pipeline & Status Telemetry */}
       {/* ============================================================ */}
-      {/* BENTO ROW 3: Active Tenders Pipeline & Status Telemetry */}
-      {/* ============================================================ */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left (Span 2): Recent Tender Postings */}
+        
+        {/* Left (Span 2): Recent Mission Tenders */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-                Recent Mission Tenders
+              <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">
+                Recent Mission Briefs
               </h2>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Manage tender specs, incoming pilot bids, and assigned flight deliverables.
+                Manage briefs, incoming pilot bids, and delivery status.
               </p>
             </div>
-            <Button asChild variant="link" size="sm" className="h-auto p-0 text-xs">
+            <Button asChild variant="link" size="sm" className="h-auto p-0 text-xs font-bold text-foreground">
               <Link href="/company/jobs">
-                View all tenders <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                View all briefs <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </Link>
             </Button>
           </div>
 
           {myJobs.length === 0 ? (
-            <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-8 sm:p-10">
+            <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-8 sm:p-10">
               <EmptyState
                 icon={Briefcase}
-                title="No Mission Tenders Yet"
-                description="Post your first industrial flight tender to start receiving verified bids from certified Part 107 pilots."
-                actionText="Post Mission Tender"
+                title="No Mission Briefs Yet"
+                description="Post your first flight brief to start receiving verified proposals from certified commercial drone pilots."
+                actionText="Post a Mission"
                 actionHref="/company/post-job"
               />
             </div>
@@ -299,24 +293,24 @@ export default function CompanyDashboardPage() {
               {myJobs.slice(0, 5).map((job) => (
                 <div
                   key={job._id}
-                  className="p-5 sm:p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 hover:border-border-strong dark:hover:border-zinc-700 shadow-xs hover:-translate-y-0.5 transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
+                  className="p-6 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
                 >
                   <div className="space-y-2 flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[11px] font-medium text-primary px-2.5 py-0.5 rounded-control bg-primary/10 border border-primary/20">
+                      <span className="text-[11px] font-bold text-zinc-900 dark:text-white px-2.5 py-0.5 rounded-full bg-[#fabf28]/20 border border-[#fabf28]/30">
                         {formatServiceType(job.serviceType)}
                       </span>
                       <StatusBadge status={job.status} type="job" />
                       {job.location?.city && (
                         <span className="text-xs text-muted-foreground flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-muted-foreground" />
+                          <MapPin className="w-3.5 h-3.5 text-[#fabf28]" />
                           {job.location.city}, {job.location.state}
                         </span>
                       )}
                     </div>
 
                     <Link href={`/jobs/${job._id}`}>
-                      <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                      <h3 className="text-base sm:text-lg font-bold text-foreground group-hover:text-[#fabf28] transition-colors line-clamp-1">
                         {job.title}
                       </h3>
                     </Link>
@@ -328,13 +322,13 @@ export default function CompanyDashboardPage() {
 
                   <div className="sm:text-right shrink-0 flex sm:flex-col items-center sm:items-end justify-between gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 border-border dark:border-zinc-800/80">
                     <div>
-                      <span className="text-base sm:text-lg font-semibold text-foreground block">
+                      <span className="text-base sm:text-lg font-extrabold text-foreground block">
                         {formatCurrency(job.budget)}
                       </span>
-                      <span className="text-[11px] text-muted-foreground">Budget</span>
+                      <span className="text-[11px] text-muted-foreground font-mono">Budget</span>
                     </div>
 
-                    <Button asChild size="sm" variant="secondary">
+                    <Button asChild size="sm" className="rounded-full px-5 bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs">
                       <Link href={`/company/applications?jobId=${job._id}`}>
                         Review Bids <ChevronRight className="w-3.5 h-3.5 ml-1" />
                       </Link>
@@ -346,22 +340,22 @@ export default function CompanyDashboardPage() {
           )}
         </div>
 
-        {/* Right (Span 1): Project Status Distribution & Operations Rail */}
+        {/* Right (Span 1): Status Chart & Quick Links */}
         <div className="space-y-5">
-          <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 shadow-xs space-y-4">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground">
-              Projects by Operational Status
+          <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-4">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
+              PROJECTS BY STATUS
             </h3>
 
-            <div className="h-48 w-full">
+            <div className="h-44 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={statusChartData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={46}
-                    outerRadius={68}
+                    innerRadius={44}
+                    outerRadius={65}
                     paddingAngle={4}
                     dataKey="value"
                   >
@@ -371,62 +365,63 @@ export default function CompanyDashboardPage() {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "var(--color-surface, #09090b)",
-                      borderColor: "var(--color-border, #27272a)",
-                      borderRadius: "0.5rem",
-                      color: "var(--color-text-main, #f4f4f5)",
+                      backgroundColor: "#121214",
+                      borderColor: "#27272a",
+                      borderRadius: "0.75rem",
+                      color: "#f4f4f5",
                       fontSize: "12px",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+                      boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
                     }}
                   />
                 </PieChart>
               </ResponsiveContainer>
             </div>
 
-            <div className="space-y-2 pt-3 border-t border-border dark:border-zinc-800/80 text-xs">
+            <div className="space-y-2 pt-3 border-t border-border/80 dark:border-zinc-800/80 text-xs">
               {statusChartData.map((item) => (
                 <div key={item.name} className="flex items-center justify-between text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.fill }} />
-                    <span>{item.name}</span>
+                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.fill }} />
+                    <span className="font-medium">{item.name}</span>
                   </div>
-                  <span className="font-semibold text-foreground">{item.value}</span>
+                  <span className="font-bold text-foreground">{item.value}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Quick Actions Rail */}
-          <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 shadow-xs space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground">
-              Company Quick Links
+          <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-3">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
+              QUICK SHORTCUTS
             </h3>
 
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <Link
                 href="/company/pilots"
-                className="flex items-center justify-between p-3 rounded-control text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
-                  <Users className="w-4 h-4 text-primary" />
-                  <span>Verified Pilots Directory</span>
+                  <Users className="w-4 h-4 text-[#fabf28]" />
+                  <span className="font-semibold">Verified Pilots Directory</span>
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </Link>
 
               <Link
                 href="/company/reviews"
-                className="flex items-center justify-between p-3 rounded-control text-xs text-muted-foreground hover:text-foreground hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-success" />
-                  <span>Completed Reviews</span>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                  <span className="font-semibold">Completed Reviews</span>
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </Link>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

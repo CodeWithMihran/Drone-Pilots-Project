@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { BarChart3, TrendingUp, DollarSign, Award, ShieldCheck, Download } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { StatCard } from "@/components/shared/StatCard";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 export default function AdminReportsPage() {
   const [data, setData] = useState<any>(null);
@@ -25,19 +24,17 @@ export default function AdminReportsPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* Header Banner */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
-            </span>
-            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-              Marketplace Telemetry & Audits
+          <div className="flex items-center gap-2">
+            <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              AUDIT & TELEMETRY
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             Financial & Compliance Audits
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
@@ -45,9 +42,9 @@ export default function AdminReportsPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-          <BarChart3 className="w-4 h-4 text-primary" />
-          <span>Platform Volume: {formatCurrency(stats.totalPlatformVolume || 148500)}</span>
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
+          <BarChart3 className="w-4 h-4 text-[#fabf28]" />
+          <span>Volume: {formatCurrency(stats.totalPlatformVolume || 148500)}</span>
         </div>
       </div>
 
@@ -57,28 +54,28 @@ export default function AdminReportsPage() {
           value={formatCurrency(stats.totalPlatformVolume || 148500)}
           subtitle="All-time contracts"
           icon={DollarSign}
-          variant="success"
+          variant="gold"
         />
         <StatCard
           title="Verified Flight Rate"
           value="100%"
           subtitle="Part 107 compliance"
           icon={ShieldCheck}
-          variant="default"
+          variant="success"
         />
         <StatCard
           title="Avg Mission Value"
           value="$2,850"
-          subtitle="Per industrial contract"
+          subtitle="Per commercial shoot"
           icon={TrendingUp}
           variant="default"
         />
       </div>
 
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
-        <div className="pb-3 border-b border-border dark:border-zinc-800">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            Marketplace Operational Summary
+      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+        <div className="pb-4 border-b border-border/80 dark:border-zinc-800">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
+            PLATFORM OPERATIONAL BENCHMARKS
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
             Rigorous pre-qualification benchmarks across all commercial deployments.
@@ -87,21 +84,21 @@ export default function AdminReportsPage() {
 
         <div className="space-y-4">
           <p className="text-xs sm:text-sm text-foreground leading-relaxed">
-            The platform enforces a mandatory compliance gate. Commercial pilots submitting proposals must hold non-expired Part 107 credentials validated by administration.
+            AeroLink enforces a mandatory compliance gate. Commercial pilots submitting proposals must hold non-expired Part 107 credentials validated by administration against federal databases.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-border dark:border-zinc-800">
-            <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-              <p className="text-[11px] text-muted-foreground">Total Proposals Processed</p>
-              <p className="text-xl font-bold text-foreground mt-1 font-mono">{stats.applicationsCount || 45}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-border/80 dark:border-zinc-800">
+            <div className="p-5 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800">
+              <p className="text-[11px] font-mono uppercase text-muted-foreground">Proposals Processed</p>
+              <p className="text-2xl font-extrabold text-foreground mt-1.5 font-sans">{stats.applicationsCount || 45}</p>
             </div>
-            <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-              <p className="text-[11px] text-muted-foreground">Completed Operations</p>
-              <p className="text-xl font-bold text-success mt-1 font-mono">{stats.completedJobs || 18}</p>
+            <div className="p-5 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800">
+              <p className="text-[11px] font-mono uppercase text-muted-foreground">Completed Operations</p>
+              <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1.5 font-sans">{stats.completedJobs || 18}</p>
             </div>
-            <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-              <p className="text-[11px] text-muted-foreground">Active Verified Pilots</p>
-              <p className="text-xl font-bold text-foreground mt-1 font-mono">{stats.verifiedPilots || 12}</p>
+            <div className="p-5 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800">
+              <p className="text-[11px] font-mono uppercase text-muted-foreground">Active Verified Pilots</p>
+              <p className="text-2xl font-extrabold text-foreground mt-1.5 font-sans">{stats.verifiedPilots || 12}</p>
             </div>
           </div>
         </div>

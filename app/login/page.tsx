@@ -149,7 +149,7 @@ function LoginForm() {
                 key={demo.label}
                 type="button"
                 onClick={() => fillDemo(demo.email, demo.pass)}
-                className="rounded-control border border-border px-2 py-2.5 text-caption font-medium text-foreground hover:border-border-strong hover:bg-surface-2"
+                className="rounded-xl border border-border px-2 py-2.5 text-caption font-medium text-foreground hover:border-border-strong hover:bg-surface-2"
               >
                 {demo.label}
               </button>

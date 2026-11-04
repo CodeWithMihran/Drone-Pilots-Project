@@ -128,40 +128,37 @@ export default function PilotProfileEditPage() {
     setList(list.filter((_, i) => i !== index));
   };
 
-  // Reusable styles to match our Input component for native select/textareas
-  const inputMatchingClasses = "flex w-full rounded-control border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-900 px-3.5 py-2 text-xs text-foreground shadow-xs transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 hover:border-border-strong dark:hover:border-zinc-700";
+  const inputMatchingClasses = "flex w-full rounded-xl border border-border dark:border-zinc-800 bg-surface dark:bg-zinc-900 px-4 py-2.5 text-xs text-foreground shadow-xs transition-colors duration-150 focus-visible:outline-none focus:border-[#fabf28] disabled:cursor-not-allowed disabled:opacity-50 hover:border-zinc-400 dark:hover:border-zinc-700";
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* Header Banner */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-              Commercial Flight Credentials
+          <div className="flex items-center gap-2">
+            <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              PROFILE & FLEET
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             Pilot Profile & Airframe Fleet
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            Keep your aircraft models, sensor payloads, and service coverage updated to optimize automated matching on commercial tenders.
+            Keep your aircraft models, sensor payloads, and service coverage updated to optimize automated matching on commercial briefs.
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-          <Plane className="w-4 h-4 text-primary" />
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
+          <Plane className="w-4 h-4 text-[#fabf28]" />
           <span>Active Fleet: {equipment.length} Payloads</span>
         </div>
       </div>
 
       {message.text && (
         <div
-          className={`p-4 rounded-panel border text-xs font-medium flex items-center gap-2.5 ${
+          className={`p-4 rounded-2xl border text-xs font-semibold flex items-center gap-2.5 ${
             message.type === "success"
               ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-300"
               : "bg-rose-500/10 border-rose-500/30 text-rose-700 dark:text-rose-300"
@@ -177,10 +174,11 @@ export default function PilotProfileEditPage() {
       )}
 
       <form onSubmit={handleSave} className="space-y-6">
+        
         {/* Personal & Contact Information */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <User className="w-4 h-4 text-primary" />
+        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <User className="w-4 h-4 text-[#fabf28]" />
             Personal & Contact Information
           </h3>
 
@@ -193,7 +191,7 @@ export default function PilotProfileEditPage() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+                className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
               />
             </div>
 
@@ -205,7 +203,7 @@ export default function PilotProfileEditPage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+1 (555) 019-2834"
-                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+                className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
               />
             </div>
           </div>
@@ -219,7 +217,7 @@ export default function PilotProfileEditPage() {
                 required
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+                className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
               />
             </div>
 
@@ -231,16 +229,16 @@ export default function PilotProfileEditPage() {
                 required
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+                className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
               />
             </div>
           </div>
         </div>
 
         {/* Operational & Pricing Details */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <Award className="w-4 h-4 text-primary" />
+        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Award className="w-4 h-4 text-[#fabf28]" />
             Flight Experience & Rate
           </h3>
 
@@ -253,7 +251,7 @@ export default function PilotProfileEditPage() {
                 min="0"
                 value={experience}
                 onChange={(e) => setExperience(Number(e.target.value))}
-                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs font-mono"
+                className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs font-mono"
               />
             </div>
 
@@ -265,7 +263,7 @@ export default function PilotProfileEditPage() {
                 min="0"
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
-                className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs font-mono"
+                className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs font-mono"
               />
             </div>
 
@@ -275,7 +273,7 @@ export default function PilotProfileEditPage() {
                 id="profile-availability"
                 value={availability}
                 onChange={(e) => setAvailability(e.target.value as any)}
-                className={`h-10 ${inputMatchingClasses}`}
+                className={`h-11 ${inputMatchingClasses}`}
               >
                 <option value="AVAILABLE">AVAILABLE (Accepting missions)</option>
                 <option value="BUSY">BUSY (Limited schedule)</option>
@@ -285,7 +283,7 @@ export default function PilotProfileEditPage() {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="profile-bio">Pilot Biography & Operations Summary</Label>
+            <Label htmlFor="profile-bio">Pilot Biography & Mission Summary</Label>
             <textarea
               id="profile-bio"
               rows={4}
@@ -298,13 +296,13 @@ export default function PilotProfileEditPage() {
         </div>
 
         {/* Drone Equipment Fleet */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <Plane className="w-4 h-4 text-primary" />
+        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Plane className="w-4 h-4 text-[#fabf28]" />
             Drone Fleet & Payload Sensors
           </h3>
           <p className="text-xs text-muted-foreground">
-            Add all drones and cameras/sensors you operate (e.g. DJI Matrice 350 RTK, Agras T40, Zenmuse H20T Thermal).
+            Add all drones and cameras/sensors you operate (e.g. DJI Inspire 3, Mavic 3 Enterprise, Zenmuse H20T Thermal).
           </p>
 
           <div className="flex gap-3">
@@ -319,13 +317,13 @@ export default function PilotProfileEditPage() {
                 }
               }}
               placeholder="e.g. DJI Matrice 350 RTK"
-              className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+              className="rounded-full bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs h-11 px-4"
             />
             <Button
               type="button"
               variant="secondary"
               onClick={() => addTag(equipment, setEquipment, newEquipment, setNewEquipment)}
-              className="shrink-0 text-xs h-10"
+              className="rounded-full shrink-0 text-xs h-11 px-5 border border-border dark:border-zinc-800 font-semibold"
             >
               <Plus className="w-4 h-4 mr-1" />
               Add 
@@ -336,13 +334,13 @@ export default function PilotProfileEditPage() {
             {equipment.map((eq, idx) => (
               <span
                 key={idx}
-                className="px-3 py-1.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs text-foreground flex items-center gap-2 font-medium"
+                className="px-3.5 py-1.5 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800 text-xs text-foreground flex items-center gap-2 font-semibold"
               >
                 <span>{eq}</span>
                 <button
                   type="button"
                   onClick={() => removeTag(equipment, setEquipment, idx)}
-                  className="text-muted-foreground hover:text-destructive transition-colors"
+                  className="text-muted-foreground hover:text-rose-500 transition-colors"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -352,9 +350,9 @@ export default function PilotProfileEditPage() {
         </div>
 
         {/* Specializations & Skills */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <Layers className="w-4 h-4 text-primary" />
+        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Layers className="w-4 h-4 text-[#fabf28]" />
             Specializations & Technical Skills
           </h3>
 
@@ -369,14 +367,14 @@ export default function PilotProfileEditPage() {
                   addTag(specializations, setSpecializations, newSpec, setNewSpec);
                 }
               }}
-              placeholder="e.g. LiDAR Topography, Orthomosaic 3D"
-              className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+              placeholder="e.g. LiDAR Topography, Orthomosaic 3D, Cinema FPV"
+              className="rounded-full bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs h-11 px-4"
             />
             <Button
               type="button"
               variant="secondary"
               onClick={() => addTag(specializations, setSpecializations, newSpec, setNewSpec)}
-              className="shrink-0 text-xs h-10"
+              className="rounded-full shrink-0 text-xs h-11 px-5 border border-border dark:border-zinc-800 font-semibold"
             >
               <Plus className="w-4 h-4 mr-1" />
               Add 
@@ -387,13 +385,13 @@ export default function PilotProfileEditPage() {
             {specializations.map((spec, idx) => (
               <span
                 key={idx}
-                className="px-3 py-1.5 rounded-control bg-primary/10 border border-primary/20 text-xs text-primary flex items-center gap-2 font-medium"
+                className="px-3.5 py-1.5 rounded-full bg-[#fabf28]/15 border border-[#fabf28]/30 text-xs text-zinc-950 dark:text-[#fabf28] flex items-center gap-2 font-bold"
               >
                 <span>{spec}</span>
                 <button
                   type="button"
                   onClick={() => removeTag(specializations, setSpecializations, idx)}
-                  className="text-primary/70 hover:text-destructive transition-colors"
+                  className="text-muted-foreground hover:text-rose-500 transition-colors"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -406,9 +404,7 @@ export default function PilotProfileEditPage() {
           id="save-pilot-profile-btn"
           type="submit"
           disabled={saving}
-          size="lg"
-          block
-          className="h-11 font-semibold text-xs"
+          className="h-12 w-full rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-md"
         >
           <Save className="w-4 h-4 mr-2" />
           {saving ? "Saving Changes..." : "Save Profile & Fleet Details"}

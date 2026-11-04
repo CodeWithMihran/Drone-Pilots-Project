@@ -129,7 +129,7 @@ export default function PilotsDirectoryPage() {
               />
             </div>
 
-            <label className="flex items-center gap-2 text-xs text-foreground cursor-pointer select-none px-3 py-2 rounded-control hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors">
+            <label className="flex items-center gap-2 text-xs text-foreground cursor-pointer select-none px-3 py-2 rounded-2xl hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors">
               <input
                 type="checkbox"
                 checked={verifiedOnly}
@@ -180,7 +180,7 @@ export default function PilotsDirectoryPage() {
                   <div className="p-6 sm:p-7 space-y-4">
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-control bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">
+                        <div className="w-11 h-11 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">
                           {pilot.name ? pilot.name.charAt(0).toUpperCase() : "P"}
                         </div>
                         <div>

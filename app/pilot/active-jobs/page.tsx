@@ -22,8 +22,6 @@ import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 function PilotActiveJobsContent() {
   const searchParams = useSearchParams();
@@ -86,19 +84,17 @@ function PilotActiveJobsContent() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* Header Banner */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-              Contract Fulfillment Telemetry
+          <div className="flex items-center gap-2">
+            <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              OPERATIONS
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             Assigned Flight Missions
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
@@ -107,12 +103,12 @@ function PilotActiveJobsContent() {
         </div>
 
         {/* Tab Controls */}
-        <div className="flex p-1.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 self-start sm:self-auto shrink-0">
+        <div className="flex p-1.5 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800 self-start sm:self-auto shrink-0">
           <button
             onClick={() => setTab("active")}
-            className={`px-3.5 py-1.5 rounded-control text-xs font-semibold transition-all flex items-center gap-1.5 ${
+            className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
               tab === "active"
-                ? "bg-primary text-primary-foreground shadow-xs"
+                ? "bg-[#fabf28] text-zinc-950 shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -121,9 +117,9 @@ function PilotActiveJobsContent() {
           </button>
           <button
             onClick={() => setTab("completed")}
-            className={`px-3.5 py-1.5 rounded-control text-xs font-semibold transition-all flex items-center gap-1.5 ${
+            className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
               tab === "completed"
-                ? "bg-primary text-primary-foreground shadow-xs"
+                ? "bg-[#fabf28] text-zinc-950 shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -136,7 +132,7 @@ function PilotActiveJobsContent() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2].map((i) => (
-            <div key={i} className="p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 animate-pulse h-40" />
+            <div key={i} className="p-7 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 animate-pulse h-40" />
           ))}
         </div>
       ) : displayList.length === 0 ? (
@@ -156,31 +152,31 @@ function PilotActiveJobsContent() {
           {displayList.map((job) => (
             <div
               key={job._id}
-              className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 hover:border-border-strong dark:hover:border-zinc-700 shadow-xs hover:-translate-y-0.5 transition-all duration-300 space-y-5"
+              className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 space-y-5"
             >
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="space-y-2 flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[11px] font-medium text-primary px-2.5 py-0.5 rounded-control bg-primary/10 border border-primary/20">
+                    <span className="text-[11px] font-bold text-zinc-900 dark:text-white px-2.5 py-0.5 rounded-full bg-[#fabf28]/20 border border-[#fabf28]/30">
                       {formatServiceType(job.serviceType)}
                     </span>
                     <StatusBadge status={job.status} type="job" />
                   </div>
 
                   <Link href={`/jobs/${job._id}`}>
-                    <h3 className="text-base sm:text-lg font-semibold text-foreground hover:text-primary transition-colors">
+                    <h3 className="text-base sm:text-xl font-bold text-foreground hover:text-[#fabf28] transition-colors line-clamp-1">
                       {job.title}
                     </h3>
                   </Link>
 
                   <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground pt-0.5">
-                    <span className="flex items-center gap-1.5 font-medium text-foreground">
+                    <span className="flex items-center gap-1.5 font-semibold text-foreground">
                       <Building className="w-3.5 h-3.5 text-muted-foreground" />
                       Client: {job.companyId?.name || "Client"}
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                      <MapPin className="w-3.5 h-3.5 text-[#fabf28]" />
                       {job.location?.city}, {job.location?.state}
                     </span>
                     <span>•</span>
@@ -192,15 +188,15 @@ function PilotActiveJobsContent() {
                 </div>
 
                 <div className="text-left sm:text-right shrink-0">
-                  <span className="text-[11px] font-medium text-muted-foreground block">Milestone Escrow</span>
-                  <span className="text-xl sm:text-2xl font-semibold text-success font-mono">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground block">Milestone Escrow</span>
+                  <span className="text-xl sm:text-2xl font-extrabold text-foreground font-sans">
                     {formatCurrency(job.budget)}
                   </span>
                 </div>
               </div>
 
               {/* Status progression controls */}
-              <div className="pt-4 border-t border-border dark:border-zinc-800/80 flex flex-wrap items-center justify-between gap-4">
+              <div className="pt-4 border-t border-border/80 dark:border-zinc-800/80 flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-4 text-xs text-muted-foreground">
                   {job.companyId?.phone && (
                     <span className="flex items-center gap-1.5">
@@ -221,9 +217,7 @@ function PilotActiveJobsContent() {
                     <Button
                       onClick={() => handleStatusUpdate(job._id, "IN_PROGRESS")}
                       disabled={updating === job._id}
-                      variant="primary"
-                      size="sm"
-                      className="gap-1.5 active:scale-[0.98]"
+                      className="rounded-full px-5 h-9 bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs gap-1.5 active:scale-[0.98]"
                     >
                       <Play className="w-3.5 h-3.5" />
                       <span>Begin Mission Flight</span>
@@ -234,16 +228,14 @@ function PilotActiveJobsContent() {
                     <Button
                       onClick={() => handleStatusUpdate(job._id, "COMPLETED")}
                       disabled={updating === job._id}
-                      variant="primary"
-                      size="sm"
-                      className="gap-1.5 bg-success text-white hover:bg-success/90 active:scale-[0.98]"
+                      className="rounded-full px-5 h-9 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs gap-1.5 active:scale-[0.98]"
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>Mark Mission Completed</span>
                     </Button>
                   )}
 
-                  <Button asChild variant="secondary" size="sm" className="active:scale-[0.98]">
+                  <Button asChild variant="secondary" size="sm" className="rounded-full px-5 h-9 active:scale-[0.98] border border-border dark:border-zinc-800 text-xs font-semibold">
                     <Link href={`/jobs/${job._id}`} className="gap-1">
                       <span>Mission Room</span>
                       <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
