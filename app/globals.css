@@ -101,6 +101,16 @@
   --input: var(--surface-2);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   color: var(--text);
   background-color: var(--bg);

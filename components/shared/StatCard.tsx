@@ -9,8 +9,8 @@ export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   icon: LucideIcon;
   trend?: string;
   trendPositive?: boolean;
-  color?: "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success" | "gold";
-  variant?: "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success" | "gold";
+  color?: "gold" | "golden" | "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success";
+  variant?: "gold" | "golden" | "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success";
 }
 
 export function StatCard({
@@ -26,10 +26,15 @@ export function StatCard({
   ...props
 }: StatCardProps) {
   const chosenColor = (variant || color || "gold") as string;
-  const mappedColor = chosenColor === "warning" ? "amber" : chosenColor === "success" ? "emerald" : chosenColor;
+  const mappedColor =
+    chosenColor === "warning" ? "amber"
+    : chosenColor === "success" ? "emerald"
+    : chosenColor === "golden" ? "gold"
+    : chosenColor;
 
   const iconBgMap: Record<string, string> = {
     gold: "bg-[#fabf28]/15 text-[#fabf28] border-[#fabf28]/25",
+    golden: "bg-[#fabf28]/15 text-[#fabf28] border-[#fabf28]/25",
     cyan: "bg-[#fabf28]/15 text-[#fabf28] border-[#fabf28]/25",
     emerald: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/25",
     amber: "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/25",
@@ -79,8 +84,13 @@ export function StatCard({
           )}
         </div>
 
-        <div className={cn("w-10 h-10 rounded-2xl border flex items-center justify-center shrink-0 shadow-2xs", iconBgMap[mappedColor] || iconBgMap.gold)}>
-          <Icon className="w-4 h-4 stroke-[2]" />
+        <div
+          className={cn(
+            "w-12 h-12 rounded-2xl border flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200",
+            iconBgMap[mappedColor] || iconBgMap.default
+          )}
+        >
+          <Icon className="w-5 h-5 stroke-[2]" />
         </div>
       </div>
     </div>

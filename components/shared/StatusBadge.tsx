@@ -17,6 +17,7 @@ const badgeVariants = cva(
       variant: {
         success: 
           "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
+        // "Open / Available" → golden/amber brand tone
         info: 
           "bg-[#fabf28]/15 text-zinc-900 dark:text-[#fabf28] border-[#fabf28]/35",
         primary: 
@@ -90,32 +91,35 @@ export function StatusBadge({
       case "PAID":
         return <CheckCircle2 className="w-3.5 h-3.5" />;
       case "PENDING":
-      case "IN_PROGRESS":
         return <Clock className="w-3.5 h-3.5" />;
       case "REJECTED":
       case "CANCELLED":
       case "FAILED":
+      case "EXPIRED":
       case "SUSPENDED":
-      case "WITHDRAWN":
         return <XCircle className="w-3.5 h-3.5" />;
-      case "BUSY":
-        return <AlertTriangle className="w-3.5 h-3.5" />;
+      case "IN_PROGRESS":
+      case "PILOT_SELECTED":
+        return <CircleDot className="w-3.5 h-3.5" />;
       default:
-        return <CircleDot className="w-3 h-3" />;
+        return <CircleDot className="w-3.5 h-3.5" />;
     }
   };
 
-  const formatText = () => {
-    return normalized
-      .replace(/_/g, " ")
-      .toLowerCase()
-      .replace(/\b\w/g, (c) => c.toUpperCase());
+  const formatText = (text: string) => {
+    return text
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
   };
 
   return (
-    <span className={cn(badgeVariants({ variant: getVariant() }), className)} {...props}>
+    <span
+      className={cn(badgeVariants({ variant: getVariant() }), className)}
+      {...props}
+    >
       {getIcon()}
-      <span>{formatText()}</span>
+      <span>{formatText(status)}</span>
     </span>
   );
 }
