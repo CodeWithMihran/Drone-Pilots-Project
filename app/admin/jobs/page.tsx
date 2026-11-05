@@ -42,7 +42,7 @@ export default function AdminJobsManagementPage() {
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
       
       {/* Header Banner */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
@@ -65,7 +65,7 @@ export default function AdminJobsManagementPage() {
       </div>
 
       {/* Filter Tabs & Search */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-5 shadow-xs space-y-4">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-5 shadow-xs space-y-4">
         <div className="flex flex-wrap gap-2 p-1.5 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
           {[
             { label: "All Missions", val: "ALL" },
@@ -115,7 +115,7 @@ export default function AdminJobsManagementPage() {
       </div>
 
       {/* Jobs Table */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs overflow-hidden">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs overflow-hidden">
         <div className="px-6 py-4 border-b border-border/80 dark:border-zinc-800 flex items-center justify-between">
           <span className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
             FLIGHT CONTRACTS REGISTRY ({jobs.length})

@@ -5,7 +5,7 @@ import { Logo } from "@/components/brand/Logo";
 
 export function Footer() {
   return (
-    <footer className="border-t border-zinc-200/80 dark:border-zinc-800 bg-[#faf8f5] dark:bg-[#070709] text-muted-foreground transition-colors">
+    <footer className="border-t border-zinc-200/80 dark:border-zinc-800 bg-[#faf8f5] dark:bg-[#0d1117] text-muted-foreground transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Info */}

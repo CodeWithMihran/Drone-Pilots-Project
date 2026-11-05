@@ -230,7 +230,7 @@ export default function JobDetailPage() {
   const isJobOpen = job.status === "OPEN" || job.status === "APPLICATIONS_RECEIVED";
 
   return (
-    <div className="flex-1 bg-[#faf8f5] dark:bg-[#070709] py-8 sm:py-12 transition-colors duration-150">
+    <div className="flex-1 bg-[#faf8f5] dark:bg-[#0d1117] py-8 sm:py-12 transition-colors duration-150">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -267,7 +267,7 @@ export default function JobDetailPage() {
           {/* Main Content Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Header Hero Card */}
-            <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
+            <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
               <div className="flex flex-wrap items-center gap-2.5">
                 <span className="px-3 py-1 rounded-full bg-[#fabf28]/15 text-zinc-900 dark:text-[#fabf28] text-xs font-bold">
                   {formatServiceType(job.serviceType)}
@@ -299,7 +299,7 @@ export default function JobDetailPage() {
             </div>
 
             {/* Mission Description Card */}
-            <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-4">
+            <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
                 <Layers className="w-4 h-4 text-[#fabf28]" />
                 Mission Scope & Objectives
@@ -310,7 +310,7 @@ export default function JobDetailPage() {
             </div>
 
             {/* Regulatory & Equipment Requirements Card */}
-            <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-6">
+            <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-6">
               <h3 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-500" />
                 Regulatory & Airframe Requirements
@@ -378,7 +378,7 @@ export default function JobDetailPage() {
           {/* Sidebar Column */}
           <div className="space-y-6">
             {/* Compensation & Actions Card */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-6">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-6">
               <div>
                 <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-muted-foreground">
                   PROJECT BUDGET
@@ -561,7 +561,7 @@ export default function JobDetailPage() {
             </div>
 
             {/* Hiring Organization Card */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Hiring Organization
               </h3>
@@ -589,7 +589,7 @@ export default function JobDetailPage() {
       {/* Apply Proposal Modal */}
       {applyModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
+          <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800/80">
               <div>
                 <h3 className="text-lg font-bold text-foreground">Submit Flight Proposal</h3>
@@ -675,7 +675,7 @@ export default function JobDetailPage() {
       {/* Release Escrow Modal */}
       {payModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5 text-center">
+          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5 text-center">
             <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
               <CreditCard className="w-6 h-6" />
             </div>
@@ -725,7 +725,7 @@ export default function JobDetailPage() {
       {/* Review Modal */}
       {reviewModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
+          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
             <div className="text-center">
               <div className="w-12 h-12 rounded-2xl bg-[#fabf28]/20 text-[#fabf28] mx-auto flex items-center justify-center mb-2">
                 <Star className="w-6 h-6 fill-[#fabf28]" />

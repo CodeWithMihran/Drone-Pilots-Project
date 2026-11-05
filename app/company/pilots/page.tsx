@@ -50,7 +50,7 @@ export default function CompanyPilotsDirectoryPage() {
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
       
       {/* Header Banner */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
@@ -75,7 +75,7 @@ export default function CompanyPilotsDirectoryPage() {
       </div>
 
       {/* Search Bar */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-5 shadow-xs">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-5 shadow-xs">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -103,7 +103,7 @@ export default function CompanyPilotsDirectoryPage() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-6 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 animate-pulse h-56" />
+            <div key={i} className="p-6 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 animate-pulse h-56" />
           ))}
         </div>
       ) : pilots.length === 0 ? (
@@ -117,7 +117,7 @@ export default function CompanyPilotsDirectoryPage() {
           {pilots.map((pilot) => (
             <div
               key={pilot._id}
-              className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs flex flex-col justify-between hover:border-zinc-400 dark:hover:border-zinc-700 hover:shadow-md transition-all duration-200"
+              className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs flex flex-col justify-between hover:border-zinc-400 dark:hover:border-zinc-700 hover:shadow-md transition-all duration-200"
             >
               <div className="space-y-4">
                 <div className="flex items-start justify-between gap-3">

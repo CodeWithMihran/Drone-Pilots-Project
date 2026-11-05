@@ -237,7 +237,7 @@ export default function PilotProfileDetailPage() {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-md bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 text-foreground font-bold text-[11px] flex items-center justify-center">
+                            <div className="w-6 h-6 rounded-md bg-surface dark:bg-[#131720] border border-border dark:border-zinc-800 text-foreground font-bold text-[11px] flex items-center justify-center">
                               {rev.reviewerId?.name ? rev.reviewerId.name.charAt(0) : "C"}
                             </div>
                             <div>

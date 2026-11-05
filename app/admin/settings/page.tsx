@@ -20,7 +20,7 @@ export default function AdminSettingsPage() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
       {/* Header Banner */}
-      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#0c0c0e] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#131720] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
@@ -51,7 +51,7 @@ export default function AdminSettingsPage() {
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Aviation Regulatory Enforcement Card */}
-        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
           <div className="pb-4 border-b border-zinc-100 dark:border-zinc-800/80">
             <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
               <Shield className="w-4 h-4 text-[#fabf28]" />
@@ -96,7 +96,7 @@ export default function AdminSettingsPage() {
         </div>
 
         {/* Escrow & Financial Safeguards Card */}
-        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
           <div className="pb-4 border-b border-zinc-100 dark:border-zinc-800/80">
             <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
               <Lock className="w-4 h-4 text-[#fabf28]" />

@@ -24,7 +24,7 @@ export function LocationMapFallback({
   const lng = location?.longitude || -122.4194;
 
   return (
-    <div className="overflow-hidden rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs hover:border-zinc-350 dark:hover:border-zinc-700 transition-all duration-300">
+    <div className="overflow-hidden rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs hover:border-zinc-350 dark:hover:border-zinc-700 transition-all duration-300">
       {/* Architectural Map Header Canvas */}
       <div className="relative h-36 bg-[#faf8f5] dark:bg-zinc-900/60 p-4 flex flex-col justify-between border-b border-zinc-100 dark:border-zinc-800/80">
         <div className="relative z-10 flex items-center justify-between">

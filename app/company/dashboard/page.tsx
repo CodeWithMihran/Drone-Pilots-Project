@@ -114,7 +114,7 @@ export default function CompanyDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Bento Box 1: Company Project Management (Span 2) */}
-        <div className="lg:col-span-2 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
+        <div className="lg:col-span-2 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
@@ -154,7 +154,7 @@ export default function CompanyDashboardPage() {
         </div>
 
         {/* Bento Box 2: Total Escrow Disbursed (Span 1) */}
-        <div className="rounded-3xl bg-zinc-950 text-white dark:bg-[#121214] border border-zinc-850 p-7 sm:p-8 flex flex-col justify-between shadow-xs select-none">
+        <div className="rounded-3xl bg-zinc-950 text-white dark:bg-[#161b22] border border-zinc-850 p-7 sm:p-8 flex flex-col justify-between shadow-xs select-none">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-400">
@@ -190,7 +190,7 @@ export default function CompanyDashboardPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
         
         {/* Metric 1: Total Missions */}
-        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-mono font-bold uppercase tracking-wider">Total Briefs</span>
             <div className="w-8 h-8 rounded-full bg-[#fabf28]/15 text-[#fabf28] flex items-center justify-center">
@@ -206,7 +206,7 @@ export default function CompanyDashboardPage() {
         </div>
 
         {/* Metric 2: Open Missions */}
-        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-mono font-bold uppercase tracking-wider">Open Missions</span>
             <div className="w-8 h-8 rounded-full bg-emerald-500/15 text-emerald-500 flex items-center justify-center">
@@ -222,7 +222,7 @@ export default function CompanyDashboardPage() {
         </div>
 
         {/* Metric 3: Pilot Proposals */}
-        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-mono font-bold uppercase tracking-wider">Proposals</span>
             <div className="w-8 h-8 rounded-full bg-sky-500/15 text-sky-500 flex items-center justify-center">
@@ -238,7 +238,7 @@ export default function CompanyDashboardPage() {
         </div>
 
         {/* Metric 4: Active Flights */}
-        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-mono font-bold uppercase tracking-wider">Active Flights</span>
             <div className="w-8 h-8 rounded-full bg-amber-500/15 text-amber-500 flex items-center justify-center">
@@ -279,7 +279,7 @@ export default function CompanyDashboardPage() {
           </div>
 
           {myJobs.length === 0 ? (
-            <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-8 sm:p-10">
+            <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-8 sm:p-10">
               <EmptyState
                 icon={Briefcase}
                 title="No Mission Briefs Yet"
@@ -293,7 +293,7 @@ export default function CompanyDashboardPage() {
               {myJobs.slice(0, 5).map((job) => (
                 <div
                   key={job._id}
-                  className="p-6 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
+                  className="p-6 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
                 >
                   <div className="space-y-2 flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -342,7 +342,7 @@ export default function CompanyDashboardPage() {
 
         {/* Right (Span 1): Status Chart & Quick Links */}
         <div className="space-y-5">
-          <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-4">
+          <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-4">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
               PROJECTS BY STATUS
             </h3>
@@ -391,7 +391,7 @@ export default function CompanyDashboardPage() {
           </div>
 
           {/* Quick Actions Rail */}
-          <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-3">
+          <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-3">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
               QUICK SHORTCUTS
             </h3>

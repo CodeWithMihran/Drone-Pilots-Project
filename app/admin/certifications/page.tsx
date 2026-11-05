@@ -99,7 +99,7 @@ export default function AdminCertificationsPage() {
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
       
       {/* Header Banner */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
@@ -122,7 +122,7 @@ export default function AdminCertificationsPage() {
       </div>
 
       {/* Filter Tabs & Search Bar */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-5 shadow-xs space-y-4">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-5 shadow-xs space-y-4">
         <div className="flex flex-wrap gap-2 p-1.5 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
           {[
             { label: "Pending Verification", val: "PENDING" },
@@ -161,7 +161,7 @@ export default function AdminCertificationsPage() {
       </div>
 
       {/* Certifications Table */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs overflow-hidden">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs overflow-hidden">
         <div className="p-6 border-b border-border/80 dark:border-zinc-800 flex items-center justify-between">
           <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
             REVIEW QUEUE ({filtered.length})
@@ -300,7 +300,7 @@ export default function AdminCertificationsPage() {
       {/* Reject Modal */}
       {rejectModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#121214] border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5 text-foreground">
+          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#161b22] border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5 text-foreground">
             <div className="flex items-center justify-between pb-3 border-b border-border dark:border-zinc-800">
               <h3 className="text-base font-bold text-foreground flex items-center gap-2">
                 <XCircle className="w-4 h-4 text-rose-500" />

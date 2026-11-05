@@ -43,7 +43,7 @@ export default function PilotReviewsPage() {
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
       
       {/* Header Banner */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
@@ -66,7 +66,7 @@ export default function PilotReviewsPage() {
       </div>
 
       {/* Overview Card */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="flex items-center gap-6">
           <div className="text-4xl sm:text-5xl font-extrabold text-foreground font-sans">
             {averageRating.toFixed(1)}
@@ -93,7 +93,7 @@ export default function PilotReviewsPage() {
         {loading ? (
           <div className="space-y-3">
             {[1, 2].map((i) => (
-              <div key={i} className="h-28 bg-white dark:bg-[#121214] rounded-3xl border border-border/80 dark:border-zinc-800 animate-pulse" />
+              <div key={i} className="h-28 bg-white dark:bg-[#161b22] rounded-3xl border border-border/80 dark:border-zinc-800 animate-pulse" />
             ))}
           </div>
         ) : reviews.length === 0 ? (
@@ -106,7 +106,7 @@ export default function PilotReviewsPage() {
           reviews.map((rev) => (
             <div
               key={rev._id}
-              className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 space-y-3"
+              className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 space-y-3"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-3">

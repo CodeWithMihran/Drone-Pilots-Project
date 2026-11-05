@@ -81,7 +81,7 @@ function JobsMarketplaceContent() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-fade-in">
       {/* Header Banner */}
-      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#0c0c0e] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#131720] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
@@ -130,7 +130,7 @@ function JobsMarketplaceContent() {
                 "px-4 py-2 rounded-full border text-xs font-semibold whitespace-nowrap transition-all duration-150 " +
                 (isActive
                   ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 border-zinc-950 dark:border-white shadow-xs"
-                  : "bg-white dark:bg-[#121214] border-zinc-200/90 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:border-zinc-350 dark:hover:border-zinc-700")
+                  : "bg-white dark:bg-[#161b22] border-zinc-200/90 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:border-zinc-350 dark:hover:border-zinc-700")
               }
             >
               {pill.label}
@@ -140,7 +140,7 @@ function JobsMarketplaceContent() {
       </div>
 
       {/* Search Bar Card */}
-      <div className="p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs">
+      <div className="p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs">
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-3">
           <div className="sm:col-span-5 relative">
             <Search className="w-4 h-4 text-muted-foreground absolute left-4 top-3.5" />
@@ -205,7 +205,7 @@ function JobsMarketplaceContent() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Filters Sidebar */}
         <div className="hidden lg:block lg:col-span-1 space-y-6">
-          <div className="p-6 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 space-y-5 shadow-xs">
+          <div className="p-6 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 space-y-5 shadow-xs">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800/80">
               <h3 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
                 <SlidersHorizontal className="w-4 h-4 text-[#fabf28]" />
@@ -314,7 +314,7 @@ function JobsMarketplaceContent() {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="p-7 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 animate-pulse space-y-3"
+                  className="p-7 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 animate-pulse space-y-3"
                 >
                   <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-1/3"></div>
                   <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2"></div>
@@ -334,7 +334,7 @@ function JobsMarketplaceContent() {
             jobs.map((job) => (
               <div
                 key={job._id}
-                className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs hover:border-zinc-350 dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300 group relative"
+                className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs hover:border-zinc-350 dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300 group relative"
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="space-y-2 flex-1 min-w-0">
@@ -418,7 +418,7 @@ function JobsMarketplaceContent() {
 
 export default function JobsMarketplacePage() {
   return (
-    <div className="flex-1 bg-[#faf8f5] dark:bg-[#070709] py-10 sm:py-16 transition-colors duration-150">
+    <div className="flex-1 bg-[#faf8f5] dark:bg-[#0d1117] py-10 sm:py-16 transition-colors duration-150">
       <Suspense fallback={<div className="text-foreground text-xs max-w-7xl mx-auto px-4 font-mono">Loading missions marketplace...</div>}>
         <JobsMarketplaceContent />
       </Suspense>

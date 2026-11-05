@@ -134,7 +134,7 @@ export default function PilotProfileEditPage() {
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
       
       {/* Header Banner */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
@@ -176,7 +176,7 @@ export default function PilotProfileEditPage() {
       <form onSubmit={handleSave} className="space-y-6">
         
         {/* Personal & Contact Information */}
-        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
           <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
             <User className="w-4 h-4 text-[#fabf28]" />
             Personal & Contact Information
@@ -236,7 +236,7 @@ export default function PilotProfileEditPage() {
         </div>
 
         {/* Operational & Pricing Details */}
-        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
           <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
             <Award className="w-4 h-4 text-[#fabf28]" />
             Flight Experience & Rate
@@ -296,7 +296,7 @@ export default function PilotProfileEditPage() {
         </div>
 
         {/* Drone Equipment Fleet */}
-        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
           <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
             <Plane className="w-4 h-4 text-[#fabf28]" />
             Drone Fleet & Payload Sensors
@@ -350,7 +350,7 @@ export default function PilotProfileEditPage() {
         </div>
 
         {/* Specializations & Skills */}
-        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
           <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
             <Layers className="w-4 h-4 text-[#fabf28]" />
             Specializations & Technical Skills

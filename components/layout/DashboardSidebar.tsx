@@ -75,9 +75,9 @@ export function DashboardSidebar({ role }: { role: "PILOT" | "COMPANY" | "ADMIN"
   const items = role === "PILOT" ? pilotNav : role === "COMPANY" ? companyNav : adminNav;
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#faf8f5]/80 dark:bg-[#070709]/95 border-r border-border/80 dark:border-zinc-850 p-5 transition-colors">
+    <div className="flex flex-col h-full bg-[#faf8f5]/80 dark:bg-[#0d1117]/95 border-r border-border/80 dark:border-zinc-850 p-5 transition-colors">
       {/* User Badge Info Card */}
-      <div className="mb-6 p-4 rounded-2xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800/90 shadow-2xs">
+      <div className="mb-6 p-4 rounded-2xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800/90 shadow-2xs">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-zinc-950 dark:bg-zinc-850 text-[#fabf28] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
             {session?.user?.name ? session.user.name.charAt(0).toUpperCase() : "U"}

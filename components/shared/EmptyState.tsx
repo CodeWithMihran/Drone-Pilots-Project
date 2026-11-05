@@ -21,7 +21,7 @@ export function EmptyState({
   onAction,
 }: EmptyStateProps) {
   return (
-    <div className="py-16 px-6 text-center rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 my-4 flex flex-col items-center justify-center shadow-xs transition-colors">
+    <div className="py-16 px-6 text-center rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 my-4 flex flex-col items-center justify-center shadow-xs transition-colors">
       <div className="w-14 h-14 rounded-2xl bg-[#fabf28]/15 border border-[#fabf28]/30 flex items-center justify-center text-[#fabf28] mb-4 shadow-2xs">
         <Icon className="w-6 h-6 stroke-[1.8]" />
       </div>

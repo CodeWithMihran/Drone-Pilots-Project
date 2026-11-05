@@ -41,7 +41,7 @@ export function StatCard({
   return (
     <div
       className={cn(
-        "p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-200 group flex flex-col justify-between select-none",
+        "p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-200 group flex flex-col justify-between select-none",
         className
       )}
       {...props}

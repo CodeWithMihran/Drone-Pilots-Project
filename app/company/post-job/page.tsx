@@ -117,7 +117,7 @@ export default function CompanyPostJobPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-8 py-2 animate-fade-in">
       {/* Header Banner */}
-      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#0c0c0e] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#131720] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
@@ -148,7 +148,7 @@ export default function CompanyPostJobPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Project Overview Card */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
             <Briefcase className="w-4 h-4 text-primary" />
             Project Scope & Classification
@@ -227,7 +227,7 @@ export default function CompanyPostJobPage() {
         </div>
 
         {/* Location & Scheduling */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
             <MapPin className="w-4 h-4 text-primary" />
             Location & Flight Schedule
@@ -336,7 +336,7 @@ export default function CompanyPostJobPage() {
         </div>
 
         {/* Requirements & Hardware Payloads */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-success" />
             Pilot Certification & Equipment Prerequisites

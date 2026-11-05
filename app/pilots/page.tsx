@@ -61,7 +61,7 @@ export default function PilotsDirectoryPage() {
     <div className="flex-1 bg-background text-foreground py-10 sm:py-16 transition-colors animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header */}
-        <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#0c0c0e] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#131720] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
@@ -116,7 +116,7 @@ export default function PilotsDirectoryPage() {
         </div>
 
         {/* Search Bar */}
-        <div className="rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 p-5 shadow-xs">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 p-5 shadow-xs">
           <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center gap-3">
             <div className="relative flex-1 w-full">
               <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
@@ -152,7 +152,7 @@ export default function PilotsDirectoryPage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-64 rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 animate-pulse" />
+              <div key={i} className="h-64 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 animate-pulse" />
             ))}
           </div>
         ) : pilots.length === 0 ? (
@@ -175,7 +175,7 @@ export default function PilotsDirectoryPage() {
               return (
                 <div
                   key={pilot._id}
-                  className="rounded-3xl bg-white dark:bg-[#121214] border border-zinc-200/90 dark:border-zinc-800 hover:border-border-strong dark:hover:border-zinc-700 shadow-xs hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group"
+                  className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 hover:border-border-strong dark:hover:border-zinc-700 shadow-xs hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group"
                 >
                   <div className="p-6 sm:p-7 space-y-4">
                     <div className="flex items-start justify-between gap-3">

@@ -57,7 +57,7 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-[#faf8f5]/90 dark:bg-[#070709]/90 backdrop-blur-md transition-colors">
+    <header className="sticky top-0 z-50 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-[#faf8f5]/90 dark:bg-[#0d1117]/90 backdrop-blur-md transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between">
         
         {/* Brand Logo */}
@@ -121,7 +121,7 @@ export function Navbar() {
                 </button>
 
                 {profileDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-[#121214] border border-zinc-200 dark:border-zinc-800 shadow-xl py-2 z-50 animate-fade-in text-foreground">
+                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-[#161b22] border border-zinc-200 dark:border-zinc-800 shadow-xl py-2 z-50 animate-fade-in text-foreground">
                     <div className="px-4 py-2.5 border-b border-zinc-100 dark:border-zinc-800">
                       <p className="text-xs font-semibold text-foreground">{session.user?.name}</p>
                       <p className="text-[11px] text-muted-foreground truncate">{session.user?.email}</p>
@@ -208,7 +208,7 @@ export function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-zinc-200 dark:border-zinc-800 bg-[#faf8f5] dark:bg-[#0c0c0e] px-4 pt-3 pb-6 space-y-3 animate-fade-in">
+        <div className="md:hidden border-b border-zinc-200 dark:border-zinc-800 bg-[#faf8f5] dark:bg-[#131720] px-4 pt-3 pb-6 space-y-3 animate-fade-in">
           <nav className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <Link

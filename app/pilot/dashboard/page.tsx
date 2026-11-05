@@ -129,7 +129,7 @@ export default function PilotDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Bento Tile 1: Pilot Status & Mission Readiness (Span 2) */}
-        <div className="lg:col-span-2 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
+        <div className="lg:col-span-2 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
@@ -198,7 +198,7 @@ export default function PilotDashboardPage() {
         </div>
 
         {/* Bento Tile 2: Escrow Earnings (Span 1) */}
-        <div className="rounded-3xl bg-zinc-950 text-white dark:bg-[#121214] border border-zinc-850 p-7 sm:p-8 flex flex-col justify-between shadow-xs select-none">
+        <div className="rounded-3xl bg-zinc-950 text-white dark:bg-[#161b22] border border-zinc-850 p-7 sm:p-8 flex flex-col justify-between shadow-xs select-none">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-400">
@@ -238,7 +238,7 @@ export default function PilotDashboardPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
         
         {/* Metric 1 */}
-        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-mono font-bold uppercase tracking-wider">Open Missions</span>
             <div className="w-8 h-8 rounded-full bg-[#fabf28]/15 text-[#fabf28] flex items-center justify-center">
@@ -254,7 +254,7 @@ export default function PilotDashboardPage() {
         </div>
 
         {/* Metric 2 */}
-        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-mono font-bold uppercase tracking-wider">Submitted Bids</span>
             <div className="w-8 h-8 rounded-full bg-sky-500/15 text-sky-500 flex items-center justify-center">
@@ -270,7 +270,7 @@ export default function PilotDashboardPage() {
         </div>
 
         {/* Metric 3 */}
-        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-mono font-bold uppercase tracking-wider">Active Flights</span>
             <div className="w-8 h-8 rounded-full bg-amber-500/15 text-amber-500 flex items-center justify-center">
@@ -288,7 +288,7 @@ export default function PilotDashboardPage() {
         </div>
 
         {/* Metric 4 */}
-        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+        <div className="p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-mono font-bold uppercase tracking-wider">Client Rating</span>
             <div className="w-8 h-8 rounded-full bg-[#fabf28]/15 text-[#fabf28] flex items-center justify-center">
@@ -328,7 +328,7 @@ export default function PilotDashboardPage() {
             {activeProjects.map((proj) => (
               <div
                 key={proj._id}
-                className="p-7 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200"
+                className="p-7 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200"
               >
                 <div>
                   <div className="flex justify-between items-start gap-2 mb-3">
@@ -388,7 +388,7 @@ export default function PilotDashboardPage() {
           </div>
 
           {matchingJobs.length === 0 ? (
-            <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-8">
+            <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-8">
               <EmptyState
                 icon={Briefcase}
                 title="No Open Tenders Currently"
@@ -402,7 +402,7 @@ export default function PilotDashboardPage() {
               {matchingJobs.map((job) => (
                 <div
                   key={job._id}
-                  className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-5 group"
+                  className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-5 group"
                 >
                   <div className="space-y-2 flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -451,7 +451,7 @@ export default function PilotDashboardPage() {
 
         {/* Right Column (Span 1): Compliance & Actions */}
         <div className="space-y-5">
-          <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-5">
+          <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-5">
             <div className="flex items-center justify-between">
               <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
                 FLIGHT COMPLIANCE
@@ -499,7 +499,7 @@ export default function PilotDashboardPage() {
           </div>
 
           {/* Quick Links Card */}
-          <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-4">
+          <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-4">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
               QUICK SHORTCUTS
             </h3>

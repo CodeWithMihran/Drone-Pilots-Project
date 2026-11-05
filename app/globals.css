@@ -55,17 +55,17 @@
 }
 
 .dark {
-  /* DARK MODE - The Obsidian & Gold Aerospace Theme */
-  --bg: #070709;
-  --surface: #0e0e11;
-  --surface-2: #16161b;
+  /* DARK MODE - Modern Deep Carbon / Slate Theme (Easy on eyes, premium depth) */
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-2: #212631;
   
-  --border: #222228;
-  --border-strong: #33333c;
+  --border: #272f3d;
+  --border-strong: #364154;
   
-  --text: #f4f4f5;
-  --text-muted: #a1a1aa;
-  --text-subtle: #71717a;
+  --text: #f0f3f6;
+  --text-muted: #9aa4b2;
+  --text-subtle: #6e7683;
   
   --primary: #fabf28;
   --primary-hover: #fcd34d;
@@ -110,13 +110,13 @@ body {
 }
 
 .dark body {
-  background-color: #000000;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-color: var(--bg);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 ::selection {
-  background: rgba(31, 168, 184, 0.28);
+  background: rgba(250, 191, 40, 0.28);
   color: var(--text);
 }
 
@@ -147,8 +147,8 @@ body {
 }
 
 .dark .bento-card {
-  background-color: rgba(9, 9, 11, 0.9);
-  border-color: rgba(39, 39, 42, 0.8);
+  background-color: rgba(22, 27, 34, 0.9);
+  border-color: rgba(39, 47, 61, 0.8);
 }
 
 .bento-card:hover {
@@ -157,5 +157,5 @@ body {
 }
 
 .dark .bento-card:hover {
-  border-color: rgba(63, 63, 70, 0.9);
+  border-color: rgba(54, 65, 84, 0.9);
 }

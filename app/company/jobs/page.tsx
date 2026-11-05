@@ -65,7 +65,7 @@ export default function CompanyMyJobsPage() {
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
       
       {/* Header Banner */}
-      <div className="rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
@@ -116,7 +116,7 @@ export default function CompanyMyJobsPage() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-7 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs animate-pulse h-36" />
+            <div key={i} className="p-7 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs animate-pulse h-36" />
           ))}
         </div>
       ) : jobs.length === 0 ? (
@@ -132,7 +132,7 @@ export default function CompanyMyJobsPage() {
           {jobs.map((job) => (
             <div
               key={job._id}
-              className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121214] border border-border/80 dark:border-zinc-800 shadow-xs space-y-5 hover:border-zinc-400 dark:hover:border-zinc-700 hover:shadow-md transition-all duration-200"
+              className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs space-y-5 hover:border-zinc-400 dark:hover:border-zinc-700 hover:shadow-md transition-all duration-200"
             >
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
                 <div className="space-y-2 flex-1 min-w-0">
