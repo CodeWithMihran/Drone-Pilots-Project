@@ -189,7 +189,7 @@ export default function LandingPage() {
       id: "FILM_PRODUCTION",
       title: "Film & Production",
       icon: Film,
-      bgImage: "https://images.unsplash.com/photo-1477959858617-67f30bc75b82?auto=format&fit=crop&w=800&q=80",
+      bgImage: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80",
       href: "/jobs?service=AERIAL_PHOTOGRAPHY",
     },
     {
@@ -210,7 +210,7 @@ export default function LandingPage() {
       id: "INFRASTRUCTURE_INSPECTION",
       title: "Inspection",
       icon: Compass,
-      bgImage: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80",
+      bgImage: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
       href: "/jobs?service=INFRASTRUCTURE_INSPECTION",
     },
     {
@@ -386,7 +386,7 @@ export default function LandingPage() {
 
       {/* Reference Section: Find pilots for every shoot */}
       <ScrollSection id="services" className="py-16 sm:py-24 bg-background border-b border-border dark:border-zinc-800 transition-colors">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           
           {/* Section Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
@@ -403,14 +403,14 @@ export default function LandingPage() {
           </div>
 
           {/* 8-Card Grid: 7 Visual Image Cards + 1 Yellow Custom Brief Card */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-7">
             {categories.map((cat, idx) => {
               const Icon = cat.icon;
               return (
                 <ScrollCard key={cat.title} delay={(idx % 4) * 80}>
                   <Link
                     href={cat.href}
-                    className="group relative h-80 sm:h-[360px] lg:h-[390px] rounded-3xl overflow-hidden shadow-xs hover:shadow-2xl transition-all duration-300 flex flex-col justify-end p-6 select-none block w-full"
+                    className="group relative h-[360px] sm:h-[420px] md:h-[460px] lg:h-[480px] xl:h-[500px] rounded-[28px] overflow-hidden shadow-xs hover:shadow-2xl transition-all duration-300 flex flex-col justify-end p-6 sm:p-7 lg:p-8 select-none block w-full"
                   >
                     {/* Photo Background with subtle scale zoom */}
                     <div
@@ -424,10 +424,10 @@ export default function LandingPage() {
 
                     {/* Content Pill at Bottom */}
                     <div className="relative z-10 flex items-center gap-2.5 text-white">
-                      <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 group-hover:border-white/50 group-hover:scale-105 transition-all">
-                        <Icon className="w-4 h-4" />
+                      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/45 backdrop-blur-md border border-white/25 flex items-center justify-center text-white/90 group-hover:border-white/50 group-hover:scale-105 transition-all shrink-0">
+                        <Icon className="w-4.5 h-4.5" />
                       </div>
-                      <span className="text-base sm:text-[17px] font-bold tracking-tight text-white drop-shadow-sm">
+                      <span className="text-base sm:text-lg lg:text-xl font-bold tracking-tight text-white drop-shadow-sm">
                         {cat.title}
                       </span>
                     </div>
@@ -440,7 +440,7 @@ export default function LandingPage() {
             <ScrollCard delay={3 * 80}>
               <Link
                 href="/company/post-job"
-                className="group relative h-80 sm:h-[360px] lg:h-[390px] rounded-3xl overflow-hidden bg-[#fabf28] text-zinc-950 p-7 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:brightness-105 shadow-xs select-none block w-full"
+                className="group relative h-[360px] sm:h-[420px] md:h-[460px] lg:h-[480px] xl:h-[500px] rounded-[28px] overflow-hidden bg-[#fabf28] text-zinc-950 p-7 sm:p-8 lg:p-9 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:brightness-105 shadow-xs select-none block w-full"
               >
                 {/* Top 'NOT SURE?' Tag */}
                 <div>
