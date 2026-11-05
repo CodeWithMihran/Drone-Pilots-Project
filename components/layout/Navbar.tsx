@@ -68,7 +68,7 @@ export function Navbar() {
     { name: "Find Pilots", href: "/pilots" },
     { name: "Browse Jobs", href: "/jobs" },
     { name: "How It Works", href: "/#how-it-works" },
-    { name: "Why AeroLink", href: "/#services" },
+    { name: "Why AeroLink", href: "/#why-aerolink" },
   ];
 
   return (

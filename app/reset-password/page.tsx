@@ -168,10 +168,15 @@ function ResetPasswordForm() {
       const emailToSync = data?.user?.email || userEmail;
       if (emailToSync) {
         try {
+          const { data: sessionData } = await supabase.auth.getSession();
+          const accessToken = sessionData?.session?.access_token;
           await fetch("/api/auth/reset-password", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: emailToSync, password }),
+            headers: {
+              "Content-Type": "application/json",
+              ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+            },
+            body: JSON.stringify({ email: emailToSync, password, accessToken }),
           });
         } catch (syncErr) {
           console.warn("MongoDB password sync notice:", syncErr);

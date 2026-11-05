@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -14,6 +15,9 @@ export async function GET(
   try {
     await connectToDatabase();
     const { id } = params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Company not found" }, { status: 404 });
+    }
 
     const user = await User.findOne({ _id: id, role: "COMPANY" })
       .select("-passwordHash")

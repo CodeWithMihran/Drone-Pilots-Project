@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     const city = (searchParams.get("city") || "").trim();
     const verifiedOnly = searchParams.get("verified") === "true";
     const serviceType = (searchParams.get("service") || "").trim();
-    const limit = parseInt(searchParams.get("limit") || "6", 10);
+    const limit = parseInt(searchParams.get("limit") || "50", 10);
 
     // Build user query for active pilots
     const userQuery: any = { role: "PILOT", status: "ACTIVE" };
@@ -129,7 +129,7 @@ export async function GET(req: NextRequest) {
       ? results.filter((p) => p.isVerified)
       : results;
 
-    // Apply maximum 6 limit
+    // Apply limit
     const finalResults = filteredResults.slice(0, limit);
 
     return NextResponse.json({

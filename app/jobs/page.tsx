@@ -60,6 +60,13 @@ function JobsMarketplaceContent() {
   };
 
   useEffect(() => {
+    const s = searchParams.get("service") || "";
+    if (s !== serviceType) {
+      setServiceType(s);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     fetchJobs();
   }, [serviceType]);
 

@@ -287,6 +287,7 @@ export default function CompanyPostJobPage() {
                 id="job-date-input"
                 type="date"
                 required
+                min={new Date().toISOString().split("T")[0]}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28] transition-colors"
@@ -328,6 +329,7 @@ export default function CompanyPostJobPage() {
               id="job-deadline-input"
               type="date"
               required
+              min={new Date().toISOString().split("T")[0]}
               value={applicationDeadline}
               onChange={(e) => setApplicationDeadline(e.target.value)}
               className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28] transition-colors"

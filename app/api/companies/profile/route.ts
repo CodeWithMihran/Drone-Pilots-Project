@@ -7,6 +7,23 @@ import { User } from "@/models/User";
 import { CompanyProfile } from "@/models/CompanyProfile";
 import { CompanyProfileSchema } from "@/lib/validations";
 
+export async function GET() {
+  try {
+    const auth = await requireRole(["COMPANY"]);
+    if (auth.errorResponse) return auth.errorResponse;
+
+    await connectToDatabase();
+    const user = await User.findById(auth.user.id).select("-passwordHash").lean();
+    if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+
+    const profile = await CompanyProfile.findOne({ userId: auth.user.id }).lean();
+    return NextResponse.json({ user, profile });
+  } catch (error: any) {
+    console.error("Get company profile error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
 export async function PUT(req: NextRequest) {
   try {
     const auth = await requireRole(["COMPANY"]);
