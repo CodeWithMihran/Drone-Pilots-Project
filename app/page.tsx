@@ -47,7 +47,114 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Footer } from "@/components/layout/Footer";
+import { cn } from "@/lib/utils";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
+
+
+/**
+ * Smooth emerging scroll section component.
+ * Animates into view smoothly when scrolled down, and repeats on scroll up.
+ */
+function ScrollSection({
+  children,
+  className = "",
+  id,
+  initialVisible = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+  initialVisible?: boolean;
+}) {
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = React.useState(initialVisible);
+
+  React.useEffect(() => {
+    const element = sectionRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.05,
+        rootMargin: "0px 0px -40px 0px",
+      }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      id={id}
+      ref={sectionRef}
+      className={cn(
+        "relative w-full transition-all duration-700 ease-out will-change-[transform,opacity]",
+        isVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-8",
+        className
+      )}
+    >
+      {children}
+    </section>
+  );
+}
+
+/**
+ * Staggered emerging card component for grid items.
+ */
+function ScrollCard({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const element = cardRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.05,
+        rootMargin: "0px 0px -30px 0px",
+      }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      className={cn(
+        "transition-all duration-700 ease-out will-change-[transform,opacity] h-full",
+        isVisible
+          ? "opacity-100 translate-y-0 scale-100"
+          : "opacity-0 translate-y-7 scale-[0.98]",
+        className
+      )}
+      style={{
+        transitionDelay: isVisible ? `${delay}ms` : "0ms",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -159,7 +266,7 @@ export default function LandingPage() {
     <div className="flex-1 flex flex-col bg-background text-foreground transition-colors duration-150">
       
       {/* Split-Screen Hero Section (Text Left, Video Right) */}
-      <section className="relative pt-12 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28 border-b border-border dark:border-zinc-800 overflow-hidden">
+      <ScrollSection initialVisible={true} className="relative pt-12 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28 border-b border-border dark:border-zinc-800 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             
@@ -275,10 +382,10 @@ export default function LandingPage() {
 
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
       {/* Reference Section: Find pilots for every shoot */}
-      <section id="services" className="py-16 sm:py-24 bg-background border-b border-border dark:border-zinc-800 transition-colors">
+      <ScrollSection id="services" className="py-16 sm:py-24 bg-background border-b border-border dark:border-zinc-800 transition-colors">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
           
           {/* Section Header */}
@@ -297,73 +404,76 @@ export default function LandingPage() {
 
           {/* 8-Card Grid: 7 Visual Image Cards + 1 Yellow Custom Brief Card */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
-            {categories.map((cat) => {
+            {categories.map((cat, idx) => {
               const Icon = cat.icon;
               return (
-                <Link
-                  key={cat.title}
-                  href={cat.href}
-                  className="group relative h-80 sm:h-[360px] lg:h-[390px] rounded-3xl overflow-hidden shadow-xs hover:shadow-2xl transition-all duration-300 flex flex-col justify-end p-6 select-none"
-                >
-                  {/* Photo Background with subtle scale zoom */}
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
-                    style={{ backgroundImage: `url(${cat.bgImage})` }}
-                  />
-                  
-                  {/* Cinematic dark scrim overlays for text readability in both dark and light themes */}
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                <ScrollCard key={cat.title} delay={(idx % 4) * 80}>
+                  <Link
+                    href={cat.href}
+                    className="group relative h-80 sm:h-[360px] lg:h-[390px] rounded-3xl overflow-hidden shadow-xs hover:shadow-2xl transition-all duration-300 flex flex-col justify-end p-6 select-none block w-full"
+                  >
+                    {/* Photo Background with subtle scale zoom */}
+                    <div
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
+                      style={{ backgroundImage: `url(${cat.bgImage})` }}
+                    />
+                    
+                    {/* Cinematic dark scrim overlays for text readability in both dark and light themes */}
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
-                  {/* Content Pill at Bottom */}
-                  <div className="relative z-10 flex items-center gap-2.5 text-white">
-                    <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 group-hover:border-white/50 group-hover:scale-105 transition-all">
-                      <Icon className="w-4 h-4" />
+                    {/* Content Pill at Bottom */}
+                    <div className="relative z-10 flex items-center gap-2.5 text-white">
+                      <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/90 group-hover:border-white/50 group-hover:scale-105 transition-all">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="text-base sm:text-[17px] font-bold tracking-tight text-white drop-shadow-sm">
+                        {cat.title}
+                      </span>
                     </div>
-                    <span className="text-base sm:text-[17px] font-bold tracking-tight text-white drop-shadow-sm">
-                      {cat.title}
-                    </span>
-                  </div>
-                </Link>
+                  </Link>
+                </ScrollCard>
               );
             })}
 
             {/* 8th Card: Bold Yellow 'Post a custom brief' Card matching the reference exactly */}
-            <Link
-              href="/company/post-job"
-              className="group relative h-80 sm:h-[360px] lg:h-[390px] rounded-3xl overflow-hidden bg-[#fabf28] text-zinc-950 p-7 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:brightness-105 shadow-xs select-none"
-            >
-              {/* Top 'NOT SURE?' Tag */}
-              <div>
-                <span className="inline-block px-3 py-1 rounded-full bg-black/10 text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-950 border border-black/10">
-                  NOT SURE?
-                </span>
-              </div>
-
-              {/* Bottom Content & Arrow */}
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold tracking-tight text-zinc-950 leading-tight">
-                    Post a custom brief
-                  </h3>
-                  <p className="text-sm text-zinc-850 leading-relaxed font-medium">
-                    Describe your shoot or mission. We&apos;ll match verified pilots in 2 hours.
-                  </p>
+            <ScrollCard delay={3 * 80}>
+              <Link
+                href="/company/post-job"
+                className="group relative h-80 sm:h-[360px] lg:h-[390px] rounded-3xl overflow-hidden bg-[#fabf28] text-zinc-950 p-7 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:brightness-105 shadow-xs select-none block w-full"
+              >
+                {/* Top 'NOT SURE?' Tag */}
+                <div>
+                  <span className="inline-block px-3 py-1 rounded-full bg-black/10 text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-950 border border-black/10">
+                    NOT SURE?
+                  </span>
                 </div>
 
-                <div className="inline-flex items-center gap-2 text-xs font-bold text-zinc-950 pt-1 group-hover:gap-2.5 transition-all">
-                  <span>Start brief</span>
-                  <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                {/* Bottom Content & Arrow */}
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold tracking-tight text-zinc-950 leading-tight">
+                      Post a custom brief
+                    </h3>
+                    <p className="text-sm text-zinc-850 leading-relaxed font-medium">
+                      Describe your shoot or mission. We&apos;ll match verified pilots in 2 hours.
+                    </p>
+                  </div>
+
+                  <div className="inline-flex items-center gap-2 text-xs font-bold text-zinc-950 pt-1 group-hover:gap-2.5 transition-all">
+                    <span>Start brief</span>
+                    <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </ScrollCard>
           </div>
 
         </div>
-      </section>
+      </ScrollSection>
 
       {/* How it works - Two paths, one platform */}
-      <section id="how-it-works" className="py-20 sm:py-28 bg-background border-b border-border dark:border-zinc-800 transition-colors">
+      <ScrollSection id="how-it-works" className="py-20 sm:py-28 bg-background border-b border-border dark:border-zinc-800 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Section Header */}
@@ -386,7 +496,8 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
             
             {/* Left Card: FOR CLIENTS (Bold Pilotbase Yellow Theme) */}
-            <div className="rounded-3xl bg-[#fabf28] text-zinc-950 p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none">
+            <ScrollCard delay={80}>
+            <div className="rounded-3xl bg-[#fabf28] text-zinc-950 p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none h-full">
               <div>
                 <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-zinc-800 block mb-2">
                   FOR CLIENTS
@@ -484,9 +595,11 @@ export default function LandingPage() {
                 </Link>
               </div>
             </div>
+            </ScrollCard>
 
             {/* Right Card: FOR PILOTS (Pitch Obsidian Charcoal Theme) */}
-            <div className="rounded-3xl bg-[#111111] dark:bg-[#161b22] border border-zinc-800/80 text-white p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none">
+            <ScrollCard delay={160}>
+            <div className="rounded-3xl bg-[#111111] dark:bg-[#161b22] border border-zinc-800/80 text-white p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none h-full">
               <div>
                 <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-zinc-400 block mb-2">
                   FOR PILOTS
@@ -584,14 +697,15 @@ export default function LandingPage() {
                 </Link>
               </div>
             </div>
+            </ScrollCard>
 
           </div>
 
         </div>
-      </section>
+      </ScrollSection>
 
       {/* Why AeroLink / Core Value Proposition */}
-      <section className="py-20 sm:py-28 bg-background border-b border-border/80 dark:border-zinc-850">
+      <ScrollSection id="why-aerolink" className="py-20 sm:py-28 bg-background border-b border-border/80 dark:border-zinc-850">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
             
@@ -651,66 +765,74 @@ export default function LandingPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 
                 {/* Card 1: Verified & insured */}
-                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#161b22] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
-                  <div className="mb-4 text-[#fabf28]">
-                    <ShieldCheck className="w-6 h-6 stroke-[1.8]" />
+                <ScrollCard delay={60}>
+                  <div className="rounded-3xl border border-border/80 dark:border-zinc-800 bg-white dark:bg-[#161b22] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start h-full">
+                    <div className="mb-4 text-[#fabf28]">
+                      <ShieldCheck className="w-6 h-6 stroke-[1.8]" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
+                      Verified & insured
+                    </h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
+                      Every pilot is DGCA-aware, ID-verified, and insurance-backed.
+                    </p>
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
-                    Verified & insured
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
-                    Every pilot is DGCA-aware, ID-verified, and insurance-backed.
-                  </p>
-                </div>
+                </ScrollCard>
 
                 {/* Card 2: Fast matching */}
-                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#161b22] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
-                  <div className="mb-4 text-[#fabf28]">
-                    <Zap className="w-6 h-6 stroke-[1.8]" />
+                <ScrollCard delay={120}>
+                  <div className="rounded-3xl border border-border/80 dark:border-zinc-800 bg-white dark:bg-[#161b22] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start h-full">
+                    <div className="mb-4 text-[#fabf28]">
+                      <Zap className="w-6 h-6 stroke-[1.8]" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
+                      Fast matching
+                    </h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
+                      AI-matched to your brief in minutes, not days.
+                    </p>
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
-                    Fast matching
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
-                    AI-matched to your brief in minutes, not days.
-                  </p>
-                </div>
+                </ScrollCard>
 
                 {/* Card 3: Transparent pricing */}
-                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#161b22] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
-                  <div className="mb-4 text-[#fabf28]">
-                    <Wallet className="w-6 h-6 stroke-[1.8]" />
+                <ScrollCard delay={180}>
+                  <div className="rounded-3xl border border-border/80 dark:border-zinc-800 bg-white dark:bg-[#161b22] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start h-full">
+                    <div className="mb-4 text-[#fabf28]">
+                      <Wallet className="w-6 h-6 stroke-[1.8]" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
+                      Transparent pricing
+                    </h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
+                      Flat day rates, milestone escrow, zero surprises.
+                    </p>
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
-                    Transparent pricing
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
-                    Flat day rates, milestone escrow, zero surprises.
-                  </p>
-                </div>
+                </ScrollCard>
 
                 {/* Card 4: Concierge support */}
-                <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-[#161b22] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start">
-                  <div className="mb-4 text-[#fabf28]">
-                    <Headphones className="w-6 h-6 stroke-[1.8]" />
+                <ScrollCard delay={240}>
+                  <div className="rounded-3xl border border-border/80 dark:border-zinc-800 bg-white dark:bg-[#161b22] p-7 sm:p-8 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-200 flex flex-col justify-start h-full">
+                    <div className="mb-4 text-[#fabf28]">
+                      <Headphones className="w-6 h-6 stroke-[1.8]" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
+                      Concierge support
+                    </h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
+                      A real human producer on every booking.
+                    </p>
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground leading-snug">
-                    Concierge support
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-2">
-                    A real human producer on every booking.
-                  </p>
-                </div>
+                </ScrollCard>
 
               </div>
             </div>
 
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
       {/* FAQ Section with Pilotbase Design Aesthetic */}
-      <section className="py-20 sm:py-28 bg-background dark:bg-[#0d1117] border-b border-border dark:border-zinc-800">
+      <ScrollSection id="faq" className="py-20 sm:py-28 bg-background dark:bg-[#0d1117] border-b border-border dark:border-zinc-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Section Header */}
@@ -824,10 +946,10 @@ export default function LandingPage() {
           </div>
 
         </div>
-      </section>
+      </ScrollSection>
 
       {/* Call to Action Section (Pilotbase Style) */}
-      <section className="py-20 sm:py-28 bg-background border-b border-border/80 dark:border-zinc-800">
+      <ScrollSection id="get-started" className="py-20 sm:py-28 bg-background border-b border-border/80 dark:border-zinc-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
@@ -856,7 +978,7 @@ export default function LandingPage() {
             </Button>
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
       <Footer />
     </div>
