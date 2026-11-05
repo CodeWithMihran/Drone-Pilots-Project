@@ -17,7 +17,7 @@ export function ThemeToggle({ className }: { className?: string }) {
     return (
       <div
         className={cn(
-          "w-9 h-9 rounded-control border border-border bg-surface flex items-center justify-center opacity-60",
+          "w-9 h-9 rounded-full border border-zinc-200/90 dark:border-zinc-800 bg-[#faf8f5] dark:bg-zinc-900 flex items-center justify-center opacity-60",
           className
         )}
         aria-hidden="true"
@@ -34,16 +34,16 @@ export function ThemeToggle({ className }: { className?: string }) {
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
-        "relative w-9 h-9 rounded-control border border-border bg-surface text-foreground hover:bg-surface-2 hover:border-border-strong flex items-center justify-center transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "relative w-9 h-9 rounded-full border border-zinc-200/90 dark:border-zinc-800 bg-[#faf8f5] dark:bg-zinc-900 text-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center transition-all shadow-2xs focus-visible:outline-none",
         className
       )}
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       {isDark ? (
-        <Sun className="w-4 h-4 text-warning transition-transform duration-200 rotate-0 scale-100" />
+        <Sun className="w-4 h-4 text-[#fabf28] transition-transform duration-200 rotate-0 scale-100" />
       ) : (
-        <Moon className="w-4 h-4 text-primary transition-transform duration-200 rotate-0 scale-100" />
+        <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300 transition-transform duration-200 rotate-0 scale-100" />
       )}
     </button>
   );

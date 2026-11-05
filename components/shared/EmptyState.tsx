@@ -21,21 +21,21 @@ export function EmptyState({
   onAction,
 }: EmptyStateProps) {
   return (
-    <div className="py-14 px-6 text-center rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 my-4 flex flex-col items-center justify-center shadow-xs transition-colors">
-      <div className="w-12 h-12 rounded-control bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mb-4">
-        <Icon className="w-6 h-6" />
+    <div className="py-16 px-6 text-center rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 my-4 flex flex-col items-center justify-center shadow-xs transition-colors">
+      <div className="w-14 h-14 rounded-2xl bg-[#fabf28]/15 border border-[#fabf28]/30 flex items-center justify-center text-[#fabf28] mb-4 shadow-2xs">
+        <Icon className="w-6 h-6 stroke-[1.8]" />
       </div>
-      <h3 className="text-sm font-semibold text-foreground mb-1">{title}</h3>
-      <p className="text-xs text-muted-foreground max-w-sm mb-5 leading-relaxed">
+      <h3 className="text-base font-bold text-foreground mb-1 tracking-tight">{title}</h3>
+      <p className="text-xs sm:text-sm text-muted-foreground max-w-sm mb-6 leading-relaxed">
         {description}
       </p>
       {actionText && actionHref && (
-        <Button asChild variant="primary" size="sm">
+        <Button asChild className="rounded-full px-6 bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs">
           <Link href={actionHref}>{actionText}</Link>
         </Button>
       )}
       {actionText && onAction && !actionHref && (
-        <Button onClick={onAction} variant="primary" size="sm">
+        <Button onClick={onAction} className="rounded-full px-6 bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs">
           {actionText}
         </Button>
       )}

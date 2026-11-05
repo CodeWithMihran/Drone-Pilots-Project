@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { getAuthSession, requireRole } from "@/lib/permissions";
@@ -43,13 +45,17 @@ export async function GET(req: NextRequest) {
       query.status = { $in: ["OPEN", "APPLICATIONS_RECEIVED"] };
     }
 
+    const orConditions: any[] = [];
+
     if (search) {
-      query.$or = [
-        { title: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } },
-        { "location.city": { $regex: search, $options: "i" } },
-        { "location.state": { $regex: search, $options: "i" } },
-      ];
+      orConditions.push({
+        $or: [
+          { title: { $regex: search, $options: "i" } },
+          { description: { $regex: search, $options: "i" } },
+          { "location.city": { $regex: search, $options: "i" } },
+          { "location.state": { $regex: search, $options: "i" } },
+        ],
+      });
     }
 
     if (serviceType) {
@@ -57,11 +63,19 @@ export async function GET(req: NextRequest) {
     }
 
     if (location) {
-      query.$or = [
-        { "location.city": { $regex: location, $options: "i" } },
-        { "location.state": { $regex: location, $options: "i" } },
-        { "location.country": { $regex: location, $options: "i" } },
-      ];
+      orConditions.push({
+        $or: [
+          { "location.city": { $regex: location, $options: "i" } },
+          { "location.state": { $regex: location, $options: "i" } },
+          { "location.country": { $regex: location, $options: "i" } },
+        ],
+      });
+    }
+
+    if (orConditions.length === 1) {
+      query.$or = orConditions[0].$or;
+    } else if (orConditions.length > 1) {
+      query.$and = orConditions;
     }
 
     if (budgetMin || budgetMax) {

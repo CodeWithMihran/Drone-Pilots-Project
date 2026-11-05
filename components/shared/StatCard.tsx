@@ -9,8 +9,8 @@ export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   icon: LucideIcon;
   trend?: string;
   trendPositive?: boolean;
-  color?: "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success";
-  variant?: "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success";
+  color?: "gold" | "golden" | "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success";
+  variant?: "gold" | "golden" | "cyan" | "emerald" | "amber" | "blue" | "purple" | "default" | "warning" | "success";
 }
 
 export function StatCard({
@@ -25,33 +25,38 @@ export function StatCard({
   className,
   ...props
 }: StatCardProps) {
-  const chosenColor = (variant || color || "cyan") as string;
-  const mappedColor = chosenColor === "warning" ? "amber" : chosenColor === "success" ? "emerald" : chosenColor;
-
+  const chosenColor = (variant || color || "gold") as string;
+  const mappedColor =
+    chosenColor === "warning" ? "amber"
+    : chosenColor === "success" ? "emerald"
+    : chosenColor === "golden" ? "gold"
+    : chosenColor;
 
   const iconBgMap: Record<string, string> = {
-    cyan: "bg-primary/10 text-primary border-primary/20",
-    emerald: "bg-success/10 text-success border-success/20",
-    amber: "bg-warning/10 text-warning border-warning/20",
-    blue: "bg-info/10 text-info border-info/20",
-    purple: "bg-primary/10 text-primary border-primary/20",
+    gold: "bg-[#fabf28]/15 text-[#fabf28] border-[#fabf28]/25",
+    golden: "bg-[#fabf28]/15 text-[#fabf28] border-[#fabf28]/25",
+    cyan: "bg-[#fabf28]/15 text-[#fabf28] border-[#fabf28]/25",
+    emerald: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/25",
+    amber: "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/25",
+    blue: "bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/25",
+    purple: "bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/25",
     default: "bg-surface-2 dark:bg-zinc-900 text-muted-foreground border-border dark:border-zinc-800",
   };
 
   return (
     <div
       className={cn(
-        "p-5 sm:p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-300 group flex flex-col justify-between",
+        "p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-200 group flex flex-col justify-between select-none",
         className
       )}
       {...props}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1.5 flex-1 min-w-0">
-          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider truncate">
+          <p className="text-[11px] font-mono font-bold text-muted-foreground uppercase tracking-wider truncate">
             {title}
           </p>
-          <h3 className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
+          <h3 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
             {value}
           </h3>
           
@@ -60,7 +65,7 @@ export function StatCard({
               {trend && (
                 <span
                   className={cn(
-                    "inline-flex items-center font-medium",
+                    "inline-flex items-center font-semibold",
                     trendPositive
                       ? "text-emerald-600 dark:text-emerald-400"
                       : "text-rose-600 dark:text-rose-400"
@@ -79,8 +84,13 @@ export function StatCard({
           )}
         </div>
 
-        <div className={cn("w-9 h-9 rounded-control border flex items-center justify-center shrink-0", iconBgMap[mappedColor] || iconBgMap.cyan)}>
-          <Icon className="w-4 h-4" />
+        <div
+          className={cn(
+            "w-12 h-12 rounded-2xl border flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200",
+            iconBgMap[mappedColor] || iconBgMap.default
+          )}
+        >
+          <Icon className="w-5 h-5 stroke-[2]" />
         </div>
       </div>
     </div>

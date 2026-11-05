@@ -44,29 +44,27 @@ export default function PilotEarningsPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* Header Banner */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-              Financial Operations & Escrow
+          <div className="flex items-center gap-2">
+            <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              PAYOUTS & REVENUE
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
-            Pilot Earnings & Payout Telemetry
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
+            Earnings & Payout Ledger
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
             Automated direct deposit revenues, milestone escrow release status, and verified transaction receipts.
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-          <ShieldCheck className="w-4 h-4 text-success" />
-          <span>Automated Stripe Escrow Release</span>
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
+          <ShieldCheck className="w-4 h-4 text-emerald-500" />
+          <span>Milestone Escrow Protection</span>
         </div>
       </div>
 
@@ -89,25 +87,25 @@ export default function PilotEarningsPage() {
         <StatCard
           title="Completed Payouts"
           value={payments.filter((p) => p.status === "PAID").length}
-          subtitle="All-time fulfilled contracts"
+          subtitle="All-time fulfilled shoots"
           icon={CheckCircle2}
-          variant="cyan"
+          variant="gold"
         />
       </div>
 
       {/* Payments History Table */}
-      <div className="p-6 sm:p-7 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5">
-        <div className="flex items-center justify-between pb-3 border-b border-border dark:border-zinc-800/80">
+      <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs space-y-6">
+        <div className="flex items-center justify-between pb-4 border-b border-border/80 dark:border-zinc-800">
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
-              <Receipt className="w-4 h-4 text-primary" />
-              Payout Transaction Ledger
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
+              <Receipt className="w-4 h-4 text-[#fabf28]" />
+              PAYOUT TRANSACTION LEDGER
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
               Detailed chronological record of verified commercial payouts.
             </p>
           </div>
-          <span className="text-xs font-semibold text-muted-foreground px-3 py-1 bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-control">
+          <span className="text-xs font-bold text-foreground px-3.5 py-1 bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800 rounded-full">
             {payments.length} Records
           </span>
         </div>
@@ -115,7 +113,7 @@ export default function PilotEarningsPage() {
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-16 bg-surface-2 dark:bg-zinc-900/60 rounded-control animate-pulse border border-border dark:border-zinc-800" />
+              <div key={i} className="h-16 bg-zinc-100 dark:bg-zinc-800 rounded-2xl animate-pulse border border-border/60 dark:border-zinc-800" />
             ))}
           </div>
         ) : payments.length === 0 ? (
@@ -129,36 +127,36 @@ export default function PilotEarningsPage() {
             <table className="w-full text-left text-xs whitespace-nowrap">
               <thead>
                 <tr className="border-b border-border dark:border-zinc-800 text-muted-foreground font-semibold">
-                  <th className="py-3 px-3">Mission & Sector</th>
-                  <th className="py-3 px-3">Client Organization</th>
-                  <th className="py-3 px-3">Transaction ID</th>
-                  <th className="py-3 px-3">Date</th>
-                  <th className="py-3 px-3">Amount</th>
-                  <th className="py-3 px-3 text-right">Status</th>
+                  <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Mission</th>
+                  <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Client</th>
+                  <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Transaction ID</th>
+                  <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Date</th>
+                  <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Amount</th>
+                  <th className="py-3.5 px-4 font-mono uppercase text-[11px] text-right">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border dark:divide-zinc-800/80">
+              <tbody className="divide-y divide-border/80 dark:divide-zinc-800/80">
                 {payments.map((p) => (
-                  <tr key={p._id} className="hover:bg-surface-2/60 dark:hover:bg-zinc-900/40 transition-colors">
-                    <td className="py-4 px-3 font-semibold text-foreground">
+                  <tr key={p._id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
+                    <td className="py-4 px-4 font-bold text-foreground">
                       {p.jobId?.title || "Flight Operation"}
-                      <span className="block text-[11px] text-primary font-medium mt-0.5">
+                      <span className="block text-[11px] text-[#fabf28] font-semibold mt-0.5">
                         {p.jobId?.serviceType?.replace(/_/g, " ")}
                       </span>
                     </td>
-                    <td className="py-4 px-3 text-muted-foreground font-medium">
+                    <td className="py-4 px-4 text-muted-foreground font-medium">
                       {p.companyId?.name || "Client"}
                     </td>
-                    <td className="py-4 px-3 font-mono text-[11px] text-muted-foreground">
+                    <td className="py-4 px-4 font-mono text-[11px] text-muted-foreground">
                       {p.transactionId}
                     </td>
-                    <td className="py-4 px-3 text-muted-foreground">
+                    <td className="py-4 px-4 text-muted-foreground">
                       {formatDate(p.createdAt)}
                     </td>
-                    <td className="py-4 px-3 font-semibold text-success text-sm font-mono">
+                    <td className="py-4 px-4 font-extrabold text-foreground text-sm font-mono">
                       {formatCurrency(p.amount)}
                     </td>
-                    <td className="py-4 px-3 text-right">
+                    <td className="py-4 px-4 text-right">
                       <StatusBadge status={p.status} type="payment" />
                     </td>
                   </tr>
@@ -168,6 +166,7 @@ export default function PilotEarningsPage() {
           </div>
         )}
       </div>
+
     </div>
   );
 }

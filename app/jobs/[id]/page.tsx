@@ -11,7 +11,6 @@ import {
   DollarSign,
   Clock,
   ShieldCheck,
-  Award,
   CheckCircle2,
   AlertCircle,
   Building,
@@ -22,7 +21,8 @@ import {
   Lock,
   Layers,
   CreditCard,
-  MessageSquare,
+  ChevronRight,
+  ExternalLink,
 } from "lucide-react";
 import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { MatchScoreBadge } from "@/components/shared/MatchScoreBadge";
@@ -195,25 +195,25 @@ export default function JobDetailPage() {
 
   if (loading) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-20 text-center space-y-4">
-        <div className="w-10 h-10 border-3 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-        <p className="text-body text-muted-foreground">Loading flight specifications...</p>
+      <div className="max-w-5xl mx-auto px-4 py-24 text-center space-y-4">
+        <div className="w-10 h-10 border-3 border-[#fabf28] border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p className="text-xs sm:text-sm text-muted-foreground font-mono">Loading mission specifications...</p>
       </div>
     );
   }
 
   if (error || !job) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-20 text-center space-y-4">
-        <AlertCircle className="w-10 h-10 text-destructive mx-auto" />
-        <h2 className="text-heading-2 font-semibold text-foreground">Project Not Available</h2>
-        <p className="text-body text-muted-foreground">{error || "This job listing could not be found."}</p>
+      <div className="max-w-2xl mx-auto px-4 py-24 text-center space-y-4">
+        <AlertCircle className="w-12 h-12 text-rose-500 mx-auto" />
+        <h2 className="text-2xl font-bold text-foreground">Mission Brief Not Available</h2>
+        <p className="text-sm text-muted-foreground">{error || "This mission brief could not be found or has expired."}</p>
         <Link
           href="/jobs"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-control bg-surface-2 text-primary text-label font-medium hover:bg-border/20 transition-colors"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 text-xs font-bold shadow-sm transition-all"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Marketplace
+          Back to Missions
         </Link>
       </div>
     );
@@ -221,109 +221,113 @@ export default function JobDetailPage() {
 
   const role = (session?.user as any)?.role;
   const currentUserId = (session?.user as any)?.id;
-  const isCompanyOwner = job.companyId?._id?.toString() === currentUserId || job.companyId?.toString() === currentUserId;
-  const isAssignedPilot = job.assignedPilotId?._id?.toString() === currentUserId || job.assignedPilotId?.toString() === currentUserId;
+  const isCompanyOwner =
+    job.companyId?._id?.toString() === currentUserId ||
+    job.companyId?.toString() === currentUserId;
+  const isAssignedPilot =
+    job.assignedPilotId?._id?.toString() === currentUserId ||
+    job.assignedPilotId?.toString() === currentUserId;
   const isJobOpen = job.status === "OPEN" || job.status === "APPLICATIONS_RECEIVED";
 
   return (
-    <div className="flex-1 bg-background py-8 sm:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <div className="mb-6 flex items-center gap-2 text-caption text-subtle">
-          <Link href="/jobs" className="hover:text-primary transition-colors flex items-center gap-1">
+    <div className="flex-1 bg-background py-8 sm:py-12 transition-colors duration-150">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        {/* Navigation Breadcrumb */}
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Link href="/jobs" className="hover:text-foreground transition-colors flex items-center gap-1 font-medium">
             <ArrowLeft className="w-3.5 h-3.5" />
-            Marketplace
+            <span>Marketplace</span>
           </Link>
           <span>/</span>
-          <span className="text-foreground truncate max-w-md">{job.title}</span>
+          <span className="text-foreground font-semibold truncate max-w-md">{job.title}</span>
         </div>
 
         {applySuccess && (
-          <div className="mb-6 p-4 rounded-panel bg-success/10 border border-success/30 text-success text-body flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 shrink-0" />
-            <span>Your proposal was submitted successfully! The company has been notified.</span>
+          <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs flex items-center gap-2.5">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <span className="font-semibold">Your proposal was submitted successfully! The company has been notified.</span>
           </div>
         )}
 
         {paymentSuccess && (
-          <div className="mb-6 p-4 rounded-panel bg-success/10 border border-success/30 text-success text-body flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 shrink-0" />
-            <span>Escrow payment has been successfully released to the pilot.</span>
+          <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs flex items-center gap-2.5">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <span className="font-semibold">Escrow payment has been successfully released to the pilot.</span>
           </div>
         )}
 
         {reviewSuccess && (
-          <div className="mb-6 p-4 rounded-panel bg-warning/10 border border-warning/30 text-warning text-body flex items-center gap-3">
-            <Star className="w-5 h-5 shrink-0" />
-            <span>Thank you! Your verified rating and review have been recorded.</span>
+          <div className="p-4 rounded-2xl bg-[#fabf28]/15 border border-[#fabf28]/40 text-zinc-900 dark:text-[#fabf28] text-xs flex items-center gap-2.5">
+            <Star className="w-5 h-5 text-[#fabf28] shrink-0 fill-[#fabf28]" />
+            <span className="font-semibold">Thank you! Your verified rating and review have been recorded.</span>
           </div>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Column */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Header Card */}
-            <div className="p-6 sm:p-8 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-4 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+            {/* Header Hero Card */}
+            <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
               <div className="flex flex-wrap items-center gap-2.5">
-                <span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-caption font-medium">
+                <span className="px-3 py-1 rounded-full bg-[#fabf28]/15 text-zinc-900 dark:text-[#fabf28] text-xs font-bold">
                   {formatServiceType(job.serviceType)}
                 </span>
                 <StatusBadge status={job.status} type="job" />
                 {job.matchResult && <MatchScoreBadge score={job.matchResult.score} size="md" />}
               </div>
 
-              <h1 className="text-display text-foreground tracking-tight">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-foreground leading-tight">
                 {job.title}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-4 text-caption text-muted-foreground pt-1">
-                <span className="flex items-center gap-1.5 text-foreground font-medium">
-                  <Building className="w-4 h-4 text-subtle" />
-                  {job.companyId?.name || "Verified Organization"}
+              <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground pt-1 border-t border-zinc-100 dark:border-zinc-800/80">
+                <span className="flex items-center gap-1.5 text-foreground font-semibold">
+                  <Building className="w-4 h-4 text-zinc-400" />
+                  {job.companyId?.name || "Enterprise Client"}
                 </span>
                 <span>•</span>
                 <span className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-primary" />
+                  <MapPin className="w-4 h-4 text-[#fabf28]" />
                   {job.location?.city}, {job.location?.state}
                 </span>
                 <span>•</span>
                 <span className="flex items-center gap-1.5 text-foreground">
-                  <Calendar className="w-4 h-4 text-info" />
+                  <Calendar className="w-4 h-4 text-zinc-400" />
                   Mission Date: {formatDate(job.date)}
                 </span>
               </div>
             </div>
 
-            {/* Mission Description */}
-            <div className="p-6 sm:p-8 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-4">
-              <h3 className="text-label text-foreground flex items-center gap-2">
-                <Layers className="w-4 h-4 text-primary" />
+            {/* Mission Description Card */}
+            <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
+                <Layers className="w-4 h-4 text-[#fabf28]" />
                 Mission Scope & Objectives
               </h3>
-              <p className="text-body text-muted-foreground leading-relaxed whitespace-pre-line">
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
                 {job.description}
               </p>
             </div>
 
-            {/* Regulatory & Equipment Requirements */}
-            <div className="p-6 sm:p-8 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-6">
-              <h3 className="text-label text-foreground flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-success" />
-                Regulatory & Equipment Requirements
+            {/* Regulatory & Equipment Requirements Card */}
+            <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-6">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                Regulatory & Airframe Requirements
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-                  <p className="text-caption font-medium text-subtle uppercase">Required Certification</p>
-                  <p className="text-label text-success mt-1 flex items-center gap-1.5 font-medium">
-                    <ShieldCheck className="w-4 h-4 text-success" />
+                <div className="p-4 sm:p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800">
+                  <p className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Required Certification</p>
+                  <p className="text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 mt-1.5 flex items-center gap-1.5 font-bold">
+                    <ShieldCheck className="w-4 h-4" />
                     {job.requiredCertification || "FAA Part 107 Commercial Remote Pilot"}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-                  <p className="text-caption font-medium text-subtle uppercase">Pilot Experience</p>
-                  <p className="text-label text-foreground mt-1 font-medium">
+                <div className="p-4 sm:p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800">
+                  <p className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Pilot Experience</p>
+                  <p className="text-xs sm:text-sm text-foreground mt-1.5 font-bold">
                     {job.requiredExperience}+ Year(s) Commercial Experience
                   </p>
                 </div>
@@ -331,14 +335,14 @@ export default function JobDetailPage() {
 
               {job.requiredEquipment && job.requiredEquipment.length > 0 && (
                 <div>
-                  <h4 className="text-label font-medium text-foreground mb-2">
+                  <h4 className="text-xs font-bold text-foreground mb-2.5">
                     Required Aircraft & Payloads
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {job.requiredEquipment.map((eq: string, idx: number) => (
                       <span
                         key={idx}
-                        className="px-3 py-1.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-caption text-primary font-medium"
+                        className="px-3.5 py-1.5 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground font-semibold shadow-2xs"
                       >
                         {eq}
                       </span>
@@ -349,13 +353,13 @@ export default function JobDetailPage() {
 
               {job.requirements && job.requirements.length > 0 && (
                 <div>
-                  <h4 className="text-label font-medium text-foreground mb-2">
-                    Additional Flight Protocols
+                  <h4 className="text-xs font-bold text-foreground mb-2.5">
+                    Flight Protocols & Deliverable Requirements
                   </h4>
-                  <ul className="space-y-2 text-body text-muted-foreground">
+                  <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
                     {job.requirements.map((req: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-info shrink-0 mt-1" />
+                      <li key={idx} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                         <span>{req}</span>
                       </li>
                     ))}
@@ -364,7 +368,7 @@ export default function JobDetailPage() {
               )}
             </div>
 
-            {/* Location Map */}
+            {/* Flight Zone Map */}
             <LocationMapFallback
               location={job.location}
               title={`Flight Area: ${job.location?.city || "Site"}`}
@@ -373,36 +377,37 @@ export default function JobDetailPage() {
 
           {/* Sidebar Column */}
           <div className="space-y-6">
-            {/* Compensation & Actions */}
-            <div className="p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-6">
+            {/* Compensation & Actions Card */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-6">
               <div>
-                <span className="text-caption font-medium uppercase tracking-wider text-primary">
-                  Total Compensation
+                <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-muted-foreground">
+                  PROJECT BUDGET
                 </span>
-                <div className="text-heading-1 text-foreground font-semibold mt-1">
+                <div className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mt-1 font-mono">
                   {formatCurrency(job.budget)}
                 </div>
-                <p className="text-caption text-subtle mt-0.5">
-                  Fixed project fee (escrow protected)
-                </p>
+                <div className="flex items-center gap-1.5 mt-1 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>Underwritten Escrow Protected</span>
+                </div>
               </div>
 
-              <div className="space-y-2.5 py-4 border-y border-border dark:border-zinc-800 text-caption">
+              <div className="space-y-3 py-4 border-y border-zinc-100 dark:border-zinc-800/80 text-xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Estimated Duration</span>
-                  <span className="text-foreground font-medium">{job.duration || "1 Day"}</span>
+                  <span className="text-muted-foreground">Duration</span>
+                  <span className="text-foreground font-semibold">{job.duration || "1 Day"}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Start Time</span>
-                  <span className="text-foreground font-medium">{job.startTime || "09:00 AM"}</span>
+                  <span className="text-foreground font-semibold">{job.startTime || "09:00 AM"}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Application Deadline</span>
-                  <span className="text-foreground font-medium">{formatDate(job.applicationDeadline)}</span>
+                  <span className="text-foreground font-semibold">{formatDate(job.applicationDeadline)}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Applications Received</span>
-                  <span className="text-primary font-medium">{job.applicationsCount || 0} Proposals</span>
+                  <span className="text-muted-foreground">Proposals Received</span>
+                  <span className="text-foreground font-bold">{job.applicationsCount || 0} Pilots</span>
                 </div>
               </div>
 
@@ -411,10 +416,10 @@ export default function JobDetailPage() {
                 {role === "PILOT" && (
                   <>
                     {job.existingApplication ? (
-                      <div className="p-4 rounded-control bg-primary/10 border border-primary/30 text-center space-y-2">
-                        <CheckCircle2 className="w-5 h-5 text-primary mx-auto" />
-                        <p className="text-label font-medium text-foreground">Application Submitted</p>
-                        <p className="text-caption text-muted-foreground">
+                      <div className="p-4 rounded-2xl bg-[#fabf28]/10 border border-[#fabf28]/30 text-center space-y-2">
+                        <CheckCircle2 className="w-5 h-5 text-zinc-950 dark:text-[#fabf28] mx-auto" />
+                        <p className="text-xs font-bold text-foreground">Proposal Submitted</p>
+                        <p className="text-xs text-muted-foreground">
                           Your bid: <strong>{formatCurrency(job.existingApplication.bidAmount)}</strong>
                         </p>
                         <StatusBadge status={job.existingApplication.status} type="application" />
@@ -424,46 +429,46 @@ export default function JobDetailPage() {
                         <button
                           id="apply-job-btn"
                           onClick={() => setApplyModalOpen(true)}
-                          className="w-full h-11 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-body transition-colors flex items-center justify-center gap-2 shadow-sm"
+                          className="w-full h-12 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs tracking-tight shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
                         >
                           <Send className="w-4 h-4" />
                           <span>Submit Flight Proposal</span>
                         </button>
                       ) : (
-                        <div className="p-4 rounded-control bg-warning/10 border border-warning/30 text-center space-y-2.5">
-                          <AlertCircle className="w-5 h-5 text-warning mx-auto" />
-                          <p className="text-label font-medium text-foreground">Certification Required</p>
-                          <p className="text-caption text-muted-foreground leading-relaxed">
-                            This commercial project requires a verified pilot credential.
+                        <div className="p-5 rounded-2xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 text-center space-y-2.5">
+                          <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 mx-auto" />
+                          <p className="text-xs font-bold text-foreground">FAA Part 107 Required</p>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            Upload your credentials to bid on commercial missions.
                           </p>
                           <Link
                             href="/pilot/certification"
-                            className="inline-block px-3.5 py-2 rounded-control bg-warning text-foreground font-medium text-caption"
+                            className="inline-block px-4 py-2 rounded-full bg-[#fabf28] text-zinc-950 font-bold text-xs shadow-xs"
                           >
-                            Upload Certificate Now
+                            Verify Credential Now
                           </Link>
                         </div>
                       )
                     ) : (
-                      <div className="p-3.5 rounded-control bg-surface-2 text-center text-caption font-medium text-muted-foreground">
-                        This job is currently {job.status.replace(/_/g, " ")}.
+                      <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 text-center text-xs font-semibold text-muted-foreground">
+                        This mission brief is currently {job.status.replace(/_/g, " ")}.
                       </div>
                     )}
                   </>
                 )}
 
                 {isAssignedPilot && (
-                  <div className="p-4 rounded-control bg-success/10 border border-success/30 space-y-3">
-                    <p className="text-label font-medium text-success flex items-center gap-1.5">
+                  <div className="p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 space-y-3">
+                    <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
                       <ShieldCheck className="w-4 h-4" />
-                      Assigned Pilot for this project
+                      Assigned Pilot for this Project
                     </p>
 
                     {job.status === "PILOT_SELECTED" && (
                       <button
                         onClick={() => handleUpdateStatus("IN_PROGRESS")}
                         disabled={updatingStatus}
-                        className="w-full h-10 rounded-control bg-primary text-primary-foreground font-medium text-caption transition-colors"
+                        className="w-full h-11 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs transition-all shadow-xs"
                       >
                         Start Flight Mission
                       </button>
@@ -473,7 +478,7 @@ export default function JobDetailPage() {
                       <button
                         onClick={() => handleUpdateStatus("COMPLETED")}
                         disabled={updatingStatus}
-                        className="w-full h-10 rounded-control bg-success text-foreground font-medium text-caption transition-colors"
+                        className="w-full h-11 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs"
                       >
                         Mark Mission as Completed
                       </button>
@@ -482,9 +487,9 @@ export default function JobDetailPage() {
                     {job.status === "COMPLETED" && !job.hasReviewed && (
                       <button
                         onClick={() => setReviewModalOpen(true)}
-                        className="w-full h-10 rounded-control bg-warning text-foreground font-medium text-caption transition-colors flex items-center justify-center gap-1.5"
+                        className="w-full h-11 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs"
                       >
-                        <Star className="w-4 h-4" />
+                        <Star className="w-4 h-4 fill-zinc-950" />
                         <span>Leave Review for Client</span>
                       </button>
                     )}
@@ -495,15 +500,15 @@ export default function JobDetailPage() {
                   <div className="space-y-3 pt-1">
                     <Link
                       href={`/company/applications?jobId=${job._id}`}
-                      className="w-full h-11 rounded-control bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-body transition-colors flex items-center justify-center gap-2 shadow-sm"
+                      className="w-full h-12 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs tracking-tight shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
                     >
-                      <span>Review {job.applicationsCount || 0} Applications</span>
+                      <span>Review {job.applicationsCount || 0} Proposals</span>
                     </Link>
 
                     {job.status === "PILOT_SELECTED" && (
                       <button
                         onClick={() => handleUpdateStatus("IN_PROGRESS")}
-                        className="w-full h-10 rounded-control bg-info hover:bg-info/90 text-foreground font-medium text-caption transition-colors"
+                        className="w-full h-11 rounded-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs transition-all shadow-xs"
                       >
                         Mark Mission In-Progress
                       </button>
@@ -512,7 +517,7 @@ export default function JobDetailPage() {
                     {job.status === "IN_PROGRESS" && (
                       <button
                         onClick={() => handleUpdateStatus("COMPLETED")}
-                        className="w-full h-10 rounded-control bg-success hover:bg-success/90 text-foreground font-medium text-caption transition-colors"
+                        className="w-full h-11 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs"
                       >
                         Mark Mission Completed
                       </button>
@@ -523,20 +528,20 @@ export default function JobDetailPage() {
                         <button
                           id="pay-pilot-btn"
                           onClick={() => setPayModalOpen(true)}
-                          className="w-full h-11 rounded-control bg-success hover:bg-success/90 text-foreground font-medium text-body transition-colors flex items-center justify-center gap-2 shadow-sm"
+                          className="w-full h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs tracking-tight shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
                         >
                           <CreditCard className="w-4 h-4" />
-                          <span>Pay Pilot ({formatCurrency(job.budget)})</span>
+                          <span>Release Escrow ({formatCurrency(job.budget)})</span>
                         </button>
 
                         {!job.hasReviewed && (
                           <button
                             id="review-pilot-btn"
                             onClick={() => setReviewModalOpen(true)}
-                            className="w-full h-10 rounded-control bg-warning/20 border border-warning/40 text-warning font-medium text-caption hover:bg-warning/30 transition-colors flex items-center justify-center gap-1.5"
+                            className="w-full h-11 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs"
                           >
-                            <Star className="w-4 h-4" />
-                            <span>Review Pilot Performance</span>
+                            <Star className="w-4 h-4 fill-zinc-950" />
+                            <span>Rate Pilot Performance</span>
                           </button>
                         )}
                       </div>
@@ -547,7 +552,7 @@ export default function JobDetailPage() {
                 {!session && (
                   <Link
                     href={`/login?callbackUrl=/jobs/${job._id}`}
-                    className="w-full h-11 rounded-control bg-primary text-primary-foreground font-medium text-body transition-colors flex items-center justify-center gap-2"
+                    className="w-full h-12 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs tracking-tight shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
                   >
                     <span>Sign In to Apply</span>
                   </Link>
@@ -555,25 +560,25 @@ export default function JobDetailPage() {
               </div>
             </div>
 
-            {/* Company Info Card */}
-            <div className="p-6 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-4">
-              <h3 className="text-caption font-medium uppercase tracking-wider text-muted-foreground">
-                About the Hiring Organization
+            {/* Hiring Organization Card */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Hiring Organization
               </h3>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 flex items-center justify-center font-semibold text-primary text-label">
+                <div className="w-11 h-11 rounded-2xl bg-[#fabf28]/15 text-zinc-950 dark:text-[#fabf28] flex items-center justify-center font-bold text-sm">
                   {job.companyId?.name ? job.companyId.name.charAt(0).toUpperCase() : "C"}
                 </div>
                 <div>
-                  <h4 className="text-label font-medium text-foreground">{job.companyId?.name}</h4>
-                  <p className="text-caption text-muted-foreground">{job.companyProfile?.industry || "Industrial Enterprise"}</p>
+                  <h4 className="text-sm font-bold text-foreground">{job.companyId?.name || "Enterprise Client"}</h4>
+                  <p className="text-xs text-muted-foreground">{job.companyProfile?.industry || "Industrial Infrastructure"}</p>
                 </div>
               </div>
 
               {job.companyProfile && (
-                <div className="pt-3 border-t border-border dark:border-zinc-800 text-caption text-muted-foreground space-y-2">
+                <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800/80 text-xs text-muted-foreground space-y-2">
                   <StarRating rating={job.companyProfile.rating || 5.0} totalReviews={job.companyProfile.totalReviews} size="sm" />
-                  <p className="line-clamp-3 text-body">{job.companyProfile.description || "Commercial drone operations client."}</p>
+                  <p className="line-clamp-3 text-xs leading-relaxed">{job.companyProfile.description || "Commercial drone operations client."}</p>
                 </div>
               )}
             </div>
@@ -583,16 +588,16 @@ export default function JobDetailPage() {
 
       {/* Apply Proposal Modal */}
       {applyModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-border dark:border-zinc-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800/80">
               <div>
-                <h3 className="text-heading-3 text-foreground font-semibold">Submit Flight Proposal</h3>
-                <p className="text-caption text-muted-foreground">Project: {job.title}</p>
+                <h3 className="text-lg font-bold text-foreground">Submit Flight Proposal</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">Project: {job.title}</p>
               </div>
               <button
                 onClick={() => setApplyModalOpen(false)}
-                className="text-muted-foreground hover:text-foreground text-sm"
+                className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-muted-foreground hover:text-foreground flex items-center justify-center text-xs font-bold"
               >
                 ✕
               </button>
@@ -600,25 +605,25 @@ export default function JobDetailPage() {
 
             <form onSubmit={handleApplySubmit} className="space-y-4">
               <div>
-                <label className="block text-label font-medium text-foreground mb-1.5">
+                <label className="block text-xs font-bold text-foreground mb-1.5">
                   Proposed Bid Amount (USD)
                 </label>
                 <div className="relative">
-                  <DollarSign className="w-4 h-4 text-subtle absolute left-3.5 top-3.5" />
+                  <DollarSign className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3" />
                   <input
                     type="number"
                     required
                     value={bidAmount}
                     onChange={(e) => setBidAmount(e.target.value)}
                     placeholder="1200"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-body focus:outline-none focus:border-primary"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
                   />
                 </div>
-                <span className="text-caption text-muted-foreground mt-1 block">Client's listed budget: {formatCurrency(job.budget)}</span>
+                <span className="text-[11px] text-muted-foreground mt-1 block">Listed budget: {formatCurrency(job.budget)}</span>
               </div>
 
               <div>
-                <label className="block text-label font-medium text-foreground mb-1.5">
+                <label className="block text-xs font-bold text-foreground mb-1.5">
                   Flight Readiness & Availability
                 </label>
                 <input
@@ -626,22 +631,22 @@ export default function JobDetailPage() {
                   required
                   value={availability}
                   onChange={(e) => setAvailability(e.target.value)}
-                  placeholder="Available immediately for morning flights"
-                  className="w-full px-3.5 py-2.5 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-body focus:outline-none focus:border-primary"
+                  placeholder="Available immediately for scheduled flight date"
+                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
                 />
               </div>
 
               <div>
-                <label className="block text-label font-medium text-foreground mb-1.5">
-                  Proposal & Flight Plan
+                <label className="block text-xs font-bold text-foreground mb-1.5">
+                  Proposal & Flight Approach
                 </label>
                 <textarea
                   required
                   rows={4}
                   value={proposal}
                   onChange={(e) => setProposal(e.target.value)}
-                  placeholder="Describe your flight approach, payload sensors to be used, and turnaround time..."
-                  className="w-full p-3 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-body focus:outline-none focus:border-primary"
+                  placeholder="Describe your flight approach, payload sensors to be used, and deliverable timeline..."
+                  className="w-full p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
                 />
               </div>
 
@@ -649,7 +654,7 @@ export default function JobDetailPage() {
                 <button
                   type="button"
                   onClick={() => setApplyModalOpen(false)}
-                  className="flex-1 h-11 rounded-control bg-surface-2 dark:bg-zinc-900 text-foreground font-medium text-body hover:bg-border/20 transition-colors"
+                  className="flex-1 h-11 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
                 >
                   Cancel
                 </button>
@@ -657,7 +662,7 @@ export default function JobDetailPage() {
                   id="confirm-submit-proposal-btn"
                   type="submit"
                   disabled={submittingApply}
-                  className="flex-1 h-11 rounded-control bg-primary text-primary-foreground font-medium text-body hover:bg-primary/90 transition-colors"
+                  className="flex-1 h-11 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs transition-colors shadow-sm"
                 >
                   {submittingApply ? "Sending..." : "Submit Proposal"}
                 </button>
@@ -667,31 +672,31 @@ export default function JobDetailPage() {
         </div>
       )}
 
-      {/* Simulated Payment Confirmation Modal */}
+      {/* Release Escrow Modal */}
       {payModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5 text-center">
-            <div className="w-12 h-12 rounded-control bg-success/20 text-success mx-auto flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5 text-center">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
               <CreditCard className="w-6 h-6" />
             </div>
 
-            <h3 className="text-heading-3 text-foreground font-semibold">Release Escrow Payment</h3>
-            <p className="text-body text-muted-foreground">
-              Authorize direct payout to the assigned pilot for mission completion:
+            <h3 className="text-lg font-bold text-foreground">Release Escrow Payment</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Authorize direct payout to the assigned pilot for completed mission deliverables:
             </p>
 
-            <div className="p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-left space-y-2">
-              <div className="flex justify-between text-caption">
+            <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-left space-y-2 text-xs">
+              <div className="flex justify-between">
                 <span className="text-muted-foreground">Project:</span>
-                <span className="text-foreground font-medium truncate max-w-[200px]">{job.title}</span>
+                <span className="text-foreground font-semibold truncate max-w-[200px]">{job.title}</span>
               </div>
-              <div className="flex justify-between text-caption">
+              <div className="flex justify-between">
                 <span className="text-muted-foreground">Assigned Pilot:</span>
-                <span className="text-primary font-medium">{job.assignedPilotId?.name || "Pilot"}</span>
+                <span className="text-foreground font-semibold">{job.assignedPilotId?.name || "Pilot"}</span>
               </div>
-              <div className="flex justify-between text-label font-semibold pt-2 border-t border-border dark:border-zinc-800">
+              <div className="flex justify-between font-bold pt-2 border-t border-zinc-100 dark:border-zinc-800 text-sm">
                 <span className="text-foreground">Total Payout:</span>
-                <span className="text-success text-body">{formatCurrency(job.budget)}</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-mono">{formatCurrency(job.budget)}</span>
               </div>
             </div>
 
@@ -699,7 +704,7 @@ export default function JobDetailPage() {
               <button
                 type="button"
                 onClick={() => setPayModalOpen(false)}
-                className="flex-1 h-11 rounded-control bg-surface-2 dark:bg-zinc-900 text-foreground font-medium text-body hover:bg-border/20 transition-colors"
+                className="flex-1 h-11 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
               >
                 Cancel
               </button>
@@ -708,7 +713,7 @@ export default function JobDetailPage() {
                 type="button"
                 onClick={handleSimulatedPayment}
                 disabled={paying}
-                className="flex-1 h-11 rounded-control bg-success text-foreground font-medium text-body hover:bg-success/90 transition-colors"
+                className="flex-1 h-11 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors shadow-sm"
               >
                 {paying ? "Processing..." : "Authorize Payout"}
               </button>
@@ -719,18 +724,20 @@ export default function JobDetailPage() {
 
       {/* Review Modal */}
       {reviewModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5">
             <div className="text-center">
-              <Star className="w-8 h-8 text-warning mx-auto mb-2" />
-              <h3 className="text-heading-3 text-foreground font-semibold">Rate Flight Performance</h3>
-              <p className="text-caption text-muted-foreground">Your feedback helps verify excellence</p>
+              <div className="w-12 h-12 rounded-2xl bg-[#fabf28]/20 text-[#fabf28] mx-auto flex items-center justify-center mb-2">
+                <Star className="w-6 h-6 fill-[#fabf28]" />
+              </div>
+              <h3 className="text-lg font-bold text-foreground">Rate Mission Performance</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">Your verified feedback helps maintain quality</p>
             </div>
 
             <form onSubmit={handleSubmitReview} className="space-y-4">
               <div className="text-center py-2">
-                <label className="block text-label font-medium text-foreground mb-2">
-                  Select Star Rating
+                <label className="block text-xs font-bold text-foreground mb-2">
+                  Select Rating
                 </label>
                 <div className="flex justify-center">
                   <StarRating
@@ -743,16 +750,16 @@ export default function JobDetailPage() {
               </div>
 
               <div>
-                <label className="block text-label font-medium text-foreground mb-1.5">
-                  Feedback Comment
+                <label className="block text-xs font-bold text-foreground mb-1.5">
+                  Feedback Review
                 </label>
                 <textarea
                   required
                   rows={3}
                   value={reviewComment}
                   onChange={(e) => setReviewComment(e.target.value)}
-                  placeholder="Share details about flight accuracy, communication, and deliverables..."
-                  className="w-full p-3 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-body focus:outline-none focus:border-primary"
+                  placeholder="Share details about flight precision, safety adherence, communication, and deliverables..."
+                  className="w-full p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
                 />
               </div>
 
@@ -760,7 +767,7 @@ export default function JobDetailPage() {
                 <button
                   type="button"
                   onClick={() => setReviewModalOpen(false)}
-                  className="flex-1 h-11 rounded-control bg-surface-2 dark:bg-zinc-900 text-foreground font-medium text-body hover:bg-border/20 transition-colors"
+                  className="flex-1 h-11 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
                 >
                   Cancel
                 </button>
@@ -768,7 +775,7 @@ export default function JobDetailPage() {
                   id="confirm-submit-review-btn"
                   type="submit"
                   disabled={submittingReview}
-                  className="flex-1 h-11 rounded-control bg-warning text-foreground font-medium text-body hover:bg-warning/90 transition-colors"
+                  className="flex-1 h-11 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs transition-colors shadow-sm"
                 >
                   {submittingReview ? "Submitting..." : "Submit Review"}
                 </button>

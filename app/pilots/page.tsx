@@ -61,33 +61,62 @@ export default function PilotsDirectoryPage() {
     <div className="flex-1 bg-background text-foreground py-10 sm:py-16 transition-colors animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="space-y-2">
-            <div className="flex items-center gap-2.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
-              </span>
-              <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-                Verified Flight Crew
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
+              <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+                VERIFIED OPERATOR NETWORK
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
-              Commercial Remote Pilots Directory
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+              Hire certified drone pilots.
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
-              Browse FAA Part 107 certified operators equipped with enterprise LiDAR, multispectral, and thermal payloads.
+              Browse FAA Part 107 verified operators filtered by city, camera kit, airframe, and sensor payloads.
             </p>
           </div>
 
-          <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground">
-            <ShieldCheck className="w-4 h-4 text-success" />
-            <span>FAA Airman Registry cross-checked</span>
+          <div className="shrink-0 flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-[#fabf28]" />
+            <span className="text-foreground">FAA Airmen Registry Verified</span>
           </div>
         </div>
 
+        {/* Quick-Filter Payload Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
+          <span className="text-[11px] font-mono uppercase text-muted-foreground shrink-0 pr-1">
+            Certified Hardware:
+          </span>
+          {[
+            { label: "All Fleets", val: "" },
+            { label: "DJI Matrice 350 RTK", val: "Matrice" },
+            { label: "Radiometric Thermal", val: "Thermal" },
+            { label: "Aerial LiDAR", val: "LiDAR" },
+            { label: "DJI Agras Spray", val: "Agras" },
+            { label: "Mavic 3 Enterprise", val: "Mavic" },
+          ].map((pill) => {
+            const isActive = search === pill.val;
+            return (
+              <button
+                key={pill.val}
+                type="button"
+                onClick={() => setSearch(pill.val)}
+                className={
+                  "px-3 py-1.5 rounded-full border text-xs font-medium whitespace-nowrap transition-all duration-150 " +
+                  (isActive
+                    ? "bg-[#fabf28] text-zinc-950 border-[#fabf28] font-bold shadow-xs"
+                    : "bg-white dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-muted-foreground hover:text-foreground hover:border-zinc-400 dark:hover:border-zinc-700")
+                }
+              >
+                {pill.label}
+              </button>
+            );
+          })}
+        </div>
+
         {/* Search Bar */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 shadow-xs">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 p-5 shadow-xs">
           <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center gap-3">
             <div className="relative flex-1 w-full">
               <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
@@ -96,11 +125,11 @@ export default function PilotsDirectoryPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by pilot name, city, skill, or drone hardware..."
-                className="pl-10 text-xs bg-surface-2 dark:bg-zinc-900 border-border dark:border-zinc-800"
+                className="pl-10 text-xs bg-zinc-50 dark:bg-zinc-900 border-border dark:border-zinc-800"
               />
             </div>
 
-            <label className="flex items-center gap-2 text-xs text-foreground cursor-pointer select-none px-3 py-2 rounded-control hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors">
+            <label className="flex items-center gap-2 text-xs text-foreground cursor-pointer select-none px-3 py-2 rounded-2xl hover:bg-surface-2 dark:hover:bg-zinc-900 transition-colors">
               <input
                 type="checkbox"
                 checked={verifiedOnly}
@@ -113,8 +142,8 @@ export default function PilotsDirectoryPage() {
               </span>
             </label>
 
-            <Button type="submit" variant="primary" size="sm" className="w-full sm:w-auto active:scale-[0.98]">
-              Search Roster
+            <Button type="submit" size="sm" className="w-full sm:w-auto rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold px-6 shadow-xs active:scale-[0.98]">
+              Search Pilots
             </Button>
           </form>
         </div>
@@ -123,7 +152,7 @@ export default function PilotsDirectoryPage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-64 rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 animate-pulse" />
+              <div key={i} className="h-64 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 animate-pulse" />
             ))}
           </div>
         ) : pilots.length === 0 ? (
@@ -140,18 +169,18 @@ export default function PilotsDirectoryPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {pilots.map((pilot) => {
-              const profile = pilot.pilotProfile;
+              const profile = pilot.pilotProfile || pilot.profile;
               const isVerified = pilot.isVerified;
 
               return (
                 <div
                   key={pilot._id}
-                  className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 hover:border-border-strong dark:hover:border-zinc-700 shadow-xs hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group"
+                  className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 hover:border-border-strong dark:hover:border-zinc-700 shadow-xs hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group"
                 >
                   <div className="p-6 sm:p-7 space-y-4">
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-control bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">
+                        <div className="w-11 h-11 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">
                           {pilot.name ? pilot.name.charAt(0).toUpperCase() : "P"}
                         </div>
                         <div>
@@ -160,7 +189,7 @@ export default function PilotsDirectoryPage() {
                           </h3>
                           <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
                             <MapPin className="w-3 h-3 text-muted-foreground shrink-0" />
-                            <span>{pilot.city ? `${pilot.city}, ${pilot.state}` : "USA"}</span>
+                            <span>{pilot.location?.city ? `${pilot.location.city}, ${pilot.location.state}` : (pilot.city ? `${pilot.city}, ${pilot.state}` : "USA")}</span>
                           </div>
                         </div>
                       </div>
@@ -183,20 +212,20 @@ export default function PilotsDirectoryPage() {
                           {profile?.rating ? profile.rating.toFixed(1) : "5.0"}
                         </span>
                         <span className="text-muted-foreground text-[11px]">
-                          ({profile?.reviewCount || 0})
+                          (({profile?.totalReviews ?? profile?.reviewCount ?? 0}))
                         </span>
                       </div>
 
                       <div className="text-muted-foreground">
                         <span className="font-semibold text-foreground">
-                          {profile?.experienceYears || 2}+
+                          {profile?.experience ?? profile?.experienceYears ?? 2}+
                         </span>{" "}
                         yrs exp
                       </div>
 
-                      {profile?.hourlyRate && (
+                      {(profile?.rate || profile?.hourlyRate) && (
                         <div className="font-semibold text-foreground font-mono">
-                          {formatCurrency(profile.hourlyRate)}/hr
+                          {formatCurrency(profile.rate || profile.hourlyRate)}/hr
                         </div>
                       )}
                     </div>
@@ -210,7 +239,7 @@ export default function PilotsDirectoryPage() {
                           {profile.skills.slice(0, 3).map((skill: string, idx: number) => (
                             <span
                               key={idx}
-                              className="px-2 py-0.5 rounded text-[10px] font-medium bg-surface-2 dark:bg-zinc-900 text-muted-foreground border border-border dark:border-zinc-800"
+                              className="px-2 py-0.5 rounded text-[10px] font-medium bg-zinc-50 dark:bg-zinc-900 text-muted-foreground border border-border dark:border-zinc-800"
                             >
                               {skill}
                             </span>

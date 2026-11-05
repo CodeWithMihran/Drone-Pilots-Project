@@ -124,7 +124,7 @@ function LoginForm() {
           </Link>
         </div>
 
-        <Button id="login-submit-btn" type="submit" block size="lg" disabled={loading}>
+        <Button id="login-submit-btn" type="submit" block size="lg" disabled={loading} className="rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold shadow-xs transition-all active:scale-[0.98]">
           {loading ? "Signing in…" : "Sign in"}
         </Button>
       </form>
@@ -149,7 +149,7 @@ function LoginForm() {
                 key={demo.label}
                 type="button"
                 onClick={() => fillDemo(demo.email, demo.pass)}
-                className="rounded-control border border-border px-2 py-2.5 text-caption font-medium text-foreground hover:border-border-strong hover:bg-surface-2"
+                className="rounded-xl border border-border px-2 py-2.5 text-caption font-medium text-foreground hover:border-border-strong hover:bg-surface-2"
               >
                 {demo.label}
               </button>

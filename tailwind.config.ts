@@ -43,23 +43,23 @@ const config: Config = {
         destructive: "rgb(var(--danger-rgb) / <alpha-value>)",
         info: "rgb(var(--info-rgb) / <alpha-value>)",
         ring: "var(--primary)",
-        navy: {
-          950: "#070c18",
-          900: "#0b132b",
-          850: "#101b3b",
-          800: "#1c2541",
-          700: "#27365a",
-          600: "#3a4d7c",
+        // AeroLink brand palette
+        golden: {
+          50:  "#FFFBEB",
+          100: "#FEF3C7",
+          200: "#FDE68A",
+          300: "#FCD34D",
+          400: "#FBBF24",
+          DEFAULT: "#FFBD24",
+          500: "#FFBD24",
+          600: "#E6AE22",
+          700: "#B45309",
         },
-        cyan: {
-          400: "#22d3ee",
-          500: "#06b6d4",
-          600: "#0891b2",
-        },
-        teal: {
-          400: "#2dd4bf",
-          500: "#14b8a6",
-          600: "#0d9488",
+        cream: {
+          DEFAULT: "#FAF9F6",
+          50:  "#FAF9F6",
+          100: "#F5F2EA",
+          200: "#EDE8DC",
         },
       },
       fontFamily: {
@@ -84,6 +84,9 @@ const config: Config = {
         "fade-in-up": "fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "scale-in": "scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "float": "float 5s ease-in-out infinite",
+        "radar-sweep": "radarSweep 4s linear infinite",
+        "radar-ping": "radarPing 2.5s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "spin-slow": "spin 30s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -101,6 +104,14 @@ const config: Config = {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-6px)" },
+        },
+        radarSweep: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        radarPing: {
+          "0%": { transform: "scale(0.8)", opacity: "1" },
+          "70%, 100%": { transform: "scale(2.2)", opacity: "0" },
         },
       },
     },

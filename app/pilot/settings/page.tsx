@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Settings, Lock, Bell, Shield, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Field } from "@/components/ui/field";
 import { Alert } from "@/components/ui/alert";
@@ -22,44 +21,43 @@ export default function PilotSettingsPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* Header Banner */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-              Pilot Account Preferences
+          <div className="flex items-center gap-2">
+            <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              ACCOUNT & PREFERENCES
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
-            Account & Dispatch Settings
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
+            Account & Notification Settings
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            Configure notification channels, mission match thresholds, and credential security.
+            Configure notification channels, mission match alerts, and security preferences.
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-          <Settings className="w-4 h-4 text-primary" />
-          <span>Dispatch System Active</span>
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
+          <Settings className="w-4 h-4 text-[#fabf28]" />
+          <span>Dispatch Active</span>
         </div>
       </div>
 
       {saved && (
-        <Alert variant="success">
+        <Alert variant="success" className="rounded-2xl">
           <span>Preferences updated successfully!</span>
         </Alert>
       )}
 
       <form onSubmit={handleSave} className="space-y-6">
+        
         {/* Notification Preferences */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-4 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
-          <div className="pb-3 border-b border-border dark:border-zinc-800">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <Bell className="w-4 h-4 text-primary" />
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+          <div className="pb-4 border-b border-border/80 dark:border-zinc-800">
+            <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+              <Bell className="w-4 h-4 text-[#fabf28]" />
               Dispatch & Mission Notifications
             </h3>
             <p className="text-xs text-muted-foreground mt-0.5">
@@ -68,81 +66,83 @@ export default function PilotSettingsPage() {
           </div>
 
           <div className="space-y-3 pt-2">
-            <label className="flex items-center justify-between p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 cursor-pointer hover:border-border-strong dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div>
-                <p className="text-xs font-semibold text-foreground">High-Match Mission Dispatch</p>
+                <p className="text-xs font-bold text-foreground">High-Match Mission Dispatch</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">Receive real-time alerts when projects matching &gt;80% of your fleet are posted in your flight radius.</p>
               </div>
               <input
                 type="checkbox"
                 checked={jobMatchAlerts}
                 onChange={(e) => setJobMatchAlerts(e.target.checked)}
-                className="rounded border-border text-primary focus:ring-ring w-4 h-4 ml-4"
+                className="rounded accent-[#fabf28] w-4 h-4 ml-4 cursor-pointer"
               />
             </label>
 
-            <label className="flex items-center justify-between p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 cursor-pointer hover:border-border-strong dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div>
-                <p className="text-xs font-semibold text-foreground">Milestone Escrow Notifications</p>
+                <p className="text-xs font-bold text-foreground">Milestone Escrow Notifications</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">Immediate alerts upon client milestone authorization and escrow disbursements.</p>
               </div>
               <input
                 type="checkbox"
                 checked={paymentAlerts}
                 onChange={(e) => setPaymentAlerts(e.target.checked)}
-                className="rounded border-border text-primary focus:ring-ring w-4 h-4 ml-4"
+                className="rounded accent-[#fabf28] w-4 h-4 ml-4 cursor-pointer"
               />
             </label>
 
-            <label className="flex items-center justify-between p-4 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 cursor-pointer hover:border-border-strong dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div>
-                <p className="text-xs font-semibold text-foreground">Email Digest & Tenders</p>
+                <p className="text-xs font-bold text-foreground">Email Digest & Briefs</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">Weekly compilation of regional industrial drone opportunities.</p>
               </div>
               <input
                 type="checkbox"
                 checked={emailAlerts}
                 onChange={(e) => setEmailAlerts(e.target.checked)}
-                className="rounded border-border text-primary focus:ring-ring w-4 h-4 ml-4"
+                className="rounded accent-[#fabf28] w-4 h-4 ml-4 cursor-pointer"
               />
             </label>
           </div>
         </div>
 
         {/* Security & Password */}
-        <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs space-y-4 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300">
-          <div className="pb-3 border-b border-border dark:border-zinc-800">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <Lock className="w-4 h-4 text-primary" />
-              Credentials & Security
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-5 transition-all duration-200">
+          <div className="pb-4 border-b border-border/80 dark:border-zinc-800">
+            <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+              <Lock className="w-4 h-4 text-[#fabf28]" />
+              Security & Credentials
             </h3>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Update password and active authentication tokens.
+            </p>
           </div>
 
-          <div className="pt-2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="New Password">
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
-                />
-              </Field>
-              <Field label="Confirm New Password">
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  className="bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
-                />
-              </Field>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+            <Field label="Current Password" htmlFor="current-pw">
+              <Input
+                id="current-pw"
+                type="password"
+                placeholder="••••••••••••"
+                className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+              />
+            </Field>
+
+            <Field label="New Password" htmlFor="new-pw">
+              <Input
+                id="new-pw"
+                type="password"
+                placeholder="••••••••••••"
+                className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
+              />
+            </Field>
           </div>
         </div>
 
         <Button
           type="submit"
-          variant="primary"
-          size="md"
-          className="h-10 px-6 font-semibold text-xs"
+          className="h-11 px-8 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs"
         >
           Save Preferences
         </Button>
