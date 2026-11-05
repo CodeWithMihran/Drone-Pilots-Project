@@ -47,6 +47,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
