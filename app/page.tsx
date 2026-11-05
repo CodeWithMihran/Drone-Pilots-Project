@@ -334,8 +334,10 @@ export default function LandingPage() {
                   ref={videoRef}
                   autoPlay
                   loop
-                  muted={isVideoMuted}
+                  muted
+                  defaultMuted
                   playsInline
+                  preload="auto"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                 >
                   <source src="/hero-video.mp4" type="video/mp4" />
