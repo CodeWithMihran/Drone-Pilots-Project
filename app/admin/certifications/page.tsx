@@ -115,7 +115,7 @@ export default function AdminCertificationsPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
           <ShieldCheck className="w-4 h-4 text-[#fabf28]" />
           <span>Part 107 Audit Console</span>
         </div>
@@ -123,7 +123,7 @@ export default function AdminCertificationsPage() {
 
       {/* Filter Tabs & Search Bar */}
       <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-5 shadow-xs space-y-4">
-        <div className="flex flex-wrap gap-2 p-1.5 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
+        <div className="flex flex-wrap gap-2 p-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
           {[
             { label: "Pending Verification", val: "PENDING" },
             { label: "Verified Credentials", val: "VERIFIED" },
@@ -173,7 +173,7 @@ export default function AdminCertificationsPage() {
           {loading ? (
             <div className="p-6 space-y-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-12 bg-surface-2 dark:bg-zinc-850 rounded-2xl animate-pulse border border-border/60 dark:border-zinc-800" />
+                <div key={i} className="h-12 bg-zinc-100 dark:bg-zinc-800 rounded-2xl animate-pulse border border-border/60 dark:border-zinc-800" />
               ))}
             </div>
           ) : filtered.length === 0 ? (
@@ -188,7 +188,7 @@ export default function AdminCertificationsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs whitespace-nowrap">
                 <thead>
-                  <tr className="border-b border-border dark:border-zinc-800 bg-[#faf8f5]/60 dark:bg-zinc-900/40 text-muted-foreground font-semibold">
+                  <tr className="border-b border-border dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/40 text-muted-foreground font-semibold">
                     <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Pilot Details</th>
                     <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Authority & Type</th>
                     <th className="py-3.5 px-4 font-mono uppercase text-[11px]">License ID</th>
@@ -200,7 +200,7 @@ export default function AdminCertificationsPage() {
                 </thead>
                 <tbody className="divide-y divide-border/80 dark:divide-zinc-800/80">
                   {filtered.map((cert) => (
-                    <tr key={cert._id} className="hover:bg-[#faf8f5]/60 dark:hover:bg-zinc-900/30 transition-colors">
+                    <tr key={cert._id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
                       <td className="py-4 px-4">
                         <Link
                           href={`/pilots/${cert.pilotId?._id}`}

@@ -103,7 +103,7 @@ function PilotActiveJobsContent() {
         </div>
 
         {/* Tab Controls */}
-        <div className="flex p-1.5 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800 self-start sm:self-auto shrink-0">
+        <div className="flex p-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800 self-start sm:self-auto shrink-0">
           <button
             onClick={() => setTab("active")}
             className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${

@@ -216,7 +216,7 @@ export default function PilotCertificationPage() {
           {loading ? (
             <div className="space-y-3">
               {[1, 2].map((i) => (
-                <div key={i} className="h-20 bg-surface-2 dark:bg-zinc-850 rounded-2xl animate-pulse border border-border/60 dark:border-zinc-800" />
+                <div key={i} className="h-20 bg-zinc-100 dark:bg-zinc-800 rounded-2xl animate-pulse border border-border/60 dark:border-zinc-800" />
               ))}
             </div>
           ) : certifications.length === 0 ? (
@@ -232,7 +232,7 @@ export default function PilotCertificationPage() {
               {certifications.map((cert) => (
                 <div
                   key={cert._id}
-                  className="p-6 rounded-2xl bg-[#faf8f5]/60 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800 space-y-3 transition-all hover:border-zinc-400 dark:hover:border-zinc-700"
+                  className="p-6 rounded-2xl bg-zinc-50/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800 space-y-3 transition-all hover:border-zinc-400 dark:hover:border-zinc-700"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>

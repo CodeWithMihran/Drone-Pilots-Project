@@ -37,7 +37,7 @@ export default function CompanySettingsPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
           <Building className="w-4 h-4 text-[#fabf28]" />
           <span>Procurement Active</span>
         </div>
@@ -65,7 +65,7 @@ export default function CompanySettingsPage() {
           </div>
 
           <div className="space-y-3 pt-2">
-            <label className="flex items-center justify-between p-4 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div className="space-y-0.5">
                 <p className="text-xs font-bold text-foreground">Instant Pilot Proposal Notifications</p>
                 <p className="text-[11px] text-muted-foreground">Receive real-time alerts whenever a verified pilot bids on your mission briefs.</p>
@@ -78,7 +78,7 @@ export default function CompanySettingsPage() {
               />
             </label>
 
-            <label className="flex items-center justify-between p-4 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div className="space-y-0.5">
                 <p className="text-xs font-bold text-foreground">Mission Completion & Deliverable Alerts</p>
                 <p className="text-[11px] text-muted-foreground">Notifies you immediately when an assigned pilot finishes operations and uploads deliverables.</p>

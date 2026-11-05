@@ -230,7 +230,7 @@ export default function JobDetailPage() {
   const isJobOpen = job.status === "OPEN" || job.status === "APPLICATIONS_RECEIVED";
 
   return (
-    <div className="flex-1 bg-[#faf8f5] dark:bg-[#0d1117] py-8 sm:py-12 transition-colors duration-150">
+    <div className="flex-1 bg-background py-8 sm:py-12 transition-colors duration-150">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -317,7 +317,7 @@ export default function JobDetailPage() {
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 sm:p-5 rounded-2xl bg-[#faf8f5] dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800">
+                <div className="p-4 sm:p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800">
                   <p className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Required Certification</p>
                   <p className="text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 mt-1.5 flex items-center gap-1.5 font-bold">
                     <ShieldCheck className="w-4 h-4" />
@@ -325,7 +325,7 @@ export default function JobDetailPage() {
                   </p>
                 </div>
 
-                <div className="p-4 sm:p-5 rounded-2xl bg-[#faf8f5] dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800">
+                <div className="p-4 sm:p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800">
                   <p className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Pilot Experience</p>
                   <p className="text-xs sm:text-sm text-foreground mt-1.5 font-bold">
                     {job.requiredExperience}+ Year(s) Commercial Experience
@@ -342,7 +342,7 @@ export default function JobDetailPage() {
                     {job.requiredEquipment.map((eq: string, idx: number) => (
                       <span
                         key={idx}
-                        className="px-3.5 py-1.5 rounded-full bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground font-semibold shadow-2xs"
+                        className="px-3.5 py-1.5 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground font-semibold shadow-2xs"
                       >
                         {eq}
                       </span>
@@ -450,7 +450,7 @@ export default function JobDetailPage() {
                         </div>
                       )
                     ) : (
-                      <div className="p-4 rounded-2xl bg-[#faf8f5] dark:bg-zinc-900 text-center text-xs font-semibold text-muted-foreground">
+                      <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 text-center text-xs font-semibold text-muted-foreground">
                         This mission brief is currently {job.status.replace(/_/g, " ")}.
                       </div>
                     )}
@@ -597,7 +597,7 @@ export default function JobDetailPage() {
               </div>
               <button
                 onClick={() => setApplyModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-muted-foreground hover:text-foreground flex items-center justify-center text-xs font-bold"
+                className="w-8 h-8 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-muted-foreground hover:text-foreground flex items-center justify-center text-xs font-bold"
               >
                 ✕
               </button>
@@ -616,7 +616,7 @@ export default function JobDetailPage() {
                     value={bidAmount}
                     onChange={(e) => setBidAmount(e.target.value)}
                     placeholder="1200"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
                   />
                 </div>
                 <span className="text-[11px] text-muted-foreground mt-1 block">Listed budget: {formatCurrency(job.budget)}</span>
@@ -632,7 +632,7 @@ export default function JobDetailPage() {
                   value={availability}
                   onChange={(e) => setAvailability(e.target.value)}
                   placeholder="Available immediately for scheduled flight date"
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
+                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
                 />
               </div>
 
@@ -646,7 +646,7 @@ export default function JobDetailPage() {
                   value={proposal}
                   onChange={(e) => setProposal(e.target.value)}
                   placeholder="Describe your flight approach, payload sensors to be used, and deliverable timeline..."
-                  className="w-full p-4 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
+                  className="w-full p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
                 />
               </div>
 
@@ -654,7 +654,7 @@ export default function JobDetailPage() {
                 <button
                   type="button"
                   onClick={() => setApplyModalOpen(false)}
-                  className="flex-1 h-11 rounded-full bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
+                  className="flex-1 h-11 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
                 >
                   Cancel
                 </button>
@@ -685,7 +685,7 @@ export default function JobDetailPage() {
               Authorize direct payout to the assigned pilot for completed mission deliverables:
             </p>
 
-            <div className="p-4 rounded-2xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-left space-y-2 text-xs">
+            <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-left space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Project:</span>
                 <span className="text-foreground font-semibold truncate max-w-[200px]">{job.title}</span>
@@ -704,7 +704,7 @@ export default function JobDetailPage() {
               <button
                 type="button"
                 onClick={() => setPayModalOpen(false)}
-                className="flex-1 h-11 rounded-full bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
+                className="flex-1 h-11 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
               >
                 Cancel
               </button>
@@ -759,7 +759,7 @@ export default function JobDetailPage() {
                   value={reviewComment}
                   onChange={(e) => setReviewComment(e.target.value)}
                   placeholder="Share details about flight precision, safety adherence, communication, and deliverables..."
-                  className="w-full p-4 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
+                  className="w-full p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
                 />
               </div>
 
@@ -767,7 +767,7 @@ export default function JobDetailPage() {
                 <button
                   type="button"
                   onClick={() => setReviewModalOpen(false)}
-                  className="flex-1 h-11 rounded-full bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
+                  className="flex-1 h-11 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
                 >
                   Cancel
                 </button>

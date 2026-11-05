@@ -42,7 +42,7 @@ export default function AdminReportsPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
           <BarChart3 className="w-4 h-4 text-[#fabf28]" />
           <span>Volume: {formatCurrency(stats.totalPlatformVolume || 148500)}</span>
         </div>
@@ -88,15 +88,15 @@ export default function AdminReportsPage() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-border/80 dark:border-zinc-800">
-            <div className="p-5 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800">
+            <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-border/80 dark:border-zinc-800">
               <p className="text-[11px] font-mono uppercase text-muted-foreground">Proposals Processed</p>
               <p className="text-2xl font-extrabold text-foreground mt-1.5 font-sans">{stats.applicationsCount || 45}</p>
             </div>
-            <div className="p-5 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800">
+            <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-border/80 dark:border-zinc-800">
               <p className="text-[11px] font-mono uppercase text-muted-foreground">Completed Operations</p>
               <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1.5 font-sans">{stats.completedJobs || 18}</p>
             </div>
-            <div className="p-5 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800">
+            <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-border/80 dark:border-zinc-800">
               <p className="text-[11px] font-mono uppercase text-muted-foreground">Active Verified Pilots</p>
               <p className="text-2xl font-extrabold text-foreground mt-1.5 font-sans">{stats.verifiedPilots || 12}</p>
             </div>

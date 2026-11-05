@@ -133,7 +133,7 @@ export default function CompanyReviewsPage() {
               </div>
 
               {rev.comment && (
-                <div className="p-4 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800 text-xs text-foreground italic leading-relaxed">
+                <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-border/80 dark:border-zinc-800 text-xs text-foreground italic leading-relaxed">
                   &ldquo;{rev.comment}&rdquo;
                 </div>
               )}

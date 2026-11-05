@@ -81,7 +81,7 @@ function JobsMarketplaceContent() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-fade-in">
       {/* Header Banner */}
-      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#131720] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
@@ -149,7 +149,7 @@ function JobsMarketplaceContent() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search mission title, keywords, or airframes..."
-              className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
+              className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
             />
           </div>
 
@@ -160,7 +160,7 @@ function JobsMarketplaceContent() {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               placeholder="City or state..."
-              className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
+              className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
             />
           </div>
 
@@ -168,7 +168,7 @@ function JobsMarketplaceContent() {
             <select
               value={serviceType}
               onChange={(e) => setServiceType(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28] transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28] transition-colors"
             >
               <option value="">All Services</option>
               <option value="AGRICULTURAL_SPRAYING">Agricultural Spraying</option>
@@ -192,7 +192,7 @@ function JobsMarketplaceContent() {
             <button
               type="button"
               onClick={handleResetFilters}
-              className="p-2.5 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 hover:bg-zinc-100 text-muted-foreground hover:text-foreground transition-colors"
+              className="p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 hover:bg-zinc-100 text-muted-foreground hover:text-foreground transition-colors"
               title="Reset filters"
             >
               <X className="w-4 h-4" />
@@ -241,7 +241,7 @@ function JobsMarketplaceContent() {
                     className={`w-full text-left px-3 py-2 rounded-xl transition-colors text-xs font-medium ${
                       serviceType === s.val
                         ? "bg-[#fabf28]/15 text-zinc-950 dark:text-[#fabf28] font-bold"
-                        : "text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900"
+                        : "text-muted-foreground hover:text-foreground hover:bg-zinc-50 dark:hover:bg-zinc-900"
                     }`}
                   >
                     {s.label}
@@ -261,20 +261,20 @@ function JobsMarketplaceContent() {
                   value={budgetMin}
                   onChange={(e) => setBudgetMin(e.target.value)}
                   placeholder="Min $"
-                  className="w-full px-3 py-2 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
                 />
                 <input
                   type="number"
                   value={budgetMax}
                   onChange={(e) => setBudgetMax(e.target.value)}
                   placeholder="Max $"
-                  className="w-full px-3 py-2 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
                 />
               </div>
               <button
                 type="button"
                 onClick={fetchJobs}
-                className="w-full mt-2 py-2 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 hover:bg-zinc-100 text-xs font-bold text-foreground transition-colors"
+                className="w-full mt-2 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 hover:bg-zinc-100 text-xs font-bold text-foreground transition-colors"
               >
                 Apply Budget
               </button>
@@ -291,7 +291,7 @@ function JobsMarketplaceContent() {
                   setExperience(e.target.value);
                   setTimeout(fetchJobs, 50);
                 }}
-                className="w-full px-3 py-2 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
               >
                 <option value="">Any Experience Level</option>
                 <option value="1">1+ Year Commercial</option>
@@ -418,7 +418,7 @@ function JobsMarketplaceContent() {
 
 export default function JobsMarketplacePage() {
   return (
-    <div className="flex-1 bg-[#faf8f5] dark:bg-[#0d1117] py-10 sm:py-16 transition-colors duration-150">
+    <div className="flex-1 bg-background py-10 sm:py-16 transition-colors duration-150">
       <Suspense fallback={<div className="text-foreground text-xs max-w-7xl mx-auto px-4 font-mono">Loading missions marketplace...</div>}>
         <JobsMarketplaceContent />
       </Suspense>

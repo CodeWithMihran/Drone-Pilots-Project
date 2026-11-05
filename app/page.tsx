@@ -485,7 +485,7 @@ export default function LandingPage() {
             </div>
 
             {/* Right Card: FOR PILOTS (Pitch Obsidian Charcoal Theme) */}
-            <div className="rounded-3xl bg-[#111111] dark:bg-[#131720] border border-zinc-800/80 text-white p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none">
+            <div className="rounded-3xl bg-[#111111] dark:bg-[#161b22] border border-zinc-800/80 text-white p-7 sm:p-9 flex flex-col justify-between shadow-lg select-none">
               <div>
                 <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-zinc-400 block mb-2">
                   FOR PILOTS
@@ -590,7 +590,7 @@ export default function LandingPage() {
       </section>
 
       {/* Why AeroLink / Core Value Proposition */}
-      <section className="py-20 sm:py-28 bg-[#faf8f5] dark:bg-[#0d1117] border-b border-border/80 dark:border-zinc-850">
+      <section className="py-20 sm:py-28 bg-background border-b border-border/80 dark:border-zinc-850">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
             
@@ -746,7 +746,7 @@ export default function LandingPage() {
                   className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-tight transition-all duration-200 ${
                     faqCategory === tab.id
                       ? "bg-[#fabf28] text-zinc-950 shadow-xs"
-                      : "bg-surface-2 dark:bg-zinc-900 text-muted-foreground hover:text-foreground border border-border/80 dark:border-zinc-800"
+                      : "bg-zinc-50 dark:bg-zinc-900 text-muted-foreground hover:text-foreground border border-border/80 dark:border-zinc-800"
                   }`}
                 >
                   {tab.label}
@@ -797,7 +797,7 @@ export default function LandingPage() {
           </div>
 
           {/* Concierge Help Card at Bottom */}
-          <div className="mt-12 sm:mt-16 rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-[#faf8f5] dark:bg-[#131720] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
+          <div className="mt-12 sm:mt-16 rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#161b22] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
             <div className="flex items-center gap-4 text-center sm:text-left">
               <div className="w-12 h-12 rounded-2xl bg-[#fabf28]/15 text-[#fabf28] flex items-center justify-center shrink-0">
                 <HelpCircle className="w-6 h-6 stroke-[1.8]" />
@@ -826,7 +826,7 @@ export default function LandingPage() {
       </section>
 
       {/* Call to Action Section (Pilotbase Style) */}
-      <section className="py-20 sm:py-28 bg-[#faf8f5] dark:bg-[#0d1117] border-b border-border/80 dark:border-zinc-800">
+      <section className="py-20 sm:py-28 bg-background border-b border-border/80 dark:border-zinc-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>

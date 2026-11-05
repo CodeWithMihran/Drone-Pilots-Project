@@ -55,7 +55,7 @@ export default function AdminPilotsDirectoryPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
           <Plane className="w-4 h-4 text-[#fabf28]" />
           <span>Active Roster: {pilots.length} Pilots</span>
         </div>
@@ -123,7 +123,7 @@ export default function AdminPilotsDirectoryPage() {
                       Verified
                     </span>
                   ) : (
-                    <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800 text-muted-foreground">
+                    <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800 text-muted-foreground">
                       Standard
                     </span>
                   )}

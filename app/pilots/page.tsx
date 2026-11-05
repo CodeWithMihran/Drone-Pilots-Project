@@ -61,7 +61,7 @@ export default function PilotsDirectoryPage() {
     <div className="flex-1 bg-background text-foreground py-10 sm:py-16 transition-colors animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header */}
-        <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#131720] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
@@ -125,7 +125,7 @@ export default function PilotsDirectoryPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by pilot name, city, skill, or drone hardware..."
-                className="pl-10 text-xs bg-surface-2 dark:bg-zinc-900 border-border dark:border-zinc-800"
+                className="pl-10 text-xs bg-zinc-50 dark:bg-zinc-900 border-border dark:border-zinc-800"
               />
             </div>
 
@@ -239,7 +239,7 @@ export default function PilotsDirectoryPage() {
                           {profile.skills.slice(0, 3).map((skill: string, idx: number) => (
                             <span
                               key={idx}
-                              className="px-2 py-0.5 rounded text-[10px] font-medium bg-surface-2 dark:bg-zinc-900 text-muted-foreground border border-border dark:border-zinc-800"
+                              className="px-2 py-0.5 rounded text-[10px] font-medium bg-zinc-50 dark:bg-zinc-900 text-muted-foreground border border-border dark:border-zinc-800"
                             >
                               {skill}
                             </span>

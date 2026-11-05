@@ -191,7 +191,7 @@ function CompanyApplicationsContent() {
                             PART 107 VERIFIED
                           </span>
                         ) : (
-                          <span className="px-3 py-0.5 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800 text-[11px] font-semibold text-muted-foreground">
+                          <span className="px-3 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800 text-[11px] font-semibold text-muted-foreground">
                             Standard
                           </span>
                         )}
@@ -208,7 +208,7 @@ function CompanyApplicationsContent() {
                     </div>
                   </div>
 
-                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2.5 shrink-0 bg-[#faf8f5] dark:bg-zinc-900/60 sm:bg-transparent p-4 sm:p-0 rounded-2xl border border-border/40 sm:border-0">
+                  <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2.5 shrink-0 bg-zinc-50 dark:bg-zinc-900/60 sm:bg-transparent p-4 sm:p-0 rounded-2xl border border-border/40 sm:border-0">
                     <div className="text-left sm:text-right">
                       <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground block mb-0.5">Proposed Price</span>
                       <span className="text-xl sm:text-2xl font-extrabold text-foreground font-sans">
@@ -222,7 +222,7 @@ function CompanyApplicationsContent() {
                 </div>
 
                 {/* Proposal Text */}
-                <div className="p-5 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800 text-xs space-y-2">
+                <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-border/80 dark:border-zinc-800 text-xs space-y-2">
                   <div className="flex items-center justify-between text-[11px] font-bold">
                     <span className="text-muted-foreground uppercase font-mono tracking-wider">Flight Proposal & Methodology</span>
                     <span className="text-zinc-950 dark:text-white bg-[#fabf28] px-2.5 py-0.5 rounded-full text-[10px]">Availability: {app.availability}</span>
@@ -241,7 +241,7 @@ function CompanyApplicationsContent() {
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {profile.equipment.map((eq: string, idx: number) => (
-                        <span key={idx} className="px-3 py-1 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800 text-[11px] text-foreground font-semibold">
+                        <span key={idx} className="px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800 text-[11px] text-foreground font-semibold">
                           {eq}
                         </span>
                       ))}

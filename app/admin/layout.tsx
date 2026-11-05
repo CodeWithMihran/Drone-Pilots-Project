@@ -5,9 +5,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex-1 flex flex-col lg:flex-row bg-background text-foreground transition-colors min-h-[calc(100vh-4rem)]">
       <DashboardSidebar role="ADMIN" />
-      <div className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+      <main className="flex-1 px-5 sm:px-8 lg:px-10 py-7 sm:py-9 overflow-y-auto max-w-[1440px] mx-auto w-full min-w-0">
         {children}
-      </div>
+      </main>
     </div>
   );
 }

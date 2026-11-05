@@ -20,7 +20,7 @@ export default function AdminSettingsPage() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
       {/* Header Banner */}
-      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#131720] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
@@ -36,7 +36,7 @@ export default function AdminSettingsPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-850 border border-border/80 dark:border-zinc-800 shadow-2xs">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <span className="text-foreground">FAA Airspace Compliance Active</span>
         </div>
@@ -51,7 +51,7 @@ export default function AdminSettingsPage() {
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Aviation Regulatory Enforcement Card */}
-        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
           <div className="pb-4 border-b border-zinc-100 dark:border-zinc-800/80">
             <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
               <Shield className="w-4 h-4 text-[#fabf28]" />
@@ -63,7 +63,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div className="space-y-3.5">
-            <label className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#faf8f5] dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-350 dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div>
                 <p className="text-xs font-bold text-foreground">Enforce Part 107 for Commercial Missions</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">
@@ -78,7 +78,7 @@ export default function AdminSettingsPage() {
               />
             </label>
 
-            <label className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#faf8f5] dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-350 dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div>
                 <p className="text-xs font-bold text-foreground">Automatic Expiration Revocation</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">
@@ -96,7 +96,7 @@ export default function AdminSettingsPage() {
         </div>
 
         {/* Escrow & Financial Safeguards Card */}
-        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
           <div className="pb-4 border-b border-zinc-100 dark:border-zinc-800/80">
             <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
               <Lock className="w-4 h-4 text-[#fabf28]" />
@@ -115,7 +115,7 @@ export default function AdminSettingsPage() {
               <select
                 value={escrowHoldDays}
                 onChange={(e) => setEscrowHoldDays(e.target.value)}
-                className="w-full sm:w-64 px-4 py-2.5 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs font-medium text-foreground focus:outline-none focus:border-[#fabf28]"
+                className="w-full sm:w-64 px-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-xs font-medium text-foreground focus:outline-none focus:border-[#fabf28]"
               >
                 <option value="2">2 Days (Express)</option>
                 <option value="3">3 Days (Standard Commercial)</option>
@@ -124,7 +124,7 @@ export default function AdminSettingsPage() {
               </select>
             </div>
 
-            <label className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#faf8f5] dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-350 dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div>
                 <p className="text-xs font-bold text-foreground">Real-time Dispute Alert Escalation</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">

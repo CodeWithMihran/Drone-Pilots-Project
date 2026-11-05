@@ -75,11 +75,11 @@ export function DashboardSidebar({ role }: { role: "PILOT" | "COMPANY" | "ADMIN"
   const items = role === "PILOT" ? pilotNav : role === "COMPANY" ? companyNav : adminNav;
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#faf8f5]/80 dark:bg-[#0d1117]/95 border-r border-border/80 dark:border-zinc-850 p-5 transition-colors">
+    <div className="flex flex-col h-full bg-white/70 dark:bg-[#0d1117] border-r border-border/80 dark:border-zinc-800 p-5 sm:p-6 transition-colors">
       {/* User Badge Info Card */}
-      <div className="mb-6 p-4 rounded-2xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800/90 shadow-2xs">
+      <div className="mb-6 p-4 rounded-2xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-2xs">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-zinc-950 dark:bg-zinc-850 text-[#fabf28] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+          <div className="w-10 h-10 rounded-full bg-zinc-950 dark:bg-zinc-800 text-[#fabf28] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
             {session?.user?.name ? session.user.name.charAt(0).toUpperCase() : "U"}
           </div>
           <div className="flex-1 min-w-0">
@@ -163,7 +163,7 @@ export function DashboardSidebar({ role }: { role: "PILOT" | "COMPANY" | "ADMIN"
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block w-64 h-[calc(100vh-4rem)] sticky top-16 shrink-0">
+      <aside className="hidden lg:block w-68 h-[calc(100vh-4rem)] sticky top-16 shrink-0">
         {sidebarContent}
       </aside>
 

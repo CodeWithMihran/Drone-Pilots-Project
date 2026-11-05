@@ -39,7 +39,7 @@ export default function PilotSettingsPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
           <Settings className="w-4 h-4 text-[#fabf28]" />
           <span>Dispatch Active</span>
         </div>
@@ -66,7 +66,7 @@ export default function PilotSettingsPage() {
           </div>
 
           <div className="space-y-3 pt-2">
-            <label className="flex items-center justify-between p-4 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div>
                 <p className="text-xs font-bold text-foreground">High-Match Mission Dispatch</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">Receive real-time alerts when projects matching &gt;80% of your fleet are posted in your flight radius.</p>
@@ -79,7 +79,7 @@ export default function PilotSettingsPage() {
               />
             </label>
 
-            <label className="flex items-center justify-between p-4 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div>
                 <p className="text-xs font-bold text-foreground">Milestone Escrow Notifications</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">Immediate alerts upon client milestone authorization and escrow disbursements.</p>
@@ -92,7 +92,7 @@ export default function PilotSettingsPage() {
               />
             </label>
 
-            <label className="flex items-center justify-between p-4 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
+            <label className="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border/80 dark:border-zinc-800 cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-700 transition-colors">
               <div>
                 <p className="text-xs font-bold text-foreground">Email Digest & Briefs</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">Weekly compilation of regional industrial drone opportunities.</p>

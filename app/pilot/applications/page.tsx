@@ -143,7 +143,7 @@ export default function PilotApplicationsPage() {
                 </div>
 
                 {/* Proposal excerpt */}
-                <div className="p-4 rounded-2xl bg-[#faf8f5]/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800 text-xs text-foreground space-y-1">
+                <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-border/80 dark:border-zinc-800 text-xs text-foreground space-y-1">
                   <p className="font-mono font-bold text-muted-foreground uppercase tracking-wider text-[10px]">Your Proposal Pitch</p>
                   <p className="line-clamp-2 italic leading-relaxed text-muted-foreground">&ldquo;{app.proposal}&rdquo;</p>
                 </div>

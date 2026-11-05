@@ -399,7 +399,7 @@ export default function CompanyDashboardPage() {
             <div className="space-y-2">
               <Link
                 href="/company/pilots"
-                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
                   <Users className="w-4 h-4 text-[#fabf28]" />
@@ -410,7 +410,7 @@ export default function CompanyDashboardPage() {
 
               <Link
                 href="/company/reviews"
-                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500" />

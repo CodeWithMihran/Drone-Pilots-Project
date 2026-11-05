@@ -172,7 +172,7 @@ export default function PilotDashboardPage() {
                 <span className="text-muted-foreground">Profile Readiness</span>
                 <span className="text-foreground">{stats.profileCompletion}%</span>
               </div>
-              <div className="w-full h-2 rounded-full bg-surface-2 dark:bg-zinc-850 overflow-hidden border border-border/50 dark:border-zinc-800">
+              <div className="w-full h-2 rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden border border-border/50 dark:border-zinc-800">
                 <div
                   className="h-full bg-[#fabf28] transition-all duration-500 rounded-full"
                   style={{ width: `${stats.profileCompletion}%` }}
@@ -507,29 +507,29 @@ export default function PilotDashboardPage() {
             <div className="space-y-2">
               <Link
                 href="/pilot/applications"
-                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
                   <FileText className="w-4 h-4 text-[#fabf28]" />
                   <span className="font-semibold">Submitted Proposals</span>
                 </div>
-                <span className="font-bold text-foreground px-2 py-0.5 rounded-full bg-surface-2 dark:bg-zinc-850 text-[11px]">{stats.applicationsCount}</span>
+                <span className="font-bold text-foreground px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-[11px]">{stats.applicationsCount}</span>
               </Link>
 
               <Link
                 href="/pilot/reviews"
-                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
                   <Star className="w-4 h-4 text-[#fabf28]" />
                   <span className="font-semibold">Client Ratings</span>
                 </div>
-                <span className="font-bold text-foreground px-2 py-0.5 rounded-full bg-surface-2 dark:bg-zinc-850 text-[11px]">{stats.totalReviews}</span>
+                <span className="font-bold text-foreground px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-[11px]">{stats.totalReviews}</span>
               </Link>
 
               <Link
                 href="/pilot/settings"
-                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-[#faf8f5] dark:hover:bg-zinc-900 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl text-xs text-muted-foreground hover:text-foreground hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors border border-transparent hover:border-border dark:hover:border-zinc-800"
               >
                 <div className="flex items-center gap-2.5">
                   <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />

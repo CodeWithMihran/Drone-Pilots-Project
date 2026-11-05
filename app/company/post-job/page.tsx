@@ -117,7 +117,7 @@ export default function CompanyPostJobPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-8 py-2 animate-fade-in">
       {/* Header Banner */}
-      <div className="rounded-3xl bg-[#faf8f5] dark:bg-[#131720] border border-zinc-200/90 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
@@ -133,7 +133,7 @@ export default function CompanyPostJobPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-850 border border-border/80 dark:border-zinc-800 shadow-2xs">
           <span className="w-2 h-2 rounded-full bg-[#fabf28]" />
           <span className="text-foreground">Underwritten Escrow Protected</span>
         </div>
@@ -148,9 +148,9 @@ export default function CompanyPostJobPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Project Overview Card */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
-            <Briefcase className="w-4 h-4 text-primary" />
+        <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs space-y-6">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Briefcase className="w-4 h-4 text-[#fabf28]" />
             Project Scope & Classification
           </h3>
 
@@ -165,7 +165,7 @@ export default function CompanyPostJobPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. 500kW Solar Farm Infrared Thermal Inspection & Fault Analysis"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
             />
           </div>
 
@@ -178,7 +178,7 @@ export default function CompanyPostJobPage() {
                 id="job-service-type-select"
                 value={serviceType}
                 onChange={(e) => setServiceType(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28] transition-colors"
               >
                 <option value="AGRICULTURAL_SPRAYING">Agricultural Spraying & Multispectral</option>
                 <option value="INFRASTRUCTURE_INSPECTION">Infrastructure & Thermal Inspection</option>
@@ -204,7 +204,7 @@ export default function CompanyPostJobPage() {
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
                   placeholder="2400"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
                 />
               </div>
             </div>
@@ -221,15 +221,15 @@ export default function CompanyPostJobPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Provide full flight mission details, acreage or structural dimensions, desired ground sampling distance (GSD), raw/orthomosaic deliverable formats, and site safety constraints..."
-              className="w-full p-3 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors leading-relaxed"
+              className="w-full p-3 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors leading-relaxed"
             />
           </div>
         </div>
 
         {/* Location & Scheduling */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-primary" />
+        <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs space-y-6">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-[#fabf28]" />
             Location & Flight Schedule
           </h3>
 
@@ -245,7 +245,7 @@ export default function CompanyPostJobPage() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Phoenix"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
               />
             </div>
 
@@ -260,7 +260,7 @@ export default function CompanyPostJobPage() {
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 placeholder="Arizona"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
               />
             </div>
           </div>
@@ -274,7 +274,7 @@ export default function CompanyPostJobPage() {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="e.g. Sector 4 Solar Array, Desert Ridge Field Office"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
             />
           </div>
 
@@ -289,7 +289,7 @@ export default function CompanyPostJobPage() {
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28] transition-colors"
               />
             </div>
 
@@ -302,7 +302,7 @@ export default function CompanyPostJobPage() {
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 placeholder="08:30 AM"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
               />
             </div>
 
@@ -315,7 +315,7 @@ export default function CompanyPostJobPage() {
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
                 placeholder="1 Day (approx 4 flight hours)"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
               />
             </div>
           </div>
@@ -330,14 +330,14 @@ export default function CompanyPostJobPage() {
               required
               value={applicationDeadline}
               onChange={(e) => setApplicationDeadline(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28] transition-colors"
             />
           </div>
         </div>
 
         {/* Requirements & Hardware Payloads */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-5">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
+        <div className="p-7 sm:p-9 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs space-y-6">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-success" />
             Pilot Certification & Equipment Prerequisites
           </h3>
@@ -350,7 +350,7 @@ export default function CompanyPostJobPage() {
               <select
                 value={requiredCertification}
                 onChange={(e) => setRequiredCertification(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28] transition-colors"
               >
                 <option value="FAA Part 107 Commercial Remote Pilot">
                   FAA Part 107 Commercial Remote Pilot
@@ -379,7 +379,7 @@ export default function CompanyPostJobPage() {
                 min="0"
                 value={requiredExperience}
                 onChange={(e) => setRequiredExperience(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28] transition-colors"
               />
             </div>
           </div>
@@ -401,12 +401,12 @@ export default function CompanyPostJobPage() {
                   }
                 }}
                 placeholder="e.g. DJI Zenmuse L1 LiDAR or Agras T40"
-                className="flex-1 px-3.5 py-2 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="flex-1 px-3.5 py-2 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
               />
               <button
                 type="button"
                 onClick={handleAddEquipment}
-                className="px-4 py-2 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 hover:bg-border/30 text-primary font-medium text-xs flex items-center gap-1.5 transition-colors active:scale-[0.98]"
+                className="px-4 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-850 border border-border/80 dark:border-zinc-800 hover:bg-border/30 text-[#fabf28] font-medium text-xs flex items-center gap-1.5 transition-colors active:scale-[0.98]"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add
@@ -417,7 +417,7 @@ export default function CompanyPostJobPage() {
               {requiredEquipment.map((eq, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-xs text-primary font-medium flex items-center gap-2"
+                  className="px-3 py-1 rounded-xl bg-zinc-100 dark:bg-zinc-850 border border-border/80 dark:border-zinc-800 text-xs text-[#fabf28] font-medium flex items-center gap-2"
                 >
                   <span>{eq}</span>
                   <button
@@ -449,12 +449,12 @@ export default function CompanyPostJobPage() {
                   }
                 }}
                 placeholder="e.g. Pilot must maintain FAA airspace authorization"
-                className="flex-1 px-3.5 py-2 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="flex-1 px-3.5 py-2 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-foreground text-xs placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
               />
               <button
                 type="button"
                 onClick={handleAddRequirement}
-                className="px-4 py-2 rounded-xl bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800 hover:bg-border/30 text-primary font-medium text-xs flex items-center gap-1.5 transition-colors active:scale-[0.98]"
+                className="px-4 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-850 border border-border/80 dark:border-zinc-800 hover:bg-border/30 text-[#fabf28] font-medium text-xs flex items-center gap-1.5 transition-colors active:scale-[0.98]"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add
@@ -465,7 +465,7 @@ export default function CompanyPostJobPage() {
               {requirements.map((req, idx) => (
                 <div
                   key={idx}
-                  className="p-3 rounded-xl bg-surface-2 dark:bg-zinc-900/60 border border-border dark:border-zinc-800 text-xs text-foreground flex items-center justify-between"
+                  className="p-3 rounded-xl bg-zinc-50 dark:bg-[#0d1117] border border-border/80 dark:border-zinc-800 text-xs text-foreground flex items-center justify-between"
                 >
                   <span>{req}</span>
                   <button

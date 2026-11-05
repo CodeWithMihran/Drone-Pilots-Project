@@ -159,7 +159,7 @@ export default function CompanyPilotsDirectoryPage() {
                 {pilot.profile?.equipment && pilot.profile.equipment.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {pilot.profile.equipment.slice(0, 2).map((eq: string, idx: number) => (
-                      <span key={idx} className="px-2.5 py-1 rounded-full text-[10px] bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800 text-foreground font-semibold">
+                      <span key={idx} className="px-2.5 py-1 rounded-full text-[10px] bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800 text-foreground font-semibold">
                         {eq}
                       </span>
                     ))}

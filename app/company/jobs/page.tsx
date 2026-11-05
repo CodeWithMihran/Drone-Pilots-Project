@@ -90,7 +90,7 @@ export default function CompanyMyJobsPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex flex-wrap gap-2 p-1.5 rounded-full bg-surface-2 dark:bg-zinc-850 border border-border dark:border-zinc-800">
+      <div className="flex flex-wrap gap-2 p-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
         {[
           { label: "All Missions", val: "ALL" },
           { label: "Open & Bidding", val: "OPEN" },
