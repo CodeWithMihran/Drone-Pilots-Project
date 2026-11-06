@@ -8,13 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field } from "@/components/ui/field";
 import { Alert } from "@/components/ui/alert";
-import { supabase } from "@/lib/supabase";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [devResetLink, setDevResetLink] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,17 +32,21 @@ export default function ForgotPasswordPage() {
 
     setLoading(true);
     try {
-      const redirectUrl = `${window.location.origin}/reset-password`;
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-        trimmedEmail,
-        {
-          redirectTo: redirectUrl,
-        }
-      );
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmedEmail }),
+      });
 
-      if (resetError) {
-        setError(resetError.message || "Failed to send reset email. Please try again.");
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data?.error || "Failed to send reset email. Please try again.");
         return;
+      }
+
+      if (data?.resetLink) {
+        setDevResetLink(data.resetLink);
       }
 
       setSubmitted(true);
@@ -80,6 +84,18 @@ export default function ForgotPasswordPage() {
               </p>
             </div>
           </Alert>
+
+          {devResetLink && (
+            <div className="rounded-2xl border border-[#ffbd24]/40 bg-[#ffbd24]/10 p-4 text-xs text-foreground">
+              <p className="font-bold text-foreground mb-1">Direct Reset Link (Local Dev):</p>
+              <a
+                href={devResetLink}
+                className="font-medium text-[#fabf28] hover:underline break-all"
+              >
+                {devResetLink}
+              </a>
+            </div>
+          )}
 
           <Button asChild block variant="secondary">
             <Link href="/login">Return to sign in</Link>

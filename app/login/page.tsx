@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -21,7 +21,23 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
   const [loading, setLoading] = useState(false);
-  const [showDemo, setShowDemo] = useState(false);
+  const [isReadOnly, setIsReadOnly] = useState(true);
+
+  // Clear any cached credentials on mount so fields always start empty
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+    const timer = setTimeout(() => {
+      setIsReadOnly(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleUserInteraction = () => {
+    if (isReadOnly) {
+      setIsReadOnly(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,13 +95,6 @@ function LoginForm() {
     }
   };
 
-  const fillDemo = (demoEmail: string, demoPass: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setFieldErrors({});
-    setError("");
-  };
-
   return (
     <>
       {error && (
@@ -94,12 +103,43 @@ function LoginForm() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        <Field label="Email" htmlFor="login-email-input" error={fieldErrors.email}>
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4"
+        noValidate
+        autoComplete="off"
+        onMouseEnter={handleUserInteraction}
+        onPointerDown={handleUserInteraction}
+        onTouchStart={handleUserInteraction}
+      >
+        {/* Decoy fields to capture automatic browser password manager autofill */}
+        <div
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            top: "-9999px",
+            width: "1px",
+            height: "1px",
+            opacity: 0,
+            overflow: "hidden",
+            pointerEvents: "none",
+          }}
+          aria-hidden="true"
+          tabIndex={-1}
+        >
+          <input type="text" name="fake_username_prevent_autofill" tabIndex={-1} autoComplete="off" />
+          <input type="password" name="fake_password_prevent_autofill" tabIndex={-1} autoComplete="off" />
+        </div>
+
+        <Field label="Email" htmlFor="user-account-identifier" error={fieldErrors.email}>
           <Input
-            id="login-email-input"
+            id="user-account-identifier"
+            name="aerolink_user_email"
             type="email"
-            autoComplete="email"
+            readOnly={isReadOnly}
+            onFocus={handleUserInteraction}
+            onPointerDown={handleUserInteraction}
+            autoComplete="off"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@company.com"
@@ -107,10 +147,14 @@ function LoginForm() {
           />
         </Field>
 
-        <Field label="Password" htmlFor="login-password-input" error={fieldErrors.password}>
+        <Field label="Password" htmlFor="user-account-credential" error={fieldErrors.password}>
           <PasswordInput
-            id="login-password-input"
-            autoComplete="current-password"
+            id="user-account-credential"
+            name="aerolink_user_secret"
+            readOnly={isReadOnly}
+            onFocus={handleUserInteraction}
+            onPointerDown={handleUserInteraction}
+            autoComplete="new-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Your password"
@@ -128,35 +172,6 @@ function LoginForm() {
           {loading ? "Signing in…" : "Sign in"}
         </Button>
       </form>
-
-      <div className="mt-6 border-t border-border pt-5">
-        <button
-          type="button"
-          onClick={() => setShowDemo((v) => !v)}
-          className="text-caption text-subtle hover:text-muted-foreground"
-        >
-          {showDemo ? "Hide demo accounts" : "Use a demo account"}
-        </button>
-
-        {showDemo && (
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            {[
-              { label: "Pilot", email: "pilot@example.com", pass: "pilot123" },
-              { label: "Company", email: "company@example.com", pass: "company123" },
-              { label: "Admin", email: "admin@example.com", pass: "admin123" },
-            ].map((demo) => (
-              <button
-                key={demo.label}
-                type="button"
-                onClick={() => fillDemo(demo.email, demo.pass)}
-                className="rounded-xl border border-border px-2 py-2.5 text-caption font-medium text-foreground hover:border-border-strong hover:bg-surface-2"
-              >
-                {demo.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
     </>
   );
 }
