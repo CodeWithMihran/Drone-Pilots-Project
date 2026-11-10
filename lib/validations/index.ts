@@ -1,13 +1,42 @@
 import { z } from "zod";
 
 export const RegisterSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z
+    .string()
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .refine(
+      (val) => /^[a-zA-Z]+(?:\s+[a-zA-Z]+)*$/.test(val),
+      { message: "Full name can contain only letters and spaces." }
+    ),
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .max(12, "Password cannot exceed 12 characters")
+    .refine((val) => /[A-Z]/.test(val), {
+      message: "Password must contain at least one uppercase letter (A–Z)",
+    })
+    .refine((val) => /[0-9]/.test(val), {
+      message: "Password must contain at least one number (0–9)",
+    })
+    .refine((val) => /[^A-Za-z0-9]/.test(val), {
+      message: "Password must contain at least one special character (e.g. @, #, $, %, &, !, *)",
+    }),
   role: z.enum(["PILOT", "COMPANY"], {
     errorMap: () => ({ message: "Role must be either PILOT or COMPANY" }),
   }),
-  phone: z.string().optional(),
+  phone: z
+    .string()
+    .optional()
+    .refine(
+      (val) => {
+        if (!val || val.trim() === "") return true;
+        const clean = val.replace(/\s+/g, "");
+        return /^\d{10}$/.test(clean) || /^\+91\d{10}$/.test(clean);
+      },
+      { message: "Enter a valid 10-digit mobile number." }
+    ),
   city: z.string().min(1, "City is required"),
   state: z.string().min(1, "State is required"),
   country: z.string().default("United States"),

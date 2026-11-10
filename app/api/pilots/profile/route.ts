@@ -1,9 +1,28 @@
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { requireRole } from "@/lib/permissions";
 import { User } from "@/models/User";
 import { PilotProfile } from "@/models/PilotProfile";
 import { PilotProfileSchema } from "@/lib/validations";
+
+export async function GET() {
+  try {
+    const auth = await requireRole(["PILOT"]);
+    if (auth.errorResponse) return auth.errorResponse;
+
+    await connectToDatabase();
+    const user = await User.findById(auth.user.id).select("-passwordHash").lean();
+    if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+
+    const profile = await PilotProfile.findOne({ userId: auth.user.id }).lean();
+    return NextResponse.json({ user, profile });
+  } catch (error: any) {
+    console.error("Get pilot profile error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
 
 export async function PUT(req: NextRequest) {
   try {

@@ -15,7 +15,6 @@ import { formatDate } from "@/lib/utils";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert } from "@/components/ui/alert";
 import { Field } from "@/components/ui/field";
@@ -119,23 +118,21 @@ export default function PilotCertificationPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* Header Banner */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
-            </span>
-            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-              Aviation Compliance Registry
+          <div className="flex items-center gap-2">
+            <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              CREDENTIALS & COMPLIANCE
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
-            Part 107 & Authority Credentials
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
+            Part 107 & Remote Pilot Licenses
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            Manage your commercial remote pilot licenses, authority flight waivers, and insurance verifications.
+            Manage your commercial remote pilot license, authority flight waivers, and COI insurance verifications to unlock client shoots.
           </p>
         </div>
 
@@ -145,9 +142,7 @@ export default function PilotCertificationPage() {
             setError("");
             setUploadModalOpen(true);
           }}
-          variant="primary"
-          size="sm"
-          className="gap-2 shrink-0 active:scale-[0.98]"
+          className="h-10 px-6 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs gap-2 shrink-0 active:scale-[0.98]"
         >
           <Plus className="w-4 h-4" />
           <span>Submit Credential</span>
@@ -155,40 +150,40 @@ export default function PilotCertificationPage() {
       </div>
 
       {success && (
-        <Alert variant="success">
+        <Alert variant="success" className="rounded-2xl">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-success" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
             <span>{success}</span>
           </div>
         </Alert>
       )}
 
       {/* Verification Status Banner */}
-      <div className={`p-6 sm:p-7 rounded-panel border shadow-xs transition-all duration-300 ${
+      <div className={`p-6 sm:p-8 rounded-3xl border shadow-xs transition-all duration-200 ${
         hasVerifiedCert 
-          ? "border-success/30 bg-success/5 dark:bg-emerald-950/20" 
-          : "border-warning/30 bg-warning/5 dark:bg-amber-950/20"
+          ? "border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-950/20" 
+          : "border-[#fabf28]/35 bg-[#fabf28]/10"
       }`}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <div className="flex items-start gap-4">
-            <div className={`w-12 h-12 rounded-control flex items-center justify-center shrink-0 ${
-              hasVerifiedCert ? "bg-success/15 text-success" : "bg-warning/15 text-warning"
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-2xs ${
+              hasVerifiedCert ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" : "bg-[#fabf28]/20 text-[#fabf28]"
             }`}>
-              {hasVerifiedCert ? <ShieldCheck className="w-6 h-6" /> : <AlertTriangle className="w-6 h-6" />}
+              {hasVerifiedCert ? <ShieldCheck className="w-6 h-6 stroke-[2]" /> : <AlertTriangle className="w-6 h-6 stroke-[2]" />}
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2.5">
-                <h3 className="text-base font-semibold text-foreground">
-                  {hasVerifiedCert ? "FAA Part 107 Verified Operator" : "Credential Verification Required"}
+                <h3 className="text-base sm:text-lg font-bold text-foreground">
+                  {hasVerifiedCert ? "FAA Part 107 Verified Operator" : "Credential Verification Pending"}
                 </h3>
-                <Badge variant={hasVerifiedCert ? "success" : "warning"}>
+                <Badge variant={hasVerifiedCert ? "success" : "warning"} className="rounded-full">
                   {hasVerifiedCert ? "Verified & Active" : "Action Needed"}
                 </Badge>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed max-w-2xl">
                 {hasVerifiedCert
-                  ? "Your commercial remote pilot license is authenticated against aviation registries. You have full clearance to bid on enterprise contracts."
-                  : "Upload an official Part 107 license (or national aviation equivalent) to unlock bidding on compliance-restricted industrial missions."}
+                  ? "Your commercial remote pilot license is authenticated against aviation registries. You have full clearance to accept client bookings."
+                  : "Upload your Part 107 license (or national aviation equivalent) to unlock bidding on compliance-restricted commercial missions."}
               </p>
             </div>
           </div>
@@ -196,9 +191,7 @@ export default function PilotCertificationPage() {
           {!hasVerifiedCert && (
             <Button
               onClick={() => setUploadModalOpen(true)}
-              variant="primary"
-              size="sm"
-              className="shrink-0 active:scale-[0.98]"
+              className="rounded-full px-6 h-10 bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs shrink-0 active:scale-[0.98]"
             >
               Upload License Now
             </Button>
@@ -207,11 +200,11 @@ export default function PilotCertificationPage() {
       </div>
 
       {/* Certifications Record List */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs space-y-5 p-6 sm:p-7">
-        <div className="pb-3 border-b border-border dark:border-zinc-800/80 flex items-center justify-between">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs space-y-6 p-6 sm:p-8">
+        <div className="pb-4 border-b border-border/80 dark:border-zinc-800 flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Credentials on Record ({certifications.length})
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
+              CREDENTIALS ON RECORD ({certifications.length})
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
               Historical submissions reviewed by platform compliance officers.
@@ -223,7 +216,7 @@ export default function PilotCertificationPage() {
           {loading ? (
             <div className="space-y-3">
               {[1, 2].map((i) => (
-                <div key={i} className="h-20 bg-surface-2 dark:bg-zinc-900/60 rounded-control animate-pulse border border-border dark:border-zinc-800" />
+                <div key={i} className="h-20 bg-zinc-100 dark:bg-zinc-800 rounded-2xl animate-pulse border border-border/60 dark:border-zinc-800" />
               ))}
             </div>
           ) : certifications.length === 0 ? (
@@ -239,16 +232,16 @@ export default function PilotCertificationPage() {
               {certifications.map((cert) => (
                 <div
                   key={cert._id}
-                  className="p-5 rounded-panel bg-surface-2 dark:bg-zinc-900/40 border border-border dark:border-zinc-800 space-y-3 transition-all hover:border-border-strong dark:hover:border-zinc-700"
+                  className="p-6 rounded-2xl bg-zinc-50/80 dark:bg-zinc-900/50 border border-border/80 dark:border-zinc-800 space-y-3 transition-all hover:border-zinc-400 dark:hover:border-zinc-700"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <div className="flex items-center gap-2.5 mb-1">
-                        <h4 className="text-sm font-semibold text-foreground">{cert.type}</h4>
+                      <div className="flex items-center gap-2.5 mb-1.5">
+                        <h4 className="text-sm sm:text-base font-bold text-foreground">{cert.type}</h4>
                         <StatusBadge status={cert.status} type="certification" />
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        License ID: <strong className="text-foreground font-mono">{cert.number}</strong>
+                        License ID: <strong className="text-foreground font-mono font-bold">{cert.number}</strong>
                       </p>
                       <p className="text-xs text-muted-foreground mt-0.5">
                         Issued: {formatDate(cert.issueDate)} • Expiry: {formatDate(cert.expiryDate)}
@@ -257,12 +250,12 @@ export default function PilotCertificationPage() {
 
                     <div className="flex items-center gap-2">
                       {cert.documentUrl && (
-                        <Button asChild variant="secondary" size="sm" className="gap-1.5 active:scale-[0.98]">
+                        <Button asChild variant="secondary" size="sm" className="rounded-full px-4 h-9 gap-1.5 active:scale-[0.98] border border-border dark:border-zinc-800 text-xs font-semibold">
                           <a
                             href={cert.documentUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="gap-1.5 text-xs"
+                            className="gap-1.5"
                           >
                             <Eye className="w-3.5 h-3.5 text-muted-foreground" />
                             <span>View Document</span>
@@ -273,10 +266,10 @@ export default function PilotCertificationPage() {
                   </div>
 
                   {cert.status === "REJECTED" && (
-                    <div className="p-3 rounded-control bg-destructive/10 border border-destructive/20 text-xs text-destructive flex items-start gap-2">
+                    <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/25 text-xs text-rose-600 dark:text-rose-400 flex items-start gap-2">
                       <XCircle className="w-4 h-4 shrink-0 mt-0.5" />
                       <div>
-                        <span className="font-semibold block">Compliance Officer Feedback:</span>
+                        <span className="font-bold block">Compliance Feedback:</span>
                         <span>{cert.rejectionReason || "Uploaded license failed validation against official aviation registry records."}</span>
                       </div>
                     </div>
@@ -291,15 +284,15 @@ export default function PilotCertificationPage() {
       {/* Upload Certificate Modal */}
       {uploadModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-7 space-y-5 text-foreground">
-            <div className="flex items-center justify-between pb-3 border-b border-border dark:border-zinc-800">
-              <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
-                <Upload className="w-4 h-4 text-primary" />
+          <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-6 text-foreground">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80 dark:border-zinc-800">
+              <h3 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+                <Upload className="w-4 h-4 text-[#fabf28]" />
                 Submit Commercial Pilot License
               </h3>
               <button
                 onClick={() => setUploadModalOpen(false)}
-                className="text-muted-foreground hover:text-foreground text-sm p-1 rounded-control hover:bg-surface-2 dark:hover:bg-zinc-900"
+                className="text-muted-foreground hover:text-foreground text-sm p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                 aria-label="Close dialog"
               >
                 ✕
@@ -307,7 +300,7 @@ export default function PilotCertificationPage() {
             </div>
 
             {error && (
-              <Alert variant="error">
+              <Alert variant="error" className="rounded-2xl">
                 <span>{error}</span>
               </Alert>
             )}
@@ -318,7 +311,7 @@ export default function PilotCertificationPage() {
                   id="cert-type-select"
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="w-full px-3 py-2 rounded-control bg-surface border border-border text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-surface dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-[#fabf28]"
                 >
                   <option value="FAA Part 107 Commercial Remote Pilot">FAA Part 107 Commercial Remote Pilot (USA)</option>
                   <option value="DGCA Remote Pilot License (RPL)">DGCA Remote Pilot License (RPL - India)</option>
@@ -330,7 +323,7 @@ export default function PilotCertificationPage() {
                 </select>
               </Field>
 
-              <Field label="Certificate / License Registration Number" htmlFor="cert-number-input">
+              <Field label="License / Registration Number" htmlFor="cert-number-input">
                 <Input
                   id="cert-number-input"
                   type="text"
@@ -338,6 +331,7 @@ export default function PilotCertificationPage() {
                   value={number}
                   onChange={(e) => setNumber(e.target.value)}
                   placeholder="e.g. 4829104-FAA or RPL-2024-883"
+                  className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
                 />
               </Field>
 
@@ -349,6 +343,7 @@ export default function PilotCertificationPage() {
                     required
                     value={issueDate}
                     onChange={(e) => setIssueDate(e.target.value)}
+                    className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
                   />
                 </Field>
 
@@ -359,55 +354,44 @@ export default function PilotCertificationPage() {
                     required
                     value={expiryDate}
                     onChange={(e) => setExpiryDate(e.target.value)}
+                    className="rounded-xl bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800 text-xs"
                   />
                 </Field>
               </div>
 
-              <Field label="Document Upload (PDF, PNG, JPG - max 10MB)">
-                <div className="p-4 rounded-control border-2 border-dashed border-border hover:border-primary text-center bg-surface-2 transition-colors cursor-pointer relative">
-                  <input
-                    id="cert-file-input"
-                    type="file"
-                    required
-                    accept=".pdf,image/*"
-                    onChange={handleFileChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                  />
-                  <FileText className="w-8 h-8 text-muted-foreground mx-auto mb-1.5 opacity-60" />
-                  {file ? (
-                    <p className="text-xs font-semibold text-primary truncate">{file.name}</p>
-                  ) : (
-                    <>
-                      <p className="text-xs text-foreground font-medium">Click or drag license document to upload</p>
-                      <p className="text-[11px] text-muted-foreground mt-0.5">Scanned certificate or digital license card</p>
-                    </>
-                  )}
-                </div>
+              <Field label="Official Certificate Document (PDF or Photo)" htmlFor="cert-file-input">
+                <input
+                  id="cert-file-input"
+                  type="file"
+                  required
+                  accept=".pdf,image/png,image/jpeg,image/webp"
+                  onChange={handleFileChange}
+                  className="block w-full text-xs text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#fabf28] file:text-zinc-950 hover:file:bg-[#e6ae22] cursor-pointer"
+                />
               </Field>
 
-              <div className="pt-2 flex gap-3">
+              <div className="pt-4 flex items-center justify-end gap-3 border-t border-border/80 dark:border-zinc-800">
                 <Button
                   type="button"
                   variant="secondary"
-                  className="flex-1"
                   onClick={() => setUploadModalOpen(false)}
+                  className="rounded-full px-5 h-10 text-xs font-semibold"
                 >
                   Cancel
                 </Button>
                 <Button
-                  id="submit-cert-upload-btn"
                   type="submit"
-                  variant="primary"
-                  className="flex-1"
                   disabled={uploading}
+                  className="rounded-full px-6 h-10 bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs shadow-xs"
                 >
-                  {uploading ? "Submitting..." : "Submit for Verification"}
+                  {uploading ? "Uploading Document..." : "Submit for Verification"}
                 </Button>
               </div>
             </form>
           </div>
         </div>
       )}
+
     </div>
   );
 }

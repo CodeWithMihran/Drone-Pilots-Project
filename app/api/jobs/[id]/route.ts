@@ -1,3 +1,6 @@
+import mongoose from "mongoose";
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { getAuthSession, requireAuthUser } from "@/lib/permissions";
@@ -18,6 +21,9 @@ export async function GET(
   try {
     await connectToDatabase();
     const { id } = params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Job not found" }, { status: 404 });
+    }
 
     const job = await Job.findById(id)
       .populate("companyId", "name email phone profileImage location")

@@ -79,15 +79,15 @@ export function NotificationBell() {
   const getIcon = (type: string) => {
     switch (type) {
       case "CERTIFICATION":
-        return <ShieldCheck className="w-4 h-4 text-success" />;
+        return <ShieldCheck className="w-4 h-4 text-emerald-500" />;
       case "APPLICATION":
-        return <Briefcase className="w-4 h-4 text-primary" />;
+        return <Briefcase className="w-4 h-4 text-[#fabf28]" />;
       case "PAYMENT":
-        return <DollarSign className="w-4 h-4 text-success" />;
+        return <DollarSign className="w-4 h-4 text-emerald-500" />;
       case "REVIEW":
-        return <Star className="w-4 h-4 text-warning" />;
+        return <Star className="w-4 h-4 text-[#fabf28]" />;
       default:
-        return <AlertCircle className="w-4 h-4 text-info" />;
+        return <AlertCircle className="w-4 h-4 text-sky-500" />;
     }
   };
 
@@ -96,24 +96,24 @@ export function NotificationBell() {
       <button
         id="notification-bell-btn"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-9 h-9 rounded-control border border-border bg-surface text-foreground hover:bg-surface-2 hover:border-border-strong flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="relative w-9 h-9 rounded-full border border-zinc-200/90 dark:border-zinc-800 bg-[#faf8f5] dark:bg-zinc-900 text-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center transition-all shadow-2xs focus-visible:outline-none"
         aria-label="View notifications"
       >
-        <Bell className="w-4 h-4" />
+        <Bell className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+          <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#fabf28] text-[10px] font-bold text-zinc-950 shadow-2xs">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-panel bg-surface border border-border shadow-xl z-50 overflow-hidden animate-fade-in text-foreground">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-surface-2">
+        <div className="absolute right-0 mt-2.5 w-80 sm:w-96 rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl z-50 overflow-hidden animate-fade-in text-foreground">
+          <div className="flex items-center justify-between px-5 py-3.5 border-b border-zinc-100 dark:border-zinc-800/80 bg-[#faf8f5] dark:bg-zinc-900/60">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-xs tracking-wide uppercase text-foreground">Notifications</span>
+              <span className="font-bold text-xs tracking-tight uppercase text-foreground">Notifications</span>
               {unreadCount > 0 && (
-                <span className="px-2 py-0.5 text-[10px] rounded-full bg-primary/10 text-primary font-semibold border border-primary/20">
+                <span className="px-2 py-0.5 text-[10px] rounded-full bg-[#fabf28]/15 text-zinc-900 dark:text-[#fabf28] font-bold">
                   {unreadCount} new
                 </span>
               )}
@@ -122,7 +122,7 @@ export function NotificationBell() {
               <button
                 onClick={markAllAsRead}
                 disabled={loading}
-                className="text-xs text-primary hover:underline flex items-center gap-1 font-medium transition-colors"
+                className="text-xs text-[#fabf28] hover:underline flex items-center gap-1 font-semibold transition-colors"
               >
                 <CheckCheck className="w-3.5 h-3.5" />
                 Mark all read
@@ -130,10 +130,10 @@ export function NotificationBell() {
             )}
           </div>
 
-          <div className="max-h-96 overflow-y-auto divide-y divide-border">
+          <div className="max-h-96 overflow-y-auto divide-y divide-zinc-100 dark:divide-zinc-800/80">
             {notifications.length === 0 ? (
-              <div className="py-8 text-center text-muted-foreground text-xs">
-                <Bell className="w-8 h-8 mx-auto mb-2 text-subtle opacity-40" />
+              <div className="py-10 text-center text-muted-foreground text-xs">
+                <Bell className="w-8 h-8 mx-auto mb-2 text-zinc-350 dark:text-zinc-650 opacity-40" />
                 No new notifications
               </div>
             ) : (
@@ -141,20 +141,20 @@ export function NotificationBell() {
                 <div
                   key={n._id}
                   onClick={() => !n.read && markAsRead(n._id)}
-                  className={`p-3.5 transition-colors cursor-pointer hover:bg-surface-2 ${
-                    !n.read ? "bg-primary/5" : ""
+                  className={`p-4 transition-colors cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-900/40 ${
+                    !n.read ? "bg-[#fabf28]/5 dark:bg-[#fabf28]/10" : ""
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-control bg-surface border border-border mt-0.5 shrink-0">
+                    <div className="p-2 rounded-xl bg-[#faf8f5] dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 mt-0.5 shrink-0">
                       {getIcon(n.type)}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-1 mb-1">
-                        <p className={`text-xs font-semibold ${!n.read ? "text-foreground font-bold" : "text-muted-foreground"}`}>
+                        <p className={`text-xs ${!n.read ? "text-foreground font-bold" : "text-muted-foreground font-medium"}`}>
                           {n.title}
                         </p>
-                        <span className="text-[10px] text-subtle flex items-center gap-0.5 shrink-0">
+                        <span className="text-[10px] text-muted-foreground flex items-center gap-0.5 shrink-0 font-mono">
                           <Clock className="w-2.5 h-2.5" />
                           {formatDate(n.createdAt)}
                         </span>
@@ -166,14 +166,14 @@ export function NotificationBell() {
                         <Link
                           href={n.link}
                           onClick={() => setIsOpen(false)}
-                          className="inline-block mt-1.5 text-[11px] font-semibold text-primary hover:underline"
+                          className="inline-block mt-2 text-[11px] font-bold text-zinc-950 dark:text-[#fabf28] hover:underline"
                         >
                           View details →
                         </Link>
                       )}
                     </div>
                     {!n.read && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-2" />
+                      <span className="w-2 h-2 rounded-full bg-[#fabf28] shrink-0 mt-2" />
                     )}
                   </div>
                 </div>

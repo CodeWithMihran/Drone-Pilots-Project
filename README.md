@@ -197,13 +197,22 @@ cp .env.example .env.local
 
 Open `.env.local` and add your database and API credentials (see [Environment Variables Configuration](#-environment-variables-configuration) below).
 
-### 4. (Optional) Seed the Database with Realistic Demo Data
-To populate the database with ready-to-test pilots, industrial jobs, applications, and admin accounts:
+### 4. Verify MongoDB Atlas Connection (Safe & Read-Only)
+Run the diagnostic test to confirm your live connection and inspect existing database records without modifying or erasing any data:
+```bash
+npm run test:db
+```
+*(This command is 100% read-only — it checks ping response, connected host, and current record counts, guaranteeing zero data loss).*
+
+### 5. (Optional) Seed Demo Data
+To populate demo industrial jobs, missions, and test accounts:
 ```bash
 npm run seed
 ```
+> [!NOTE]
+> `npm run seed` is safe to run at any time. It updates only the 11 default demo accounts and **automatically preserves all your custom registered pilots and companies**.
 
-### 5. Launch the Development Server
+### 6. Launch the Development Server
 ```bash
 npm run dev
 ```
@@ -268,9 +277,26 @@ NEXT_PUBLIC_MAPS_API_KEY=
 
 ---
 
-## 👥 Database Seeding & Demo Accounts
+## 🔍 Verifying MongoDB Connection (100% Safe & Read-Only)
 
-For rapid testing, the project includes pre-configured demo accounts. You can sign in using the **"One-Click Demo Accounts"** buttons on the `/login` page or enter the credentials manually:
+To check whether your application is successfully connected to MongoDB Atlas without risking any data loss, run:
+
+```bash
+npm run test:db
+```
+
+This diagnostic command performs a **100% read-only check**:
+- ✅ Tests the live network handshake with your MongoDB Atlas cluster.
+- ✅ Pings the cluster to measure latency (e.g. `{ ok: 1 }` in ~400ms).
+- ✅ Displays the connected database name, primary shard host, and port.
+- ✅ Lists all database collections and prints total counts for **Users, Jobs, and Profiles**.
+- 🛡️ **Guaranteed Safe**: It makes zero write, delete, or update operations. **Your data will never be erased by running this command.**
+
+---
+
+## 👥 Database Seeding & Data Preservation Guarantee
+
+For testing and development, the platform includes pre-configured industrial demo accounts:
 
 | Role | Email | Password | Access Level |
 | :--- | :--- | :--- | :--- |
@@ -278,22 +304,29 @@ For rapid testing, the project includes pre-configured demo accounts. You can si
 | **Commercial Pilot** | `pilot@example.com` | `pilot123` | Bid on jobs, upload Part 107 license, view active flights |
 | **Enterprise Company** | `company@example.com` | `company123` | Post missions, hire pilots, inspect deliverables |
 
-To re-seed fresh test data at any time:
+### Safe Demo Seeding
+To populate or refresh demo missions and industrial tenders:
 ```bash
 npm run seed
 ```
+
+> [!TIP]
+> **Data Preservation Guarantee**: Running `npm run seed` will **NEVER erase your registered users**.
+> The script selectively refreshes only the 11 default demo accounts. All accounts created through the `/register` page (e.g. your custom pilots, companies, and jobs) are automatically detected and preserved.
+
+*(If you ever explicitly want a complete, empty-slate wipe of all collections, run `npx tsx scripts/seed.ts --wipe-all`).*
 
 ---
 
 ## 📜 Available NPM Scripts
 
-| Command | Description |
-| :--- | :--- |
-| `npm run dev` | Starts the Next.js development server with hot-reloading at `localhost:3000` |
-| `npm run build` | Compiles the production build, executes TypeScript type checks, and optimizes pages |
-| `npm run start` | Launches the built production Next.js server |
-| `npm run seed` | Executes the database seed script to populate realistic drone marketplace data |
-| `npm run test:db` | Tests the direct connection to MongoDB Atlas and verifies collection access |
+| Command | Description | Data Safe? |
+| :--- | :--- | :--- |
+| `npm run test:db` | **Diagnostic check**: Pings MongoDB Atlas, verifies connection status & counts records | ✅ 100% Read-Only (Zero writes) |
+| `npm run seed` | Seeds/refreshes the 11 demo accounts while **preserving all your custom registered users** | ✅ Safe (Only demo accounts reset) |
+| `npm run dev` | Starts the Next.js development server with hot-reloading at `http://localhost:3000` | ✅ Safe |
+| `npm run build` | Compiles the production build, executes TypeScript type checks, and optimizes pages | ✅ Safe |
+| `npm run start` | Launches the built production Next.js server | ✅ Safe |
 
 ---
 

@@ -4,30 +4,30 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-control text-[15px] font-semibold tracking-[-0.01em] whitespace-nowrap transition-all duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 rounded-full text-[13px] font-semibold tracking-tight whitespace-nowrap transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 select-none active:scale-[0.98]",
   {
     variants: {
       variant: {
         primary: 
-          "bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-md hover:shadow-primary/20",
+          "bg-[#fabf28] text-zinc-950 hover:bg-[#e6ae22] shadow-xs font-bold",
         secondary:
-          "border border-border dark:border-zinc-800 bg-surface text-foreground shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:bg-surface-2",
+          "border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-foreground hover:bg-zinc-50 dark:hover:bg-zinc-850 hover:border-zinc-350 dark:hover:border-zinc-700 shadow-2xs",
         outline:
-          "border border-border dark:border-zinc-800 bg-transparent text-foreground shadow-xs hover:border-border-strong dark:hover:border-zinc-700 hover:bg-surface-2",
+          "border border-zinc-200/90 dark:border-zinc-800 bg-transparent text-foreground hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-350 dark:hover:border-zinc-700",
         ghost: 
-          "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
+          "text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-foreground",
         danger:
-          "border border-destructive/30 bg-destructive/10 text-destructive hover:bg-destructive/20",
+          "border border-rose-500/20 bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-500/15",
         destructive:
-          "border border-destructive/30 bg-destructive/10 text-destructive hover:bg-destructive/20",
+          "border border-rose-500/20 bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-500/15",
         link: 
-          "h-auto p-0 font-semibold text-primary hover:underline underline-offset-4",
+          "h-auto p-0 font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground",
       },
       size: {
-        sm: "h-9 px-3 text-[13px]",
-        md: "h-11 px-4",
-        lg: "h-12 px-5",
-        icon: "h-11 w-11",
+        sm: "h-9 px-4 text-xs",
+        md: "h-10 px-5 text-xs",
+        lg: "h-11 px-7 text-xs font-bold",
+        icon: "h-10 w-10",
       },
       block: {
         true: "w-full",
@@ -63,5 +63,4 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = "Button";
-
 export { buttonVariants };

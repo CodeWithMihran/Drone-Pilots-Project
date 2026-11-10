@@ -1,3 +1,6 @@
+import mongoose from "mongoose";
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { requireRole } from "@/lib/permissions";
@@ -13,6 +16,9 @@ export async function PUT(
     if (auth.errorResponse) return auth.errorResponse;
 
     const { id } = params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Certification not found" }, { status: 404 });
+    }
     const body = await req.json();
     const rejectionReason = body.rejectionReason || "Uploaded document was illegible or could not be verified with the regulatory authority.";
 

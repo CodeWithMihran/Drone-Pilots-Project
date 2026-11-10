@@ -7,7 +7,6 @@ import { formatDate } from "@/lib/utils";
 import { StarRating } from "@/components/shared/StarRating";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 
 export default function CompanyReviewsPage() {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -44,51 +43,49 @@ export default function CompanyReviewsPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* Header Banner */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-warning opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-warning"></span>
-            </span>
-            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-              Enterprise Reputation & Pilot Trust
+          <div className="flex items-center gap-2">
+            <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              REPUTATION & FEEDBACK
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
-            Pilot Feedback & Commercial Standing
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
+            Pilot Feedback & Company Standing
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
             Reviews submitted by commercial pilots following contract fulfillment, escrow release, and mission deliverable approvals.
           </p>
         </div>
 
-        <Button asChild variant="secondary" size="sm" className="h-10 px-5 text-xs font-semibold shrink-0">
+        <Button asChild variant="secondary" size="sm" className="rounded-full h-10 px-5 text-xs font-semibold shrink-0 border border-border dark:border-zinc-800">
           <Link href="/company/jobs">Inspect Active Missions</Link>
         </Button>
       </div>
 
       {/* Overview Card */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 sm:p-7 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-        <div className="flex items-center gap-5">
-          <div className="text-4xl sm:text-5xl font-bold text-foreground font-mono">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="flex items-center gap-6">
+          <div className="text-4xl sm:text-5xl font-extrabold text-foreground font-sans">
             {averageRating.toFixed(1)}
           </div>
           <div>
             <StarRating rating={averageRating} size="lg" />
-            <p className="text-xs text-muted-foreground mt-1.5">
+            <p className="text-xs text-muted-foreground mt-2 font-medium">
               Based on <strong className="text-foreground">{totalReviews}</strong> mission {totalReviews === 1 ? "review" : "reviews"}
             </p>
           </div>
         </div>
 
         <div className="text-xs text-muted-foreground sm:text-right space-y-1">
-          <span className="text-success font-semibold flex items-center sm:justify-end gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-success"></span>
+          <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center sm:justify-end gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
             100% Escrow-Verified Feedback
           </span>
-          <span className="block text-subtle text-[11px]">Pilots rate communication, site briefing clarity, and payment speed.</span>
+          <span className="block text-muted-foreground text-[11px]">Pilots rate briefing clarity, site coordination, and prompt escrow releases.</span>
         </div>
       </div>
 
@@ -97,49 +94,54 @@ export default function CompanyReviewsPage() {
         {loading ? (
           <div className="space-y-3">
             {[1, 2].map((i) => (
-              <div key={i} className="h-28 bg-surface dark:bg-zinc-950/90 rounded-panel border border-border dark:border-zinc-800 animate-pulse" />
+              <div key={i} className="h-28 bg-white dark:bg-[#161b22] rounded-3xl border border-border/80 dark:border-zinc-800 animate-pulse" />
             ))}
           </div>
         ) : reviews.length === 0 ? (
           <EmptyState
-            icon={Star}
-            title="No pilot reviews recorded yet"
-            description="Pilots will provide feedback on communication, site readiness, and payment speed upon contract fulfillment."
+            icon={MessageSquare}
+            title="No reviews yet"
+            description="Pilot reviews will populate here as you complete and approve missions."
           />
         ) : (
           reviews.map((rev) => (
             <div
               key={rev._id}
-              className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-6 shadow-xs space-y-3.5 hover:border-border-strong dark:hover:border-zinc-700/80 transition-all duration-300"
+              className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 shadow-xs hover:shadow-md transition-all duration-200 space-y-3"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-control bg-primary/15 text-primary font-bold text-xs flex items-center justify-center shrink-0">
-                    {rev.reviewerId?.name ? rev.reviewerId.name.charAt(0) : "P"}
+                  <div className="w-10 h-10 rounded-full bg-zinc-950 dark:bg-zinc-850 text-[#fabf28] flex items-center justify-center font-bold text-sm">
+                    {rev.reviewerId?.name ? rev.reviewerId.name.charAt(0).toUpperCase() : "P"}
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-foreground">
+                    <h3 className="text-sm font-bold text-foreground">
                       {rev.reviewerId?.name || "Verified Pilot"}
-                    </h4>
+                    </h3>
                     <p className="text-[11px] text-muted-foreground">
-                      Mission: <strong className="text-foreground">{rev.jobId?.title || "Flight Operation"}</strong>
+                      Mission: {rev.jobId?.title || "Commercial Shoot"}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <StarRating rating={rev.rating} size="sm" />
-                  <span className="text-xs text-subtle">{formatDate(rev.createdAt)}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {formatDate(rev.createdAt)}
+                  </span>
                 </div>
               </div>
 
-              <p className="text-xs text-foreground leading-relaxed italic bg-surface-2 dark:bg-zinc-900 p-4 rounded-control border border-border dark:border-zinc-800">
-                "{rev.comment}"
-              </p>
+              {rev.comment && (
+                <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-border/80 dark:border-zinc-800 text-xs text-foreground italic leading-relaxed">
+                  &ldquo;{rev.comment}&rdquo;
+                </div>
+              )}
             </div>
           ))
         )}
       </div>
+
     </div>
   );
 }

@@ -17,9 +17,7 @@ import { formatDate } from "@/lib/utils";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 
 export default function AdminCertificationsPage() {
   const [certifications, setCertifications] = useState<any[]>([]);
@@ -99,19 +97,17 @@ export default function AdminCertificationsPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto py-2 animate-fade-in">
+      
       {/* Header Banner */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-7 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-border-strong dark:hover:border-zinc-700 transition-all duration-300">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-7 sm:p-9 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-200">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-[11px] font-medium tracking-wider uppercase text-muted-foreground">
-              Aviation Compliance Governance
+          <div className="flex items-center gap-2">
+            <span className="text-[#fabf28] font-bold text-sm leading-none">—</span>
+            <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
+              COMPLIANCE AUDIT
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.025em] text-foreground">
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             License Verification Queue
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
@@ -119,15 +115,15 @@ export default function AdminCertificationsPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs text-muted-foreground px-3.5 py-2 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
-          <ShieldCheck className="w-4 h-4 text-success" />
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold text-foreground px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
+          <ShieldCheck className="w-4 h-4 text-[#fabf28]" />
           <span>Part 107 Audit Console</span>
         </div>
       </div>
 
       {/* Filter Tabs & Search Bar */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 p-5 shadow-xs space-y-4">
-        <div className="flex flex-wrap gap-1.5 p-1 rounded-control bg-surface-2 dark:bg-zinc-900 border border-border dark:border-zinc-800">
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 p-5 shadow-xs space-y-4">
+        <div className="flex flex-wrap gap-2 p-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800">
           {[
             { label: "Pending Verification", val: "PENDING" },
             { label: "Verified Credentials", val: "VERIFIED" },
@@ -140,9 +136,9 @@ export default function AdminCertificationsPage() {
               <button
                 key={tab.val}
                 onClick={() => setStatusFilter(tab.val)}
-                className={`px-3.5 py-1.5 rounded-control text-xs font-semibold transition-all ${
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
                   active
-                    ? "bg-primary text-primary-foreground shadow-xs"
+                    ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shadow-xs"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -153,31 +149,31 @@ export default function AdminCertificationsPage() {
         </div>
 
         <div className="relative">
-          <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3" />
+          <Search className="w-4 h-4 text-muted-foreground absolute left-4 top-3.5" />
           <Input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by pilot name, license ID, or certificate authority..."
-            className="pl-10 text-xs bg-surface-2 dark:bg-zinc-900 border-border dark:border-zinc-800"
+            className="pl-10 h-11 rounded-full text-xs bg-surface dark:bg-zinc-900 border-border dark:border-zinc-800"
           />
         </div>
       </div>
 
       {/* Certifications Table */}
-      <div className="rounded-panel bg-surface dark:bg-zinc-950/90 border border-border dark:border-zinc-800/80 shadow-xs overflow-hidden">
-        <div className="p-5 sm:p-6 border-b border-border dark:border-zinc-800/80 flex items-center justify-between">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-foreground">
-            Review Queue ({filtered.length})
+      <div className="rounded-3xl bg-white dark:bg-[#161b22] border border-border/80 dark:border-zinc-800 shadow-xs overflow-hidden">
+        <div className="p-6 border-b border-border/80 dark:border-zinc-800 flex items-center justify-between">
+          <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground">
+            REVIEW QUEUE ({filtered.length})
           </h2>
-          <span className="text-xs text-muted-foreground">Showing verified records</span>
+          <span className="text-xs text-muted-foreground font-medium">Official Registry Cross-Check</span>
         </div>
 
         <div>
           {loading ? (
             <div className="p-6 space-y-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-12 bg-surface-2 dark:bg-zinc-900/60 rounded-control animate-pulse border border-border dark:border-zinc-800" />
+                <div key={i} className="h-12 bg-zinc-100 dark:bg-zinc-800 rounded-2xl animate-pulse border border-border/60 dark:border-zinc-800" />
               ))}
             </div>
           ) : filtered.length === 0 ? (
@@ -192,23 +188,23 @@ export default function AdminCertificationsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs whitespace-nowrap">
                 <thead>
-                  <tr className="border-b border-border dark:border-zinc-800 bg-surface-2/40 dark:bg-zinc-900/40 text-muted-foreground font-semibold">
-                    <th className="py-3 px-4">Pilot Details</th>
-                    <th className="py-3 px-4">Authority & Type</th>
-                    <th className="py-3 px-4">License ID</th>
-                    <th className="py-3 px-4">Validity</th>
-                    <th className="py-3 px-4">Evidence</th>
-                    <th className="py-3 px-4">Status</th>
-                    <th className="py-3 px-4 text-right">Actions</th>
+                  <tr className="border-b border-border dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/40 text-muted-foreground font-semibold">
+                    <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Pilot Details</th>
+                    <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Authority & Type</th>
+                    <th className="py-3.5 px-4 font-mono uppercase text-[11px]">License ID</th>
+                    <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Validity</th>
+                    <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Evidence</th>
+                    <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Status</th>
+                    <th className="py-3.5 px-4 font-mono uppercase text-[11px] text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border dark:divide-zinc-800/80">
+                <tbody className="divide-y divide-border/80 dark:divide-zinc-800/80">
                   {filtered.map((cert) => (
-                    <tr key={cert._id} className="hover:bg-surface-2/50 dark:hover:bg-zinc-900/30 transition-colors">
-                      <td className="py-3.5 px-4">
+                    <tr key={cert._id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
+                      <td className="py-4 px-4">
                         <Link
                           href={`/pilots/${cert.pilotId?._id}`}
-                          className="font-semibold text-foreground hover:text-primary block"
+                          className="font-bold text-foreground hover:text-[#fabf28] block"
                         >
                           {cert.pilotId?.name || "Pilot Account"}
                         </Link>
@@ -217,29 +213,29 @@ export default function AdminCertificationsPage() {
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4 font-medium text-foreground">
+                      <td className="py-4 px-4 font-semibold text-foreground">
                         {cert.type}
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono font-semibold text-primary">
+                      <td className="py-4 px-4 font-mono font-bold text-[#fabf28]">
                         {cert.number}
                       </td>
 
-                      <td className="py-3.5 px-4 text-muted-foreground">
+                      <td className="py-4 px-4 text-muted-foreground">
                         <span>Issued: {formatDate(cert.issueDate)}</span>
                         <span className="block text-[11px] text-muted-foreground">
                           Expires: {formatDate(cert.expiryDate)}
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4">
+                      <td className="py-4 px-4">
                         {cert.documentUrl ? (
-                          <Button asChild variant="secondary" size="sm" className="active:scale-[0.98]">
+                          <Button asChild variant="secondary" size="sm" className="rounded-full px-4 h-8 border border-border dark:border-zinc-800 text-xs font-semibold active:scale-[0.98]">
                             <a
                               href={cert.documentUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="gap-1 text-xs"
+                              className="gap-1.5"
                             >
                               <Eye className="w-3.5 h-3.5 text-muted-foreground" />
                               <span>View Doc</span>
@@ -250,31 +246,30 @@ export default function AdminCertificationsPage() {
                         )}
                       </td>
 
-                      <td className="py-3.5 px-4">
+                      <td className="py-4 px-4">
                         <StatusBadge status={cert.status} type="certification" />
                       </td>
 
-                      <td className="py-3.5 px-4 text-right">
+                      <td className="py-4 px-4 text-right">
                         {cert.status === "PENDING" && (
                           <div className="flex items-center justify-end gap-2">
                             <Button
-                              variant="primary"
                               size="sm"
                               disabled={actionLoading === cert._id}
                               onClick={() => handleApprove(cert._id)}
-                              className="bg-success text-white hover:bg-success/90 h-8 active:scale-[0.98]"
+                              className="rounded-full px-4 h-8 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs active:scale-[0.98]"
                             >
                               Approve
                             </Button>
                             <Button
-                              variant="danger"
+                              variant="destructive"
                               size="sm"
                               disabled={actionLoading === cert._id}
                               onClick={() => {
                                 setSelectedCertId(cert._id);
                                 setRejectModalOpen(true);
                               }}
-                              className="h-8 active:scale-[0.98]"
+                              className="rounded-full px-4 h-8 text-xs font-semibold active:scale-[0.98]"
                             >
                               Reject
                             </Button>
@@ -282,13 +277,13 @@ export default function AdminCertificationsPage() {
                         )}
 
                         {cert.status === "VERIFIED" && (
-                          <span className="text-[11px] text-success font-semibold">
+                          <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold">
                             Verified ✓
                           </span>
                         )}
 
                         {cert.status === "REJECTED" && (
-                          <span className="text-[11px] text-destructive font-medium">
+                          <span className="text-xs text-rose-500 font-semibold">
                             Rejected
                           </span>
                         )}
@@ -305,27 +300,27 @@ export default function AdminCertificationsPage() {
       {/* Reject Modal */}
       {rejectModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-panel bg-surface dark:bg-zinc-950 border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-7 space-y-4 text-foreground">
+          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#161b22] border border-border dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5 text-foreground">
             <div className="flex items-center justify-between pb-3 border-b border-border dark:border-zinc-800">
-              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                <XCircle className="w-4 h-4 text-destructive" />
+              <h3 className="text-base font-bold text-foreground flex items-center gap-2">
+                <XCircle className="w-4 h-4 text-rose-500" />
                 Reject License Submission
               </h3>
               <button
                 onClick={() => setRejectModalOpen(false)}
-                className="text-muted-foreground hover:text-foreground text-sm p-1 rounded-control hover:bg-surface-2 dark:hover:bg-zinc-900"
+                className="text-muted-foreground hover:text-foreground text-sm p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
               >
                 ✕
               </button>
             </div>
 
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Provide feedback for the pilot explaining why their credential was not approved (e.g. unreadable scan, mismatching registry name, or expired license).
+              Provide feedback explaining why this credential was not validated (e.g. illegible certificate document, mismatch with federal registry, or expired dates).
             </p>
 
             <form onSubmit={handleRejectSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-foreground mb-1.5">
+                <label className="block text-xs font-bold text-foreground mb-1.5">
                   Reason for Rejection
                 </label>
                 <textarea
@@ -334,7 +329,7 @@ export default function AdminCertificationsPage() {
                   value={rejectionReason}
                   onChange={(e) => setRejectionReason(e.target.value)}
                   placeholder="e.g. License number was not found in the FAA Airmen Registry, or document image is illegible."
-                  className="w-full p-3 rounded-control bg-surface border border-border text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full p-3.5 rounded-xl bg-surface dark:bg-zinc-900 border border-border dark:border-zinc-800 text-foreground text-xs focus:outline-none focus:border-rose-500"
                 />
               </div>
 
@@ -342,15 +337,15 @@ export default function AdminCertificationsPage() {
                 <Button
                   type="button"
                   variant="secondary"
-                  className="flex-1"
+                  className="flex-1 rounded-full h-10 text-xs font-semibold"
                   onClick={() => setRejectModalOpen(false)}
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
-                  variant="danger"
-                  className="flex-1"
+                  variant="destructive"
+                  className="flex-1 rounded-full h-10 text-xs font-bold"
                   disabled={actionLoading === selectedCertId}
                 >
                   {actionLoading === selectedCertId ? "Rejecting..." : "Confirm Rejection"}
@@ -360,6 +355,7 @@ export default function AdminCertificationsPage() {
           </div>
         </div>
       )}
+
     </div>
   );
 }

@@ -154,28 +154,55 @@ function ResetPasswordForm() {
 
     setLoading(true);
     try {
-      // 1. Securely set new password in Supabase Auth using updateUser()
-      const { data, error: updateError } = await supabase.auth.updateUser({
-        password,
-      });
-
-      if (updateError) {
-        setError(updateError.message || "Failed to update password. Please try again.");
+      const token = searchParams.get("token");
+      if (token) {
+        const res = await fetch("/api/auth/reset-password", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.error || "Failed to update password. This link may be expired.");
+          return;
+        }
+        setSuccess(true);
+        setTimeout(() => router.push("/login"), 2500);
         return;
       }
 
-      // 2. Synchronize new password with MongoDB if user exists
-      const emailToSync = data?.user?.email || userEmail;
-      if (emailToSync) {
-        try {
-          await fetch("/api/auth/reset-password", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: emailToSync, password }),
-          });
-        } catch (syncErr) {
-          console.warn("MongoDB password sync notice:", syncErr);
+      // 1. Fallback for Supabase Auth if session exists
+      try {
+        const { data, error: updateError } = await supabase.auth.updateUser({
+          password,
+        });
+
+        if (updateError) {
+          setError(updateError.message || "Failed to update password. Please try again.");
+          return;
         }
+
+        // 2. Synchronize new password with MongoDB if user exists
+        const emailToSync = data?.user?.email || userEmail;
+        if (emailToSync) {
+          try {
+            const { data: sessionData } = await supabase.auth.getSession();
+            const accessToken = sessionData?.session?.access_token;
+            await fetch("/api/auth/reset-password", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+              },
+              body: JSON.stringify({ email: emailToSync, password, accessToken }),
+            });
+          } catch (syncErr) {
+            console.warn("MongoDB password sync notice:", syncErr);
+          }
+        }
+      } catch (sbErr: any) {
+        setError(sbErr.message || "Unable to reset password. Please request a new link.");
+        return;
       }
 
       setSuccess(true);
