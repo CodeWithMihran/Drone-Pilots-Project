@@ -133,9 +133,9 @@ export default function CompanyPostJobPage() {
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-850 border border-border/80 dark:border-zinc-800 shadow-2xs">
+        <div className="shrink-0 flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700/80 shadow-2xs">
           <span className="w-2 h-2 rounded-full bg-[#fabf28]" />
-          <span className="text-foreground">Underwritten Escrow Protected</span>
+          <span className="text-zinc-900 dark:text-zinc-100">Underwritten Escrow Protected</span>
         </div>
       </div>
 

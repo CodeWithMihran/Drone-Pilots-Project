@@ -77,6 +77,10 @@ export async function PUT(
     if (status === "ACCEPTED") {
       job.status = "PILOT_SELECTED";
       job.assignedPilotId = application.pilotId;
+      job.acceptedApplicationId = application._id;
+      job.agreedAmount = application.bidAmount || job.budget;
+      job.approvalStatus = "NOT_SUBMITTED";
+      job.paymentStatus = "UNPAID";
       await job.save();
 
       // Notify the accepted pilot

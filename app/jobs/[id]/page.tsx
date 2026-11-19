@@ -23,12 +23,14 @@ import {
   CreditCard,
   ChevronRight,
   ExternalLink,
+  RotateCcw,
 } from "lucide-react";
 import { formatCurrency, formatDate, formatServiceType } from "@/lib/utils";
 import { MatchScoreBadge } from "@/components/shared/MatchScoreBadge";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { LocationMapFallback } from "@/components/shared/LocationMapFallback";
 import { StarRating } from "@/components/shared/StarRating";
+import { PaymentModal } from "@/components/payments/PaymentModal";
 
 export default function JobDetailPage() {
   const params = useParams();
@@ -134,29 +136,48 @@ export default function JobDetailPage() {
     }
   };
 
-  const handleSimulatedPayment = async () => {
-    setPaying(true);
+  const [revisionModalOpen, setRevisionModalOpen] = useState(false);
+  const [revisionInputNotes, setRevisionInputNotes] = useState("");
+
+  const handleApproveDeliverables = async () => {
+    setUpdatingStatus(true);
     try {
-      const res = await fetch("/api/payments", {
-        method: "POST",
+      const res = await fetch(`/api/jobs/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ approvalStatus: "APPROVED" }),
+      });
+      if (res.ok) {
+        fetchJobDetails();
+      }
+    } catch (err) {
+      console.error("Approve deliverables error:", err);
+    } finally {
+      setUpdatingStatus(false);
+    }
+  };
+
+  const handleRequestRevision = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setUpdatingStatus(true);
+    try {
+      const res = await fetch(`/api/jobs/${id}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          jobId: id,
-          amount: job.budget,
-          notes: "Approved flight mission milestone release.",
+          approvalStatus: "REVISION_REQUESTED",
+          revisionNotes: revisionInputNotes.trim() || "Deliverables revision requested.",
         }),
       });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Payment failed");
-
-      setPaymentSuccess(true);
-      setPayModalOpen(false);
-      fetchJobDetails();
-    } catch (err: any) {
-      alert(err.message);
+      if (res.ok) {
+        setRevisionModalOpen(false);
+        setRevisionInputNotes("");
+        fetchJobDetails();
+      }
+    } catch (err) {
+      console.error("Request revision error:", err);
     } finally {
-      setPaying(false);
+      setUpdatingStatus(false);
     }
   };
 
@@ -475,23 +496,58 @@ export default function JobDetailPage() {
                     )}
 
                     {job.status === "IN_PROGRESS" && (
-                      <button
-                        onClick={() => handleUpdateStatus("COMPLETED")}
-                        disabled={updatingStatus}
-                        className="w-full h-11 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs"
-                      >
-                        Mark Mission as Completed
-                      </button>
+                      <div className="space-y-2.5">
+                        {job.approvalStatus === "REVISION_REQUESTED" && (
+                          <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-300 dark:border-rose-800 text-[11px] text-rose-800 dark:text-rose-300">
+                            <strong>Client Requested Revision:</strong> {job.revisionNotes || "Please update flight deliverables."}
+                          </div>
+                        )}
+                        <button
+                          onClick={() => handleUpdateStatus("COMPLETED")}
+                          disabled={updatingStatus}
+                          className="w-full h-11 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs"
+                        >
+                          {job.approvalStatus === "REVISION_REQUESTED"
+                            ? "Re-submit Completed Deliverables"
+                            : "Mark Mission as Completed"}
+                        </button>
+                      </div>
                     )}
 
-                    {job.status === "COMPLETED" && !job.hasReviewed && (
-                      <button
-                        onClick={() => setReviewModalOpen(true)}
-                        className="w-full h-11 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs"
-                      >
-                        <Star className="w-4 h-4 fill-zinc-950" />
-                        <span>Leave Review for Client</span>
-                      </button>
+                    {job.status === "COMPLETED" && (
+                      <div className="space-y-2 text-xs">
+                        {job.approvalStatus === "PENDING" && (
+                          <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300">
+                            <span className="font-bold flex items-center gap-1.5">
+                              <Clock className="w-3.5 h-3.5" />
+                              Deliverables Submitted for Review
+                            </span>
+                            <span className="text-[11px] mt-0.5 block">Awaiting client inspection and approval.</span>
+                          </div>
+                        )}
+
+                        {job.approvalStatus === "APPROVED" && (
+                          <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300">
+                            <span className="font-bold flex items-center gap-1.5">
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              Mission Deliverables Approved!
+                            </span>
+                            <span className="text-[11px] mt-0.5 block">
+                              Payment Status: <strong>{job.paymentStatus === "PAID" ? "Paid" : "Pending Authorization"}</strong>
+                            </span>
+                          </div>
+                        )}
+
+                        {!job.hasReviewed && (
+                          <button
+                            onClick={() => setReviewModalOpen(true)}
+                            className="w-full h-11 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs"
+                          >
+                            <Star className="w-4 h-4 fill-zinc-950" />
+                            <span>Leave Review for Client</span>
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
                 )}
@@ -500,47 +556,102 @@ export default function JobDetailPage() {
                   <div className="space-y-3 pt-1">
                     <Link
                       href={`/company/applications?jobId=${job._id}`}
-                      className="w-full h-12 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs tracking-tight shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+                      className="w-full h-12 rounded-full bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-foreground font-bold text-xs tracking-tight shadow-xs transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
                     >
                       <span>Review {job.applicationsCount || 0} Proposals</span>
                     </Link>
 
-                    {job.status === "PILOT_SELECTED" && (
-                      <button
-                        onClick={() => handleUpdateStatus("IN_PROGRESS")}
-                        className="w-full h-11 rounded-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 font-bold text-xs transition-all shadow-xs"
-                      >
-                        Mark Mission In-Progress
-                      </button>
+                    {/* Step 8 & 9: Company reviews and approves or requests revision */}
+                    {job.status === "COMPLETED" && job.approvalStatus === "PENDING" && (
+                      <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/20 border border-amber-300 dark:border-amber-800/60 space-y-3">
+                        <div className="space-y-0.5">
+                          <p className="text-xs font-bold text-amber-900 dark:text-amber-300 flex items-center gap-1.5">
+                            <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                            Pilot Marked Mission Completed
+                          </p>
+                          <p className="text-[11px] text-amber-800/80 dark:text-amber-300/80">
+                            {job.completionNotes || "Inspect flight deliverables to authorize milestone payout."}
+                          </p>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          <button
+                            onClick={handleApproveDeliverables}
+                            disabled={updatingStatus}
+                            className="w-full h-10 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs flex items-center justify-center gap-1.5"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            <span>Approve Deliverables</span>
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              setRevisionInputNotes("");
+                              setRevisionModalOpen(true);
+                            }}
+                            disabled={updatingStatus}
+                            className="w-full h-10 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-foreground font-semibold text-xs hover:bg-zinc-50 transition-all flex items-center justify-center gap-1.5"
+                          >
+                            <RotateCcw className="w-3.5 h-3.5" />
+                            <span>Request Revision</span>
+                          </button>
+                        </div>
+                      </div>
                     )}
 
-                    {job.status === "IN_PROGRESS" && (
-                      <button
-                        onClick={() => handleUpdateStatus("COMPLETED")}
-                        className="w-full h-11 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs"
-                      >
-                        Mark Mission Completed
-                      </button>
+                    {job.approvalStatus === "REVISION_REQUESTED" && (
+                      <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-800 dark:text-rose-300">
+                        <span className="font-bold">Revision Requested:</span> {job.revisionNotes || "Waiting for pilot to resubmit updated deliverables."}
+                      </div>
                     )}
 
-                    {job.status === "COMPLETED" && (
-                      <div className="space-y-2">
-                        <button
-                          id="pay-pilot-btn"
-                          onClick={() => setPayModalOpen(true)}
-                          className="w-full h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs tracking-tight shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
-                        >
-                          <CreditCard className="w-4 h-4" />
-                          <span>Release Escrow ({formatCurrency(job.budget)})</span>
-                        </button>
+                    {/* Step 2: Missing Payment Button after company approval */}
+                    {job.approvalStatus === "APPROVED" && (
+                      <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800 space-y-3">
+                        <div className="space-y-1 text-xs">
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Assigned Pilot:</span>
+                            <span className="text-foreground font-semibold">{job.assignedPilotId?.name || "Pilot"}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Mission ID:</span>
+                            <span className="text-foreground font-mono font-semibold">#{job._id ? job._id.toString().slice(-6).toUpperCase() : ""}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Agreed Proposal Amount:</span>
+                            <span className="text-foreground font-mono font-bold">{formatCurrency(job.agreedAmount || job.budget)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Payment Status:</span>
+                            <span className={`font-bold ${job.paymentStatus === "PAID" ? "text-emerald-500" : "text-amber-500"}`}>
+                              {job.paymentStatus === "PAID" ? "Paid" : "Pending Payment"}
+                            </span>
+                          </div>
+                        </div>
+
+                        {job.paymentStatus !== "PAID" ? (
+                          <button
+                            id="pay-pilot-btn"
+                            onClick={() => setPayModalOpen(true)}
+                            className="w-full h-12 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs tracking-tight shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+                          >
+                            <CreditCard className="w-4 h-4" />
+                            <span>Pay Pilot ({formatCurrency(job.agreedAmount || job.budget)})</span>
+                          </button>
+                        ) : (
+                          <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 text-center text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1.5">
+                            <CheckCircle2 className="w-4 h-4" />
+                            <span>Payment Completed</span>
+                          </div>
+                        )}
 
                         {!job.hasReviewed && (
                           <button
                             id="review-pilot-btn"
                             onClick={() => setReviewModalOpen(true)}
-                            className="w-full h-11 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs"
+                            className="w-full h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-foreground font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs"
                           >
-                            <Star className="w-4 h-4 fill-zinc-950" />
+                            <Star className="w-3.5 h-3.5 text-[#fabf28] fill-[#fabf28]" />
                             <span>Rate Pilot Performance</span>
                           </button>
                         )}
@@ -672,55 +783,53 @@ export default function JobDetailPage() {
         </div>
       )}
 
-      {/* Release Escrow Modal */}
-      {payModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-5 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
-              <CreditCard className="w-6 h-6" />
-            </div>
-
-            <h3 className="text-lg font-bold text-foreground">Release Escrow Payment</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Authorize direct payout to the assigned pilot for completed mission deliverables:
+      {/* Revision Request Modal */}
+      {revisionModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md rounded-3xl bg-white dark:bg-[#161b22] border border-zinc-200/90 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 space-y-4">
+            <h3 className="text-lg font-bold text-foreground">Request Deliverable Revision</h3>
+            <p className="text-xs text-muted-foreground">
+              Provide feedback for <strong className="text-foreground">{job.assignedPilotId?.name || "the pilot"}</strong> regarding required adjustments:
             </p>
 
-            <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-left space-y-2 text-xs">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Project:</span>
-                <span className="text-foreground font-semibold truncate max-w-[200px]">{job.title}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Assigned Pilot:</span>
-                <span className="text-foreground font-semibold">{job.assignedPilotId?.name || "Pilot"}</span>
-              </div>
-              <div className="flex justify-between font-bold pt-2 border-t border-zinc-100 dark:border-zinc-800 text-sm">
-                <span className="text-foreground">Total Payout:</span>
-                <span className="text-emerald-600 dark:text-emerald-400 font-mono">{formatCurrency(job.budget)}</span>
-              </div>
-            </div>
+            <form onSubmit={handleRequestRevision} className="space-y-4">
+              <textarea
+                required
+                rows={4}
+                value={revisionInputNotes}
+                onChange={(e) => setRevisionInputNotes(e.target.value)}
+                placeholder="E.g., Please re-process orthomosaic with higher overlap or supply raw DNG files..."
+                className="w-full p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground focus:outline-none focus:border-[#fabf28]"
+              />
 
-            <div className="flex gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setPayModalOpen(false)}
-                className="flex-1 h-11 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                id="confirm-pay-pilot-btn"
-                type="button"
-                onClick={handleSimulatedPayment}
-                disabled={paying}
-                className="flex-1 h-11 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors shadow-sm"
-              >
-                {paying ? "Processing..." : "Authorize Payout"}
-              </button>
-            </div>
+              <div className="flex gap-2.5 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setRevisionModalOpen(false)}
+                  className="flex-1 h-11 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-foreground font-bold text-xs hover:bg-zinc-100 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={updatingStatus}
+                  className="flex-1 h-11 rounded-full bg-[#fabf28] hover:bg-[#e6ae22] text-zinc-950 font-bold text-xs"
+                >
+                  {updatingStatus ? "Sending..." : "Submit Revision"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
+
+      {/* Pay Pilot Modal */}
+      <PaymentModal
+        isOpen={payModalOpen}
+        onClose={() => setPayModalOpen(false)}
+        job={job}
+        pilot={job?.assignedPilotId}
+      />
 
       {/* Review Modal */}
       {reviewModalOpen && (

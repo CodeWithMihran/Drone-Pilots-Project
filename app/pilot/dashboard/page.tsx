@@ -468,7 +468,7 @@ export default function PilotDashboardPage() {
                   </span>
                 ) : (
                   <span className="font-semibold text-[#fabf28] flex items-center gap-1">
-                    <AlertCircle className="w-3.5 h-3.5" /> Action Needed
+                    <AlertCircle className="w-3.5 h-3.5" /> Pending Review
                   </span>
                 )}
               </div>

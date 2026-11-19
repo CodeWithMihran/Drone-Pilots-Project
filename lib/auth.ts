@@ -21,7 +21,25 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Please enter your email and password");
         }
 
-        await connectToDatabase();
+        try {
+          await connectToDatabase();
+        } catch (dbErr: any) {
+          console.error("Database connection error in auth:", dbErr);
+          const errStr = `${dbErr?.message || ""} ${dbErr?.name || ""}`;
+          if (
+            errStr.includes("SSL alert number 80") ||
+            errStr.includes("whitelisted") ||
+            errStr.includes("MongooseServerSelectionError") ||
+            errStr.includes("MongoNetworkError") ||
+            errStr.includes("ECONNREFUSED") ||
+            errStr.includes("ETIMEDOUT")
+          ) {
+            throw new Error(
+              "Database connection failed: Your current IP address is not whitelisted in MongoDB Atlas Network Access. Please whitelist your IP (or add 0.0.0.0/0) in Atlas."
+            );
+          }
+          throw new Error("Database connection error. Please verify your MongoDB connection.");
+        }
 
         const user = await User.findOne({
           email: credentials.email.toLowerCase().trim(),

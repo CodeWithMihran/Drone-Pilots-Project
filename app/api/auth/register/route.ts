@@ -94,22 +94,34 @@ export async function POST(req: NextRequest) {
         bio: `Licensed commercial drone operator based in ${city}, ${state}.`,
       });
 
-      // Automatically provision initial verified FAA Part 107 certification
+      // Automatically provision initial pending FAA Part 107 certification requiring admin verification
+      const certNumber = `FAA-${Math.floor(1000000 + Math.random() * 9000000)}-COMM`;
       await Certification.create({
         pilotId: newUser._id,
         type: "FAA Part 107 Commercial Remote Pilot",
-        number: `FAA-${Math.floor(1000000 + Math.random() * 9000000)}-COMM`,
+        number: certNumber,
         issueDate: new Date(),
         expiryDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 2), // 2 years
         documentUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f",
-        status: "VERIFIED",
-        verifiedAt: new Date(),
+        status: "PENDING",
       });
+
+      // Notify platform administrators for compliance review
+      const admins = await User.find({ role: "ADMIN", status: "ACTIVE" }).lean();
+      for (const admin of admins) {
+        await Notification.create({
+          userId: admin._id,
+          title: "New Pilot Certification Pending Verification",
+          message: `${name} has registered as a pilot and submitted FAA Part 107 certification (${certNumber}) for verification.`,
+          type: "CERTIFICATION",
+          link: "/admin/certifications",
+        });
+      }
 
       await Notification.create({
         userId: newUser._id,
-        title: "Welcome to Certified Drone Pilots!",
-        message: "Your profile has been created and verified for the commercial operator network.",
+        title: "Welcome to AeroLink!",
+        message: "Your pilot profile has been created. Your FAA Part 107 certification has been submitted and is pending administrator review.",
         type: "SYSTEM",
         link: "/pilot/certification",
       });

@@ -61,6 +61,11 @@ const config: Config = {
           100: "#F5F2EA",
           200: "#EDE8DC",
         },
+        zinc: {
+          350: "#d4d4d8",
+          750: "#27272a",
+          850: "#18181b",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],

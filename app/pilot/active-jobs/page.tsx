@@ -161,6 +161,35 @@ function PilotActiveJobsContent() {
                       {formatServiceType(job.serviceType)}
                     </span>
                     <StatusBadge status={job.status} type="job" />
+
+                    {job.approvalStatus === "PENDING" && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/25">
+                        <Clock className="w-3 h-3" />
+                        Deliverables Awaiting Client Approval
+                      </span>
+                    )}
+                    {job.approvalStatus === "APPROVED" && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Deliverables Approved
+                      </span>
+                    )}
+                    {job.approvalStatus === "REVISION_REQUESTED" && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/25">
+                        Revision Requested
+                      </span>
+                    )}
+
+                    {job.paymentStatus === "PAID" ? (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25">
+                        <ShieldCheck className="w-3 h-3" />
+                        Paid
+                      </span>
+                    ) : job.approvalStatus === "APPROVED" ? (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#fabf28]/20 text-zinc-950 dark:text-[#fabf28] border border-[#fabf28]/40">
+                        Pending Payout
+                      </span>
+                    ) : null}
                   </div>
 
                   <Link href={`/jobs/${job._id}`}>
@@ -194,6 +223,14 @@ function PilotActiveJobsContent() {
                   </span>
                 </div>
               </div>
+
+              {/* Revision Notice for Pilot */}
+              {job.approvalStatus === "REVISION_REQUESTED" && (
+                <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/20 border border-rose-300 dark:border-rose-900/50 text-xs text-rose-800 dark:text-rose-300 space-y-1">
+                  <span className="font-bold">Client Requested Deliverables Revision:</span>
+                  <p className="text-[11px] text-rose-700 dark:text-rose-300/80">{job.revisionNotes || "Please review deliverables and resubmit."}</p>
+                </div>
+              )}
 
               {/* Status progression controls */}
               <div className="pt-4 border-t border-border/80 dark:border-zinc-800/80 flex flex-wrap items-center justify-between gap-4">
@@ -231,7 +268,11 @@ function PilotActiveJobsContent() {
                       className="rounded-full px-5 h-9 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs gap-1.5 active:scale-[0.98]"
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />
-                      <span>Mark Mission Completed</span>
+                      <span>
+                        {job.approvalStatus === "REVISION_REQUESTED"
+                          ? "Re-submit Completed Mission"
+                          : "Mark Mission Completed"}
+                      </span>
                     </Button>
                   )}
 
