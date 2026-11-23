@@ -37,7 +37,10 @@ export async function GET(req: NextRequest) {
     }
 
     if (status) {
-      if (status !== "ALL") {
+      if (status === "AWAITING_PAYMENT") {
+        query.approvalStatus = "APPROVED";
+        query.paymentStatus = { $ne: "PAID" };
+      } else if (status !== "ALL") {
         query.status = status;
       }
     } else if (!companyId && !pilotId) {

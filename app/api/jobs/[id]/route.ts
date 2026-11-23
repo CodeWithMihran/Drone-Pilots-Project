@@ -12,6 +12,7 @@ import { Certification } from "@/models/Certification";
 import { Application } from "@/models/Application";
 import { Review } from "@/models/Review";
 import { Notification } from "@/models/Notification";
+import { Payment } from "@/models/Payment";
 import { calculateMatchScore } from "@/lib/matching";
 
 export async function GET(
@@ -99,9 +100,20 @@ export async function GET(
       if (review) hasReviewed = true;
     }
 
+    const payment = await Payment.findOne({ jobId: job._id }).sort({ createdAt: -1 }).lean();
+    let agreedAmount = job.agreedAmount;
+    if (!agreedAmount) {
+      const acceptedApp = await Application.findOne({ jobId: job._id, status: "ACCEPTED" }).lean();
+      agreedAmount = acceptedApp?.bidAmount || job.budget;
+    }
+
     return NextResponse.json({
       job: {
         ...job,
+        agreedAmount: agreedAmount || job.budget,
+        approvalStatus: job.approvalStatus || (job.status === "COMPLETED" ? "APPROVED" : "NOT_SUBMITTED"),
+        paymentStatus: payment?.status === "PAID" ? "PAID" : (job.paymentStatus || (job.status === "COMPLETED" ? "PENDING" : "UNPAID")),
+        payment,
         companyProfile,
         applicationsCount,
         existingApplication,
@@ -133,7 +145,18 @@ export async function PUT(
     }
 
     const body = await req.json();
-    const { status, title, description, budget, requiredEquipment, requirements } = body;
+    const {
+      status,
+      title,
+      description,
+      budget,
+      requiredEquipment,
+      requirements,
+      approvalStatus,
+      revisionNotes,
+      completionNotes,
+      paymentStatus,
+    } = body;
 
     const isCompanyOwner = job.companyId.toString() === auth.user.id;
     const isAssignedPilot = job.assignedPilotId?.toString() === auth.user.id;
@@ -146,36 +169,107 @@ export async function PUT(
       );
     }
 
-    // Role-based workflow validation:
-    if (status) {
-      // Pilot can only update to IN_PROGRESS or COMPLETED if assigned
-      if (isAssignedPilot && !isCompanyOwner && !isAdmin) {
+    // Ensure agreedAmount is populated if missing
+    if (!job.agreedAmount && job.assignedPilotId) {
+      const acceptedApp = await Application.findOne({
+        jobId: job._id,
+        status: "ACCEPTED",
+      }).lean();
+      job.agreedAmount = acceptedApp?.bidAmount || job.budget;
+    }
+
+    // Pilot workflow transitions:
+    if (isAssignedPilot && !isCompanyOwner && !isAdmin) {
+      if (status) {
         if (status !== "IN_PROGRESS" && status !== "COMPLETED") {
           return NextResponse.json(
             { error: "Assigned pilot can only update progress to IN_PROGRESS or COMPLETED." },
             { status: 403 }
           );
         }
-      }
 
-      // Company or Admin can cancel, complete, or re-open
-      job.status = status;
+        if (status === "IN_PROGRESS") {
+          job.status = "IN_PROGRESS";
+          if (job.approvalStatus === "REVISION_REQUESTED") {
+            job.approvalStatus = "NOT_SUBMITTED";
+          }
+          await Notification.create({
+            userId: job.companyId,
+            title: `Mission Flight Started 🚁`,
+            message: `The assigned pilot has begun flight operations for "${job.title}".`,
+            type: "JOB",
+            link: `/company/jobs`,
+          });
+        } else if (status === "COMPLETED") {
+          job.status = "COMPLETED";
+          job.approvalStatus = "PENDING";
+          if (completionNotes) job.completionNotes = completionNotes;
 
-      // Send status update notification
-      if (job.assignedPilotId) {
-        const notifyTarget = isCompanyOwner ? job.assignedPilotId : job.companyId;
-        await Notification.create({
-          userId: notifyTarget,
-          title: `Job Status: ${job.title}`,
-          message: `Job status was updated to ${status.replace(/_/g, " ")}.`,
-          type: "JOB",
-          link: `/jobs/${job._id}`,
-        });
+          await Notification.create({
+            userId: job.companyId,
+            title: `Mission Completed — Review Required 📋`,
+            message: `The assigned pilot has completed flight operations for "${job.title}". Please inspect deliverables and approve or request revision.`,
+            type: "JOB",
+            link: `/company/jobs`,
+          });
+        }
       }
     }
 
-    // Edit fields allowed for company owner
+    // Company or Admin workflow & approval transitions:
     if (isCompanyOwner || isAdmin) {
+      // 1. Approval / Revision workflow
+      if (approvalStatus) {
+        if (approvalStatus === "APPROVED") {
+          job.approvalStatus = "APPROVED";
+          job.paymentStatus = "PENDING"; // Awaiting company to release payment
+
+          if (job.assignedPilotId) {
+            await Notification.create({
+              userId: job.assignedPilotId,
+              title: `Mission Deliverables Approved! 🎉`,
+              message: `The client has approved your completed deliverables for "${job.title}". Payout authorization is in progress.`,
+              type: "JOB",
+              link: `/pilot/active-jobs?tab=completed`,
+            });
+          }
+        } else if (approvalStatus === "REVISION_REQUESTED") {
+          job.status = "IN_PROGRESS";
+          job.approvalStatus = "REVISION_REQUESTED";
+          job.revisionNotes = revisionNotes || "Client requested deliverables revision.";
+
+          if (job.assignedPilotId) {
+            await Notification.create({
+              userId: job.assignedPilotId,
+              title: `Deliverables Revision Requested ⚠️`,
+              message: `The client requested revision for "${job.title}": ${job.revisionNotes}`,
+              type: "JOB",
+              link: `/pilot/active-jobs`,
+            });
+          }
+        }
+      }
+
+      // 2. Direct status update
+      if (status && !approvalStatus) {
+        job.status = status;
+        if (job.assignedPilotId) {
+          await Notification.create({
+            userId: job.assignedPilotId,
+            title: `Job Status: ${job.title}`,
+            message: `Job status was updated to ${status.replace(/_/g, " ")}.`,
+            type: "JOB",
+            link: `/jobs/${job._id}`,
+          });
+        }
+      }
+
+      // 3. Payment status update
+      if (paymentStatus) {
+        job.paymentStatus = paymentStatus;
+      }
+
+      // 4. Content edits
       if (title) job.title = title;
       if (description) job.description = description;
       if (budget) job.budget = budget;

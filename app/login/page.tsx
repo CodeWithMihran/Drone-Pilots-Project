@@ -67,6 +67,15 @@ function LoginForm() {
           setError("Invalid email or password. Please verify your credentials.");
         } else if (res.error === "Configuration") {
           setError("Invalid credentials or authentication error. Please try again.");
+        } else if (
+          res.error.includes("SSL alert number 80") ||
+          res.error.includes("ssl3_read_bytes") ||
+          res.error.includes("whitelisted") ||
+          res.error.includes("MongooseServerSelectionError")
+        ) {
+          setError(
+            "Database connection failed: Your current IP address is not whitelisted in MongoDB Atlas Network Access. Please add your current IP (or 0.0.0.0/0) in Atlas."
+          );
         } else {
           setError(res.error);
         }

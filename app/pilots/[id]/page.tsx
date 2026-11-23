@@ -278,7 +278,7 @@ export default function PilotProfileDetailPage() {
                     Standard Deployment Rate
                   </span>
                   <div className="text-2xl font-bold text-foreground mt-1 font-mono">
-                    ${pilot.profile?.rate || 85}
+                    ₹{pilot.profile?.rate || 85}
                     <span className="text-xs font-normal text-muted-foreground"> / hour</span>
                   </div>
                 </div>

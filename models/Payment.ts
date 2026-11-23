@@ -7,10 +7,15 @@ export interface IPayment extends Document {
   jobId: mongoose.Types.ObjectId;
   companyId: mongoose.Types.ObjectId;
   pilotId: mongoose.Types.ObjectId;
+  applicationId?: mongoose.Types.ObjectId;
   amount: number;
+  currency?: string;
   status: PaymentStatus;
   transactionId: string;
   paymentMethod: string;
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  razorpaySignature?: string;
   notes?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -36,15 +41,23 @@ const PaymentSchema = new Schema<IPayment>(
       required: true,
       index: true,
     },
+    applicationId: {
+      type: Schema.Types.ObjectId,
+      ref: "Application",
+    },
     amount: { type: Number, required: true, min: 0 },
+    currency: { type: String, default: "INR" },
     status: {
       type: String,
       enum: ["PENDING", "PAID", "FAILED"],
-      default: "PAID",
+      default: "PENDING",
       index: true,
     },
     transactionId: { type: String, required: true, unique: true },
-    paymentMethod: { type: String, default: "Simulated Escrow Direct Deposit" },
+    paymentMethod: { type: String, default: "Escrow Direct Transfer" },
+    razorpayOrderId: { type: String },
+    razorpayPaymentId: { type: String },
+    razorpaySignature: { type: String },
     notes: { type: String, default: "" },
   },
   {

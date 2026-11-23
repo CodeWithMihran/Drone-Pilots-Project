@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { jobId, amount, notes } = validation.data;
+    const { jobId, amount, notes, razorpayOrderId, razorpayPaymentId, razorpaySignature } = body;
 
     await connectToDatabase();
 
@@ -52,6 +52,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (job.approvalStatus && job.approvalStatus !== "APPROVED") {
+      return NextResponse.json(
+        { error: "Payments can only be released after the completed mission deliverables are approved by the company." },
+        { status: 400 }
+      );
+    }
+
     // Check if already paid
     const existingPayment = await Payment.findOne({
       jobId: job._id,
@@ -65,23 +72,36 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Determine final payment amount from accepted proposal or agreed amount
+    const finalAmount = job.agreedAmount || amount || job.budget;
+
     const transactionId = `TXN-DRN-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const payment = await Payment.create({
       jobId: job._id,
       companyId: auth.user.id,
       pilotId: job.assignedPilotId,
-      amount,
+      applicationId: job.acceptedApplicationId,
+      amount: finalAmount,
+      currency: "INR",
       status: "PAID",
       transactionId,
-      notes: notes || "Direct escrow simulated payout for completed flight operations.",
+      paymentMethod: razorpayPaymentId ? "Razorpay Gateway" : "Escrow Direct Transfer",
+      razorpayOrderId: razorpayOrderId || undefined,
+      razorpayPaymentId: razorpayPaymentId || undefined,
+      razorpaySignature: razorpaySignature || undefined,
+      notes: notes || "Approved flight mission milestone release.",
     });
+
+    // Update job paymentStatus
+    job.paymentStatus = "PAID";
+    await job.save();
 
     // Notify pilot
     await Notification.create({
       userId: job.assignedPilotId,
       title: "Payment Received! 💰",
-      message: `You received a payout of $${amount.toLocaleString()} for completing "${job.title}". (Ref: ${transactionId})`,
+      message: `You received a payout of $${finalAmount.toLocaleString()} for completing "${job.title}". (Ref: ${transactionId})`,
       type: "PAYMENT",
       link: "/pilot/earnings",
     });

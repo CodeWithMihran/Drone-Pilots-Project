@@ -260,21 +260,21 @@ function JobsMarketplaceContent() {
             {/* Budget Range */}
             <div>
               <label className="block text-xs font-bold text-foreground mb-2">
-                Budget (USD)
+                Budget (INR)
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <input
                   type="number"
                   value={budgetMin}
                   onChange={(e) => setBudgetMin(e.target.value)}
-                  placeholder="Min $"
+                  placeholder="Min ₹"
                   className="w-full px-3 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
                 />
                 <input
                   type="number"
                   value={budgetMax}
                   onChange={(e) => setBudgetMax(e.target.value)}
-                  placeholder="Max $"
+                  placeholder="Max ₹"
                   className="w-full px-3 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#fabf28] transition-colors"
                 />
               </div>

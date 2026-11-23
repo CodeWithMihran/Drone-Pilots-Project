@@ -18,6 +18,14 @@ export type JobStatus =
   | "COMPLETED"
   | "CANCELLED";
 
+export type MissionApprovalStatus =
+  | "NOT_SUBMITTED"
+  | "PENDING"
+  | "APPROVED"
+  | "REVISION_REQUESTED";
+
+export type MissionPaymentStatus = "UNPAID" | "PENDING" | "PAID";
+
 export interface IJobLocation {
   city: string;
   state: string;
@@ -45,6 +53,12 @@ export interface IJob extends Document {
   applicationDeadline: Date;
   status: JobStatus;
   assignedPilotId?: mongoose.Types.ObjectId;
+  approvalStatus?: MissionApprovalStatus;
+  revisionNotes?: string;
+  completionNotes?: string;
+  paymentStatus?: MissionPaymentStatus;
+  agreedAmount?: number;
+  acceptedApplicationId?: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -115,6 +129,25 @@ const JobSchema = new Schema<IJob>(
     assignedPilotId: {
       type: Schema.Types.ObjectId,
       ref: "User",
+    },
+    approvalStatus: {
+      type: String,
+      enum: ["NOT_SUBMITTED", "PENDING", "APPROVED", "REVISION_REQUESTED"],
+      default: "NOT_SUBMITTED",
+      index: true,
+    },
+    revisionNotes: { type: String, default: "" },
+    completionNotes: { type: String, default: "" },
+    paymentStatus: {
+      type: String,
+      enum: ["UNPAID", "PENDING", "PAID"],
+      default: "UNPAID",
+      index: true,
+    },
+    agreedAmount: { type: Number },
+    acceptedApplicationId: {
+      type: Schema.Types.ObjectId,
+      ref: "Application",
     },
   },
   {

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  DollarSign,
+  IndianRupee,
   Clock,
   CheckCircle2,
   Receipt,
@@ -74,18 +74,18 @@ export default function PilotEarningsPage() {
           title="Total Paid Earnings"
           value={formatCurrency(totalEarnings)}
           subtitle="Processed to bank account"
-          icon={DollarSign}
+          icon={IndianRupee}
           variant="success"
         />
         <StatCard
-          title="Pending Escrow"
+          title="Pending Payments"
           value={formatCurrency(pendingEarnings)}
-          subtitle="Secured for active flights"
+          subtitle="Awaiting client disbursement"
           icon={Clock}
           variant="warning"
         />
         <StatCard
-          title="Completed Payouts"
+          title="Completed Payments"
           value={payments.filter((p) => p.status === "PAID").length}
           subtitle="All-time fulfilled shoots"
           icon={CheckCircle2}
@@ -99,10 +99,10 @@ export default function PilotEarningsPage() {
           <div>
             <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
               <Receipt className="w-4 h-4 text-[#fabf28]" />
-              PAYOUT TRANSACTION LEDGER
+              PAYMENT HISTORY & LEDGER
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Detailed chronological record of verified commercial payouts.
+              Detailed chronological record of verified commercial payouts and pending milestone transfers.
             </p>
           </div>
           <span className="text-xs font-bold text-foreground px-3.5 py-1 bg-zinc-100 dark:bg-zinc-800 border border-border dark:border-zinc-800 rounded-full">
@@ -118,49 +118,61 @@ export default function PilotEarningsPage() {
           </div>
         ) : payments.length === 0 ? (
           <EmptyState
-            icon={DollarSign}
+            icon={IndianRupee}
             title="No Payment History"
-            description="You have not received payouts yet. Once you complete assigned flight operations, verified milestone releases will appear here."
+            description="You have not received payouts yet. Once you complete assigned flight operations and client approves deliverables, verified milestone releases will appear here."
           />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs whitespace-nowrap">
               <thead>
                 <tr className="border-b border-border dark:border-zinc-800 text-muted-foreground font-semibold">
-                  <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Mission</th>
-                  <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Client</th>
+                  <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Mission ID & Title</th>
+                  <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Company Name</th>
                   <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Transaction ID</th>
                   <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Date</th>
                   <th className="py-3.5 px-4 font-mono uppercase text-[11px]">Amount</th>
-                  <th className="py-3.5 px-4 font-mono uppercase text-[11px] text-right">Status</th>
+                  <th className="py-3.5 px-4 font-mono uppercase text-[11px] text-right">Payment Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/80 dark:divide-zinc-800/80">
-                {payments.map((p) => (
-                  <tr key={p._id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
-                    <td className="py-4 px-4 font-bold text-foreground">
-                      {p.jobId?.title || "Flight Operation"}
-                      <span className="block text-[11px] text-[#fabf28] font-semibold mt-0.5">
-                        {p.jobId?.serviceType?.replace(/_/g, " ")}
-                      </span>
-                    </td>
-                    <td className="py-4 px-4 text-muted-foreground font-medium">
-                      {p.companyId?.name || "Client"}
-                    </td>
-                    <td className="py-4 px-4 font-mono text-[11px] text-muted-foreground">
-                      {p.transactionId}
-                    </td>
-                    <td className="py-4 px-4 text-muted-foreground">
-                      {formatDate(p.createdAt)}
-                    </td>
-                    <td className="py-4 px-4 font-extrabold text-foreground text-sm font-mono">
-                      {formatCurrency(p.amount)}
-                    </td>
-                    <td className="py-4 px-4 text-right">
-                      <StatusBadge status={p.status} type="payment" />
-                    </td>
-                  </tr>
-                ))}
+                {payments.map((p) => {
+                  const missionId = p.jobId?._id ? p.jobId._id.toString() : "";
+                  const shortId = missionId ? `#${missionId.slice(-6).toUpperCase()}` : "";
+
+                  return (
+                    <tr key={p._id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
+                      <td className="py-4 px-4 font-bold text-foreground">
+                        <div className="flex items-center gap-2">
+                          <span>{p.jobId?.title || "Flight Operation"}</span>
+                          {shortId && (
+                            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-muted-foreground">
+                              {shortId}
+                            </span>
+                          )}
+                        </div>
+                        <span className="block text-[11px] text-[#fabf28] font-semibold mt-0.5">
+                          {p.jobId?.serviceType?.replace(/_/g, " ")}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-foreground font-medium">
+                        {p.companyId?.name || "Client"}
+                      </td>
+                      <td className="py-4 px-4 font-mono text-[11px] text-muted-foreground">
+                        {p.transactionId}
+                      </td>
+                      <td className="py-4 px-4 text-muted-foreground">
+                        {formatDate(p.createdAt)}
+                      </td>
+                      <td className="py-4 px-4 font-extrabold text-foreground text-sm font-mono">
+                        {formatCurrency(p.amount)}
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <StatusBadge status={p.status} type="payment" />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

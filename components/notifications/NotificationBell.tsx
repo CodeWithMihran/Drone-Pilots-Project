@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Bell, CheckCheck, Clock, ShieldCheck, Briefcase, DollarSign, Star, AlertCircle } from "lucide-react";
+import { Bell, CheckCheck, Clock, ShieldCheck, Briefcase, IndianRupee, Star, AlertCircle } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
 interface NotificationItem {
@@ -83,7 +83,7 @@ export function NotificationBell() {
       case "APPLICATION":
         return <Briefcase className="w-4 h-4 text-[#fabf28]" />;
       case "PAYMENT":
-        return <DollarSign className="w-4 h-4 text-emerald-500" />;
+        return <IndianRupee className="w-4 h-4 text-emerald-500" />;
       case "REVIEW":
         return <Star className="w-4 h-4 text-[#fabf28]" />;
       default:
