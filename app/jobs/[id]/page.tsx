@@ -8,7 +8,7 @@ import {
   Briefcase,
   MapPin,
   Calendar,
-  DollarSign,
+  IndianRupee,
   Clock,
   ShieldCheck,
   CheckCircle2,
@@ -717,13 +717,14 @@ export default function JobDetailPage() {
             <form onSubmit={handleApplySubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-foreground mb-1.5">
-                  Proposed Bid Amount (USD)
+                  Proposed Bid Amount (INR)
                 </label>
                 <div className="relative">
-                  <DollarSign className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3" />
+                  <IndianRupee className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3" />
                   <input
                     type="number"
                     required
+                    min="1"
                     value={bidAmount}
                     onChange={(e) => setBidAmount(e.target.value)}
                     placeholder="1200"
@@ -829,6 +830,9 @@ export default function JobDetailPage() {
         onClose={() => setPayModalOpen(false)}
         job={job}
         pilot={job?.assignedPilotId}
+        onSuccess={() => {
+          fetchJobDetails();
+        }}
       />
 
       {/* Review Modal */}

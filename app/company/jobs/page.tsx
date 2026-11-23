@@ -531,6 +531,9 @@ export default function CompanyMyJobsPage() {
         onClose={() => setSelectedPaymentJob(null)}
         job={selectedPaymentJob}
         pilot={selectedPaymentJob?.assignedPilotId}
+        onSuccess={() => {
+          fetchJobs();
+        }}
       />
     </div>
   );

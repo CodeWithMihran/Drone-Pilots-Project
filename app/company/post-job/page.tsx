@@ -6,7 +6,7 @@ import {
   Briefcase,
   MapPin,
   Calendar,
-  DollarSign,
+  IndianRupee,
   Clock,
   ShieldCheck,
   Plane,
@@ -192,15 +192,15 @@ export default function CompanyPostJobPage() {
 
             <div>
               <label className="block text-xs font-medium text-foreground mb-1.5">
-                Fixed Project Budget (USD)
+                Fixed Project Budget (INR)
               </label>
               <div className="relative">
-                <DollarSign className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3" />
+                <IndianRupee className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3" />
                 <input
                   id="job-budget-input"
                   type="number"
                   required
-                  min="50"
+                  min="1"
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
                   placeholder="2400"

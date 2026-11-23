@@ -388,7 +388,7 @@ export default function LandingPage() {
 
       {/* Reference Section: Find pilots for every shoot */}
       <ScrollSection id="services" className="py-16 sm:py-24 bg-background border-b border-border dark:border-zinc-800 transition-colors">
-        <div className="max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Section Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
@@ -835,7 +835,8 @@ export default function LandingPage() {
 
       {/* FAQ Section with Pilotbase Design Aesthetic */}
       <ScrollSection id="faq" className="py-20 sm:py-28 bg-background dark:bg-[#0d1117] border-b border-border dark:border-zinc-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
           
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
@@ -920,12 +921,14 @@ export default function LandingPage() {
               );
             })}
           </div>
+          </div>
         </div>
       </ScrollSection>
 
       {/* Call to Action Section (Pilotbase Style) */}
       <ScrollSection id="get-started" className="py-20 sm:py-28 bg-background border-b border-border/80 dark:border-zinc-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
           <div className="inline-flex items-center gap-2 mb-1">
             <span className="text-[#fabf28] font-bold text-base leading-none">—</span>
             <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
@@ -951,6 +954,7 @@ export default function LandingPage() {
                 <ChevronRight className="w-3.5 h-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
               </Link>
             </Button>
+          </div>
           </div>
         </div>
       </ScrollSection>

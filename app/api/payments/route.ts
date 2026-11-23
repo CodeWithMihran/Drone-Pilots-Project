@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
       pilotId: job.assignedPilotId,
       applicationId: job.acceptedApplicationId,
       amount: finalAmount,
-      currency: "USD",
+      currency: "INR",
       status: "PAID",
       transactionId,
       paymentMethod: razorpayPaymentId ? "Razorpay Gateway" : "Escrow Direct Transfer",

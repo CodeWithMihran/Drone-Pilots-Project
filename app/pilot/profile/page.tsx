@@ -256,7 +256,7 @@ export default function PilotProfileEditPage() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="profile-rate">Standard Hourly Rate (USD)</Label>
+              <Label htmlFor="profile-rate">Standard Hourly Rate (INR)</Label>
               <Input
                 id="profile-rate"
                 type="number"

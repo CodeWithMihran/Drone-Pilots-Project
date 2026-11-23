@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  DollarSign,
+  IndianRupee,
   Clock,
   CheckCircle2,
   Receipt,
@@ -74,7 +74,7 @@ export default function PilotEarningsPage() {
           title="Total Paid Earnings"
           value={formatCurrency(totalEarnings)}
           subtitle="Processed to bank account"
-          icon={DollarSign}
+          icon={IndianRupee}
           variant="success"
         />
         <StatCard
@@ -118,7 +118,7 @@ export default function PilotEarningsPage() {
           </div>
         ) : payments.length === 0 ? (
           <EmptyState
-            icon={DollarSign}
+            icon={IndianRupee}
             title="No Payment History"
             description="You have not received payouts yet. Once you complete assigned flight operations and client approves deliverables, verified milestone releases will appear here."
           />

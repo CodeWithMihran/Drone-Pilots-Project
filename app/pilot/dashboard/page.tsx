@@ -7,7 +7,7 @@ import {
   FileCheck2,
   Clock,
   CheckCircle2,
-  DollarSign,
+  IndianRupee,
   Star,
   ShieldCheck,
   AlertCircle,
@@ -205,7 +205,7 @@ export default function PilotDashboardPage() {
                 ESCROW EARNINGS
               </span>
               <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-[#fabf28]">
-                <DollarSign className="w-4 h-4" />
+                <IndianRupee className="w-4 h-4" />
               </div>
             </div>
 

@@ -65,7 +65,7 @@ export default function AdminReportsPage() {
         />
         <StatCard
           title="Avg Mission Value"
-          value="$2,850"
+          value="₹2,850"
           subtitle="Per commercial shoot"
           icon={TrendingUp}
           variant="default"

@@ -141,7 +141,7 @@ export default function AdminPilotsDirectoryPage() {
               </div>
 
               <div className="pt-4 mt-4 border-t border-border/80 dark:border-zinc-800 flex items-center justify-between">
-                <span className="text-sm font-extrabold text-foreground font-sans">${p.profile?.rate || 85}<span className="text-xs font-normal text-muted-foreground">/hr</span></span>
+                <span className="text-sm font-extrabold text-foreground font-sans">₹{p.profile?.rate || 85}<span className="text-xs font-normal text-muted-foreground">/hr</span></span>
                 <Button asChild variant="secondary" size="sm" className="rounded-full h-8 text-xs px-4 border border-border dark:border-zinc-800 font-semibold">
                   <Link href={`/pilots/${p._id}`}>Inspect Profile</Link>
                 </Button>

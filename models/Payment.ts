@@ -46,7 +46,7 @@ const PaymentSchema = new Schema<IPayment>(
       ref: "Application",
     },
     amount: { type: Number, required: true, min: 0 },
-    currency: { type: String, default: "USD" },
+    currency: { type: String, default: "INR" },
     status: {
       type: String,
       enum: ["PENDING", "PAID", "FAILED"],
